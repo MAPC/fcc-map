@@ -1,24 +1,24 @@
 module.exports = {
   siteMetadata: {
-    title: "retrofitting-suburbia",
+    title: 'retrofitting-suburbia',
   },
   plugins: [
-    "gatsby-plugin-emotion",
+    'gatsby-plugin-emotion',
     // {
     //   resolve: "gatsby-plugin-google-analytics",
     //   options: {
     //     trackingId: "",
     //   },
     // },
-    "gatsby-plugin-react-helmet",
-    "gatsby-transformer-remark",
+    'gatsby-plugin-react-helmet',
+    'gatsby-transformer-remark',
     {
-      resolve: "gatsby-source-filesystem",
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: "pages",
-        path: "./src/pages/",
+        name: 'pages',
+        path: './src/pages/',
       },
-      __key: "pages",
+      __key: 'pages',
     },
   ],
 };
