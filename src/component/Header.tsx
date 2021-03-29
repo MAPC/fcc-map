@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'gatsby';
 import { css, jsx } from '@emotion/react';
-import { fonts, themeColors } from '../theme';
+import { fonts, themeColors, marginStyle } from '../theme';
 // import logo from '../images/submarkets_logo.png';
 // import MainNav from './MainNav';
 // import MobileNav from './MobileNav';
@@ -21,9 +21,7 @@ const headerWrapperStyle = css`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 0 auto;
-  padding: 0 5rem;
-  width: 136.6rem;
+  ${marginStyle}
 `;
 
 const logoTitleWrapperStyle = css`
@@ -52,7 +50,7 @@ const titleStyle = css`
   }
 `;
 
-const Header = () => {
+const Header: React.FC = () => {
   const [pageWidth, updatePageWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
   useEffect(() => {
     const handleResize = () => updatePageWidth(window.innerWidth);
@@ -66,7 +64,7 @@ const Header = () => {
           {/* <img src={logo} alt="Decorative logo of two houses" /> */}
           <h1 css={titleStyle}>Retrofitting Suburbia</h1>
         </Link>
-        {/* { pageWidth >= 1400 ? <MainNav /> : <MobileNav /> } */}
+        { pageWidth >= 1400 ? 'Insert main nav' : 'Insert mobile nav' }
       </div>
     </header>
   );

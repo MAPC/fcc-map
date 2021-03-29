@@ -1,3 +1,5 @@
+import { css, jsx } from '@emotion/react';
+
 const fonts = {
   calibre: "'Calibre', sans-serif",
   swiftNeueLtPro: "'Swift Neue LT Pro', serif",
@@ -11,4 +13,10 @@ const themeColors = {
   fontGray: '#707070',
 };
 
-export { fonts, themeColors };
+const marginStyle = css`
+  margin: 0 auto;
+  padding: 0 5rem;
+  width: 136.6rem;
+`;
+
+export { fonts, themeColors, marginStyle };

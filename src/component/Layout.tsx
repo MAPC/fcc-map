@@ -1,14 +1,16 @@
 /** @jsx jsx */
 
-import React from "react";
-import { css, jsx, Global } from "@emotion/react";
-import Header from "./Header"
+import React from 'react';
+import {
+  css, jsx, Global, SerializedStyles,
+} from '@emotion/react';
 import { Footer } from 'mapc-design-system';
+import Header from './Header';
 import { themeColors, fonts } from '../theme';
 
 type LayoutProps = {
-  cssProps?: {},
-  children: {},
+  cssProps?: SerializedStyles,
+  children: JSX.Element|string,
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, cssProps }) => (
@@ -59,16 +61,16 @@ const Layout: React.FC<LayoutProps> = ({ children, cssProps }) => (
       }`}
     />
     <Header />
-      <main css={cssProps}>
-        {children}
-      </main>
-      <Footer
-        backgroundColor={themeColors.darkBlue}
-        fontColor={themeColors.white}
-        paddingLeft={50}
-        paddingRight={50}
-        maxWidth={1366}
-      />
+    <main css={cssProps}>
+      {children}
+    </main>
+    <Footer
+      backgroundColor={themeColors.darkBlue}
+      fontColor={themeColors.white}
+      paddingLeft={50}
+      paddingRight={50}
+      maxWidth={1366}
+    />
   </React.Fragment>
 );
 
