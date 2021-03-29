@@ -2,17 +2,16 @@
   "name": "retrofitting-suburbia",
   "version": "1.0.0",
   "private": true,
-  "description": "retrofitting-suburbia",
-  "author": "Annabelle Thomas Taylor",
-  "keywords": [
-    "gatsby"
-  ],
+  "description": "Website for MAPC's Retrofitting Suburbia research",
+  "author": "MAPC Digital Services <digitalservices@mapc.org>",
+  "license": "CDDL-1.0",
   "scripts": {
     "develop": "gatsby develop",
     "start": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
-    "clean": "gatsby clean"
+    "clean": "gatsby clean",
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
   },
   "dependencies": {
     "@emotion/react": "^11.1.5",
@@ -23,8 +22,16 @@
     "gatsby-plugin-react-helmet": "^4.1.0",
     "gatsby-source-filesystem": "^3.1.0",
     "gatsby-transformer-remark": "^3.1.0",
+    "gh-pages": "^3.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MAPC/retrofitting-suburbia"
+  },
+  "bugs": {
+    "url": "https://github.com/MAPC/retrofitting-suburbia/issues"
   }
 }
