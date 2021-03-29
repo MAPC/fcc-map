@@ -1,0 +1,21 @@
+name: Gatsby Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: set environment variables
+        uses: allenevans/set-env@v2.0.0
+        with:
+          GOOGLE_ANALYTICS_ID:  ${{ secrets.GOOGLE_ANALYTICS_ID }}
+      - uses: actions/checkout@v2
+      - uses: enriikke/gatsby-gh-pages-action@v2
+        with:
+          access-token: ${{ secrets.ACCESS_TOKEN }}
+          deploy-branch: gh-pages
+          gatsby-args: --prefix-paths
