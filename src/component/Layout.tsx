@@ -64,13 +64,13 @@ const Layout: React.FC<LayoutProps> = ({ children, cssProps }) => (
     <main css={cssProps}>
       {children}
     </main>
-    {/* <Footer
+    <Footer
       backgroundColor={themeColors.darkBlue}
       fontColor={themeColors.white}
       paddingLeft={50}
       paddingRight={50}
       maxWidth={1366}
-    /> */}
+    />
   </React.Fragment>
 );
 
