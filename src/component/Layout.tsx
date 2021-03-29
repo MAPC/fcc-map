@@ -4,7 +4,7 @@ import React from 'react';
 import {
   css, jsx, Global, SerializedStyles,
 } from '@emotion/react';
-// import { Footer } from 'mapc-design-system';
+import { Footer } from 'mapc-design-system';
 import Header from './Header';
 import { themeColors, fonts } from '../theme';
 
