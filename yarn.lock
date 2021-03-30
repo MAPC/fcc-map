@@ -1236,7 +1236,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.10.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.10.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   version "7.13.10"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.10.tgz#47d42a57b6095f4468da440388fdbad8bebf0d7d"
   integrity sha512-4QPkjJq6Ns3V/RgpEahRk+AGfL0eO6RHHtTWoNNr5mO49G6B5+X6d6THgWEAvTrznU5xYpbAlVKRYcsCgh/Akw==
@@ -10354,11 +10354,12 @@ mapbox-gl@^2.1.1:
     tinyqueue "^2.0.3"
     vt-pbf "^3.1.1"
 
-mapc-design-system@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/mapc-design-system/-/mapc-design-system-0.3.3.tgz#bb9dadeb6923ceed5496b415adb612c6a46e747a"
-  integrity sha512-CU9VIXfZmnIYtOt1+zu05N0lgARCuxLx2NhlJjHipSza++ecpiME8DtUvLmgOotWFKT65Ec3gKVmUSaadi45Gg==
+mapc-design-system@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/mapc-design-system/-/mapc-design-system-0.3.4.tgz#1631595be2e5ab03ddf9c514786d6d8f231b230b"
+  integrity sha512-izs10It141t9RPFcMYPfRVmr2Mn/sMPgKromLFbHg4oS5jLIGJlxBNof/12X8i0ff/GiS+8MLFTUYECG46JqIw==
   dependencies:
+    "@babel/runtime" "^7.13.10"
     "@emotion/react" "^11.1.4"
     "@fortawesome/fontawesome-svg-core" "^1.2.34"
     "@fortawesome/free-brands-svg-icons" "^5.15.2"
