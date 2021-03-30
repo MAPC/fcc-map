@@ -2,6 +2,7 @@ module.exports = {
   siteMetadata: {
     title: 'retrofitting-suburbia',
   },
+  pathPrefix: '/retrofitting-suburbia',
   plugins: [
     'gatsby-plugin-emotion',
     // {
