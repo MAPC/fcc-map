@@ -7,7 +7,7 @@ import 'intersection-observer';
 import scrollama from 'scrollama';
 
 const sectionStyle = css`
-  border: 1px solid red;
+  /* border: 1px solid red; */
 `;
 
 const ScrollMap: React.FC = () => {
@@ -37,7 +37,6 @@ const ScrollMap: React.FC = () => {
 
   return (
     <div css={css`
-      border: 1px solid green;
       display: flex;
       flex-direction: row;
       height: 100%;
@@ -65,7 +64,7 @@ const ScrollMap: React.FC = () => {
           height="600px"
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
           mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
-          mapStyle="mapbox://styles/ihill/ckky67v9h2fsd17qvbh2mipkb"
+          mapStyle="mapbox://styles/ihill/ckmnruq9j2aum17mabq3k5zgc"
           scrollZoom={false}
         >
           <Source id="Sites" type="vector" url="mapbox://ihill.33vx5cd5">
@@ -75,7 +74,7 @@ const ScrollMap: React.FC = () => {
               source="Sites"
               source-layer="site_suitability_pt-98hifr"
               layout={{ visibility: displayOne }}
-              paint={{ 'circle-color': 'red', 'circle-radius': 2 }}
+              paint={{ 'circle-color': '#b3b3b3', 'circle-radius': 2 }}
             />
           </Source>
           <Source id="Parcels" type="vector" url="mapbox://ihill.2z6o4h6v">
@@ -84,7 +83,7 @@ const ScrollMap: React.FC = () => {
               id="Sites (parcels)"
               source="Parcels"
               source-layer="site_geometry-9va4jv"
-              paint={{ 'fill-color': 'red' }}
+              paint={{ 'fill-color': '#b3b3b3' }}
               layout={{ visibility: displayTwo }}
             />
           </Source>

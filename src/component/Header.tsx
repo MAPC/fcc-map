@@ -36,7 +36,7 @@ const titleStyle = css`
   font-family: ${fonts.swiftNeueLtPro};
   font-size: 4.2rem;
   font-weight: 400;
-  padding: 0 5rem 1rem 1rem;
+  padding: 0 5rem 0 1rem;
 
   @media (max-width: 670px) {
     font-size: 3rem;
@@ -64,7 +64,7 @@ const Header: React.FC = () => {
           {/* <img src={logo} alt="Decorative logo of two houses" /> */}
           <h1 css={titleStyle}>Retrofitting Suburbia</h1>
         </Link>
-        { pageWidth >= 1400 ? 'Insert main nav' : 'Insert mobile nav' }
+        {/* { pageWidth >= 1400 ? 'Insert main nav' : 'Insert mobile nav' } */}
       </div>
     </header>
   );
