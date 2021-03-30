@@ -4,7 +4,7 @@ import React from 'react';
 import {
   css, jsx, Global, SerializedStyles,
 } from '@emotion/react';
-import { SocialIcon } from 'mapc-design-system';
+import { Footer } from 'mapc-design-system';
 import Header from './Header';
 import { themeColors, fonts } from '../theme';
 
@@ -64,7 +64,13 @@ const Layout: React.FC<LayoutProps> = ({ children, cssProps }) => (
     <main css={cssProps}>
       {children}
     </main>
-    <SocialIcon color="Red" site="facebook" />
+    <Footer
+      backgroundColor={themeColors.darkBlue}
+      fontColor={themeColors.white}
+      paddingLeft={50}
+      paddingRight={50}
+      maxWidth={1366}
+    />
   </React.Fragment>
 );
 
