@@ -10354,10 +10354,10 @@ mapbox-gl@^2.1.1:
     tinyqueue "^2.0.3"
     vt-pbf "^3.1.1"
 
-mapc-design-system@^0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/mapc-design-system/-/mapc-design-system-0.3.4.tgz#1631595be2e5ab03ddf9c514786d6d8f231b230b"
-  integrity sha512-izs10It141t9RPFcMYPfRVmr2Mn/sMPgKromLFbHg4oS5jLIGJlxBNof/12X8i0ff/GiS+8MLFTUYECG46JqIw==
+mapc-design-system@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/mapc-design-system/-/mapc-design-system-0.3.5.tgz#bd38b61567b4d2f708d8b4e033c3129c9ce6b26d"
+  integrity sha512-lGCDG9XZy/xmtneJAG+2Rn4Inxtgjsy8DHIOpqL8zGhnvwY2/vXQKckGyKj/COywZKagOrrDOsLScPzeeyMBTQ==
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@emotion/react" "^11.1.4"
