@@ -12,14 +12,23 @@ const sectionStyle = css`
   min-height: 100vh;
 `;
 
-const panelSettings = {
+type PanelSetting = {
+  viewport: {
+    latitude: number,
+    longitude: number,
+    zoom: number,
+  },
+}
+
+type PanelNumbers = 0 | 1 | 2
+
+const panelSettings: {[Key in PanelNumbers]: PanelSetting} = {
   0: {
     viewport: {
       latitude: 42.329755482312734,
       longitude: -71.09049350120513,
-      zoom: 8.4,
+      zoom: 8,
     },
-    basemap: 'mapbox://styles/ihill/ckmnruq9j2aum17mabq3k5zgc',
   },
   1: {
     viewport: {
@@ -27,7 +36,6 @@ const panelSettings = {
       longitude: -71.3599202388301,
       zoom: 12,
     },
-    basemap: 'mapbox://styles/ihill/ckmxtpboa166p17t7c8bvjsjb',
   },
   2: {
     viewport: {
@@ -35,14 +43,12 @@ const panelSettings = {
       longitude: -71.3599202388301,
       zoom: 12,
     },
-    basemap: 'mapbox://styles/ihill/ckmxtpboa166p17t7c8bvjsjb',
   },
 };
 
 const ScrollMap: React.FC = () => {
   const scroller = scrollama();
   const [currentPanel, updatePanel] = useState(0);
-  const [basemap, setBasemap] = useState('mapbox://styles/ihill/ckmnruq9j2aum17mabq3k5zgc');
   const [viewport, setViewport] = useState({
     latitude: 42.329755482312734,
     longitude: -71.09049350120513,
@@ -55,18 +61,12 @@ const ScrollMap: React.FC = () => {
       })
       .onStepEnter((response) => {
         updatePanel(response.index);
-        if (basemap !== panelSettings[response.index].basemap) {
-          setBasemap(panelSettings[response.index].basemap);
-        }
         if (viewport !== panelSettings[response.index].viewport) {
           setViewport(panelSettings[response.index].viewport);
         }
       })
       .onStepExit((response) => {
         updatePanel(response.index);
-        if (basemap !== panelSettings[response.index].basemap) {
-          setBasemap(panelSettings[response.index].basemap);
-        }
         if (viewport !== panelSettings[response.index].viewport) {
           setViewport(panelSettings[response.index].viewport);
         }
@@ -129,8 +129,7 @@ const ScrollMap: React.FC = () => {
           height="100%"
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
           mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
-          mapStyle={basemap}
-          onClick={(e) => console.log(e)}
+          mapStyle="mapbox://styles/ihill/ckmxwp00t19at18mrkhfgj255"
           scrollZoom={false}
           dragPan={false}
           dragRotate={false}

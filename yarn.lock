@@ -1602,6 +1602,11 @@
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
   integrity sha512-EaObqwIvayI5a8dCzhFrjKzVwKLxjoG9T6Ppd5CEo07LRKfQ8Yokw54r5+Wq7FaBQ+yXRvQAYPrHwya1/UFt9g==
 
+"@types/geojson@*":
+  version "7946.0.7"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.7.tgz#c8fa532b60a0042219cdf173ca21a975ef0666ad"
+  integrity sha512-wE2v81i4C4Ol09RtsWFAqg3BUitWbHSpSlIo+bNdsCJijO9sjme+zm+73ZMCa/qMC8UEERxzGbvmr1cffo2SiQ==
+
 "@types/get-port@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@types/get-port/-/get-port-3.2.0.tgz#f9e0a11443cc21336470185eae3dfba4495d29bc"
@@ -1666,6 +1671,13 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.168.tgz#fe24632e79b7ade3f132891afff86caa5e5ce008"
   integrity sha512-oVfRvqHV/V6D1yifJbVRU3TMp8OT6o6BG+U9MkwuJ3U8/CsDHvalRpsxBqivn71ztOFZBTfJMvETbqHiaNSj7Q==
 
+"@types/mapbox-gl@*":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@types/mapbox-gl/-/mapbox-gl-2.1.1.tgz#c1ef62f5e296ec58899f7a039ca56a3d61a5f99a"
+  integrity sha512-oDgHhkAC9iYIj/H/9iwm6gHHKKPzweTUgOlozcrvWr8T07dyymGty6mON2j4kEeBGyTTI291vI6gP9k2ArxvHw==
+  dependencies:
+    "@types/geojson" "*"
+
 "@types/mdast@^3.0.3":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/mdast/-/mdast-3.0.3.tgz#2d7d671b1cd1ea3deb306ea75036c2a0407d2deb"
@@ -1725,6 +1737,16 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-map-gl@^5.2.9":
+  version "5.2.9"
+  resolved "https://registry.yarnpkg.com/@types/react-map-gl/-/react-map-gl-5.2.9.tgz#67e00d96e3035d792f55a4266b08dbee11d06dd2"
+  integrity sha512-DbN7irrx9OEfDTK9TNOyTjWgz4/TOJXyY9EDDmHQC1Ne7KW6QCbOt6vKD+StMYjdO1CfkayjM1n4/CeyTHw0BA==
+  dependencies:
+    "@types/geojson" "*"
+    "@types/mapbox-gl" "*"
+    "@types/react" "*"
+    "@types/viewport-mercator-project" "*"
+
 "@types/react@*":
   version "17.0.3"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.3.tgz#ba6e215368501ac3826951eef2904574c262cc79"
@@ -1780,6 +1802,13 @@
     "@types/node" "*"
     "@types/unist" "*"
     "@types/vfile-message" "*"
+
+"@types/viewport-mercator-project@*":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@types/viewport-mercator-project/-/viewport-mercator-project-6.1.1.tgz#07cd2ae62e0d54a1265274c8b112d376550b031a"
+  integrity sha512-s8pFUBSyFil9lPtBbBUlqK1fEPeVIX2nSndRtYEHLs2E2CWR9heAQlmAHBK9f1vVZ+aF7lAwlLcl26bsulJHig==
+  dependencies:
+    gl-matrix "^3.2.0"
 
 "@types/websocket@1.0.2":
   version "1.0.2"
@@ -5554,7 +5583,7 @@ github-slugger@^1.2.1:
   dependencies:
     emoji-regex ">=6.0.0 <=6.1.1"
 
-gl-matrix@^3.0.0, gl-matrix@^3.2.1:
+gl-matrix@^3.0.0, gl-matrix@^3.2.0, gl-matrix@^3.2.1:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/gl-matrix/-/gl-matrix-3.3.0.tgz#232eef60b1c8b30a28cbbe75b2caf6c48fd6358b"
   integrity sha512-COb7LDz+SXaHtl/h4LeaFcNdJdAQSDeVqjiIihSXNrkWObZLhDI4hIkZC11Aeqp7bcE72clzB0BnDXr2SmslRA==
