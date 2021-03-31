@@ -12,6 +12,33 @@ const sectionStyle = css`
   min-height: 100vh;
 `;
 
+const panelSettings = {
+  0: {
+    viewport: {
+      latitude: 42.329755482312734,
+      longitude: -71.09049350120513,
+      zoom: 8.4,
+    },
+    basemap: 'mapbox://styles/ihill/ckmnruq9j2aum17mabq3k5zgc',
+  },
+  1: {
+    viewport: {
+      latitude: 42.27722101940692,
+      longitude: -71.3599202388301,
+      zoom: 12,
+    },
+    basemap: 'mapbox://styles/ihill/ckmxtpboa166p17t7c8bvjsjb',
+  },
+  2: {
+    viewport: {
+      latitude: 42.27722101940692,
+      longitude: -71.3599202388301,
+      zoom: 12,
+    },
+    basemap: 'mapbox://styles/ihill/ckmxtpboa166p17t7c8bvjsjb',
+  },
+};
+
 const ScrollMap: React.FC = () => {
   const scroller = scrollama();
   const [currentPanel, updatePanel] = useState(0);
@@ -28,38 +55,20 @@ const ScrollMap: React.FC = () => {
       })
       .onStepEnter((response) => {
         updatePanel(response.index);
-        if (response.index === 1) {
-          setViewport({
-            latitude: 42.27722101940692,
-            longitude: -71.3599202388301,
-            zoom: 11.4,
-          });
-          setBasemap('mapbox://styles/ihill/ckd4s0ptt1byo1hrlkjyn5zvy');
-        } else {
-          setViewport({
-            latitude: 42.329755482312734,
-            longitude: -71.09049350120513,
-            zoom: 8.4,
-          });
-          setBasemap('mapbox://styles/ihill/ckmnruq9j2aum17mabq3k5zgc');
+        if (basemap !== panelSettings[response.index].basemap) {
+          setBasemap(panelSettings[response.index].basemap);
+        }
+        if (viewport !== panelSettings[response.index].viewport) {
+          setViewport(panelSettings[response.index].viewport);
         }
       })
       .onStepExit((response) => {
         updatePanel(response.index);
-        if (response.index === 1) {
-          setViewport({
-            latitude: 42.27722101940692,
-            longitude: -71.3599202388301,
-            zoom: 11.4,
-          });
-          setBasemap('mapbox://styles/ihill/ckd4s0ptt1byo1hrlkjyn5zvy');
-        } else {
-          setViewport({
-            latitude: 42.329755482312734,
-            longitude: -71.09049350120513,
-            zoom: 8.4,
-          });
-          setBasemap('mapbox://styles/ihill/ckmnruq9j2aum17mabq3k5zgc');
+        if (basemap !== panelSettings[response.index].basemap) {
+          setBasemap(panelSettings[response.index].basemap);
+        }
+        if (viewport !== panelSettings[response.index].viewport) {
+          setViewport(panelSettings[response.index].viewport);
         }
       });
   }, []);
@@ -97,6 +106,12 @@ const ScrollMap: React.FC = () => {
             This map below provides an example of the analysis at the municipal level (Town of Natick). As expected, there are numerous suitable sites around the commuter rail stations. Less intuitive, however, is the analysis suggests some of the most suitable sites are located along Rt 9. This is likely due to larger parcels (increasing capacity potential) and the number of jobs located nearby. The maps providing a geographic and visual depiction of the suitability analysis. The analysis can also summarize for each individual parcel the various rankings and relative scores for the various criteria.
           </p>
         </div>
+        <div className="step" data-step="c" css={sectionStyle}>
+          <h2>Section Three</h2>
+          <p>
+            Now we&apos;re viewing the parcel layer instead of the dots. Here, it&apos;s clear that the dark blue parcels are the larger ones along route 9, whereas the parcels closer to commuter rail stops are smaller.
+          </p>
+        </div>
       </div>
       <div
         css={css`
@@ -115,6 +130,7 @@ const ScrollMap: React.FC = () => {
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
           mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
           mapStyle={basemap}
+          onClick={(e) => console.log(e)}
           scrollZoom={false}
           dragPan={false}
           dragRotate={false}
@@ -146,6 +162,17 @@ const ScrollMap: React.FC = () => {
                 ],
                 'circle-radius': 3,
               }}
+              layout={{ visibility: currentPanel !== 2 ? 'visible' : 'none' }}
+            />
+          </Source>
+          <Source id="Parcels" type="vector" url="mapbox://ihill.2z6o4h6v">
+            <Layer
+              type="fill"
+              id="Sites (parcels)"
+              source="Parcels"
+              source-layer="site_geometry-9va4jv"
+              paint={{ 'fill-color': '#b3b3b3' }}
+              layout={{ visibility: currentPanel === 2 ? 'visible' : 'none' }}
             />
           </Source>
         </ReactMapGL>

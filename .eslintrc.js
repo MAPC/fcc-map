@@ -16,6 +16,7 @@ module.exports = {
     'import',
   ],
   rules: {
+    'react/jsx-props-no-spreading': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '(React)|(css)|(jsx)' }],
     'max-len': 'off',
     'react/jsx-filename-extension': 'off',
