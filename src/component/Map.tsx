@@ -116,6 +116,12 @@ const ScrollMap: React.FC = () => {
           mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
           mapStyle={basemap}
           scrollZoom={false}
+          dragPan={false}
+          dragRotate={false}
+          doubleClickZoom={false}
+          touchZoom={false}
+          touchRotate={false}
+          keyboard={false}
         >
 
           <Source id="Sites" type="vector" url="mapbox://ihill.33vx5cd5">
