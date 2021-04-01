@@ -6,6 +6,7 @@ import ReactMapGL, { Source, Layer, FlyToInterpolator } from 'react-map-gl';
 import 'intersection-observer';
 import scrollama from 'scrollama';
 import image from '../images/visualization.png';
+import mapcMuniIds from '../utils/municipal-keys';
 
 const sectionStyle = css`
   margin: 3rem;
@@ -174,6 +175,12 @@ const ScrollMap: React.FC = () => {
                   '#5456a0',
                 ],
                 'circle-radius': 3,
+                'circle-opacity': [
+                  'match',
+                  ['get', 'muni_id'],
+                  mapcMuniIds,
+                  1, 0,
+                ],
               }}
               layout={{ visibility: currentPanel !== 2 ? 'visible' : 'none' }}
             />
