@@ -12,17 +12,16 @@ const sectionStyle = css`
   min-height: 100vh;
 `;
 
-type PanelSetting = {
-  viewport: {
-    latitude: number,
-    longitude: number,
-    zoom: number,
-  },
+interface PanelInterface {
+  [key: number]: {
+    viewport: {
+      latitude: number,
+      longitude: number,
+      zoom: number,
+    },
+  }
 }
-
-type PanelNumbers = 0 | 1 | 2
-
-const panelSettings: {[Key in PanelNumbers]: PanelSetting} = {
+const panelSettings: PanelInterface = {
   0: {
     viewport: {
       latitude: 42.329755482312734,
@@ -47,7 +46,7 @@ const panelSettings: {[Key in PanelNumbers]: PanelSetting} = {
 };
 
 const ScrollMap: React.FC = () => {
-  const mapRef = useRef(null);
+  const mapRef = useRef<mapboxgl.Map | null>(null);
   const scroller = scrollama();
   const [currentPanel, updatePanel] = useState(0);
   const [viewport, setViewport] = useState({
@@ -58,9 +57,11 @@ const ScrollMap: React.FC = () => {
 
   useEffect(() => {
     const map = mapRef.current;
-    map?.moveLayer('state-label');
-    map?.moveLayer('settlement-minor-label');
-    map?.moveLayer('settlement-major-label');
+    map?.on('load', () => {
+      map?.moveLayer('state-label');
+      map?.moveLayer('settlement-minor-label');
+      map?.moveLayer('settlement-major-label');
+    });
   }, []);
 
   useEffect(() => {
@@ -81,6 +82,10 @@ const ScrollMap: React.FC = () => {
         }
       });
   }, []);
+
+  const assignRef = (ref: ReactMapGL | null) => {
+    mapRef.current = ref && ref.getMap();
+  };
 
   return (
     <div css={css`
@@ -132,7 +137,7 @@ const ScrollMap: React.FC = () => {
       >
         <ReactMapGL
           {...viewport}
-          ref={(ref) => mapRef.current = ref && ref.getMap()}
+          ref={(ref) => assignRef(ref)}
           transitionDuration={1000}
           transitionInterpolator={new FlyToInterpolator()}
           width="700px"
@@ -148,7 +153,6 @@ const ScrollMap: React.FC = () => {
           touchRotate={false}
           keyboard={false}
         >
-
           <Source id="Sites" type="vector" url="mapbox://ihill.33vx5cd5">
             <Layer
               type="circle"

@@ -5,11 +5,11 @@ import {
   css, jsx, Global, SerializedStyles,
 } from '@emotion/react';
 import Header from './Header';
-import { themeColors, fonts } from '../theme';
+import { themeColors, fonts } from '../utils/theme';
 
 type LayoutProps = {
   cssProps?: SerializedStyles,
-  children: JSX.Element|string,
+  children: Array<JSX.Element>
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, cssProps }) => (

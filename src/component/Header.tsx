@@ -1,12 +1,9 @@
 /** @jsx jsx */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'gatsby';
 import { css, jsx } from '@emotion/react';
-import { fonts, themeColors, marginStyle } from '../theme';
-// import logo from '../images/submarkets_logo.png';
-// import MainNav from './MainNav';
-// import MobileNav from './MobileNav';
+import { fonts, themeColors, marginStyle } from '../utils/theme';
 
 const headerStyle = css`
   align-items: center;
@@ -50,24 +47,14 @@ const titleStyle = css`
   }
 `;
 
-const Header: React.FC = () => {
-  const [pageWidth, updatePageWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
-  useEffect(() => {
-    const handleResize = () => updatePageWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  return (
-    <header css={headerStyle}>
-      <div css={headerWrapperStyle}>
-        <Link to="/" css={logoTitleWrapperStyle}>
-          {/* <img src={logo} alt="Decorative logo of two houses" /> */}
-          <h1 css={titleStyle}>Retrofitting Suburbia</h1>
-        </Link>
-        {/* { pageWidth >= 1400 ? 'Insert main nav' : 'Insert mobile nav' } */}
-      </div>
-    </header>
-  );
-};
+const Header: React.FC = () => (
+  <header css={headerStyle}>
+    <div css={headerWrapperStyle}>
+      <Link to="/" css={logoTitleWrapperStyle}>
+        <h1 css={titleStyle}>Retrofitting Suburbia</h1>
+      </Link>
+    </div>
+  </header>
+);
 
 export default Header;
