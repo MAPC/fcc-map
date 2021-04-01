@@ -1,6 +1,6 @@
 /** @jsx jsx */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { css, jsx } from '@emotion/react';
 import ReactMapGL, { Source, Layer, FlyToInterpolator } from 'react-map-gl';
 import 'intersection-observer';
@@ -47,6 +47,7 @@ const panelSettings: {[Key in PanelNumbers]: PanelSetting} = {
 };
 
 const ScrollMap: React.FC = () => {
+  const mapRef = useRef(null);
   const scroller = scrollama();
   const [currentPanel, updatePanel] = useState(0);
   const [viewport, setViewport] = useState({
@@ -54,6 +55,14 @@ const ScrollMap: React.FC = () => {
     longitude: -71.09049350120513,
     zoom: 8.4,
   });
+
+  useEffect(() => {
+    const map = mapRef.current;
+    map?.moveLayer('state-label');
+    map?.moveLayer('settlement-minor-label');
+    map?.moveLayer('settlement-major-label');
+  }, []);
+
   useEffect(() => {
     scroller
       .setup({
@@ -123,6 +132,7 @@ const ScrollMap: React.FC = () => {
       >
         <ReactMapGL
           {...viewport}
+          ref={(ref) => mapRef.current = ref && ref.getMap()}
           transitionDuration={1000}
           transitionInterpolator={new FlyToInterpolator()}
           width="700px"
