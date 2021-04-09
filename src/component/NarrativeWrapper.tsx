@@ -41,7 +41,7 @@ const panelSettings: PanelInterface = {
   },
 };
 
-const ScrollMap: React.FC = () => {
+const NarrativeWrapper: React.FC = () => {
   const scroller = scrollama();
   const [currentPanel, updatePanel] = useState(0);
   const [viewport, setViewport] = useState({
@@ -51,10 +51,7 @@ const ScrollMap: React.FC = () => {
   });
 
   useEffect(() => {
-    scroller
-      .setup({
-        step: '.step',
-      })
+    scroller.setup({ step: '.step' })
       .onStepEnter((response) => {
         updatePanel(response.index);
         if (viewport !== panelSettings[response.index].viewport) {
@@ -82,4 +79,4 @@ const ScrollMap: React.FC = () => {
   );
 };
 
-export default ScrollMap;
+export default NarrativeWrapper;

@@ -5,7 +5,21 @@ import { css, jsx } from '@emotion/react';
 import ReactMapGL, { Source, Layer, FlyToInterpolator } from 'react-map-gl';
 import mapcMuniIds from '../utils/municipal-keys';
 
-const ScrollMap: React.FC = ({ currentPanel, viewport, setViewport }) => {
+interface MapProps {
+  currentPanel: number,
+  viewport: {
+    latitude: number,
+    longitude: number,
+    zoom: number
+  },
+  setViewport: React.Dispatch<React.SetStateAction<{
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  }>>
+}
+
+const Map: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) => {
   const mapRef = useRef<mapboxgl.Map | null>(null);
 
   useEffect(() => {
@@ -94,4 +108,4 @@ const ScrollMap: React.FC = ({ currentPanel, viewport, setViewport }) => {
   );
 };
 
-export default ScrollMap;
+export default Map;
