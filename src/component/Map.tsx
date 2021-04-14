@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from 'react';
 import { css, jsx } from '@emotion/react';
 import ReactMapGL, { Source, Layer, FlyToInterpolator } from 'react-map-gl';
-import mapcMuniIds from '../utils/municipal-keys';
 
 interface MapProps {
   currentPanel: number,
@@ -62,16 +61,16 @@ const Map: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) => {
         touchRotate={false}
         keyboard={false}
       >
-        <Source id="Sites" type="vector" url="mapbox://ihill.33vx5cd5">
+        <Source id="Sites" type="vector" url="mapbox://ihill.ayu61cpw">
           <Layer
             type="circle"
             id="Sites (circles)"
             source="Sites"
-            source-layer="site_suitability_pt-98hifr"
+            source-layer="site_suitability_pt_quintile-bz2r40"
             paint={{
               'circle-color': [
                 'step',
-                ['get', 'Overall_Sc'],
+                ['get', 'csv_Overal'],
                 '#FFFDA7',
                 2,
                 '#99f26d',
@@ -83,12 +82,6 @@ const Map: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) => {
                 '#5456a0',
               ],
               'circle-radius': 3,
-              'circle-opacity': [
-                'match',
-                ['get', 'muni_id'],
-                mapcMuniIds,
-                1, 0,
-              ],
             }}
             layout={{ visibility: currentPanel !== 2 ? 'visible' : 'none' }}
           />
