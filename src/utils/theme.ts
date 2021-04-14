@@ -7,7 +7,7 @@ const fonts = {
 
 const themeColors = {
   white: '#FFFFFF',
-  lightBlue: '#F2F5FB',
+  lightBlue: '#E8F7FE',
   skyBlue: '#BEE8FD',
   accentBlue: '#007DA3',
   darkBlue: '#111436',

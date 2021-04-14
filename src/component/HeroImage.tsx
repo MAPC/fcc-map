@@ -2,20 +2,19 @@
 
 import React from 'react';
 import { css, jsx } from '@emotion/react';
-import { fonts, themeColors } from '../utils/theme';
+import { fonts, marginStyle, themeColors } from '../utils/theme';
 
 interface HeroImageProps {
   image: string,
-  alt: string,
   title: string
 }
 
-const heroImageWrapperStyle = css`
+const imageStyle = css`
+  background-position: center;
+  background-size: cover;
+  height: 80rem;
   margin: 0 auto;
   position: relative;
-`;
-
-const imageStyle = css`
   width: 100%;
 `;
 
@@ -29,10 +28,18 @@ const titleStyle = css`
   top: 0;
 `;
 
-const HeroImage: React.FC<HeroImageProps> = ({ image, alt, title }) => (
-  <div css={heroImageWrapperStyle}>
-    <img src={image} alt={alt} css={imageStyle} />
-    <h2 css={titleStyle}>{title}</h2>
+const HeroImage: React.FC<HeroImageProps> = ({ image, title }) => (
+  <div
+    css={
+      css`
+        ${imageStyle}
+        background-image: url(${image});
+      `
+    }
+  >
+    <div css={marginStyle}>
+      <h2 css={titleStyle}>{title}</h2>
+    </div>
   </div>
 );
 

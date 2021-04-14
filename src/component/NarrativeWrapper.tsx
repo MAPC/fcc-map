@@ -6,6 +6,7 @@ import 'intersection-observer';
 import scrollama from 'scrollama';
 import Map from './Map';
 import SidebarText from './SidebarText';
+import { marginStyle } from '../utils/theme';
 
 interface PanelInterface {
   [key: number]: {
@@ -68,6 +69,7 @@ const NarrativeWrapper: React.FC = () => {
 
   return (
     <div css={css`
+      ${marginStyle}
       display: flex;
       flex-direction: row;
       height: 100%;
