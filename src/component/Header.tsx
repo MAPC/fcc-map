@@ -6,53 +6,77 @@ import { css, jsx } from '@emotion/react';
 import { fonts, themeColors, marginStyle } from '../utils/theme';
 
 const headerStyle = css`
-  align-items: center;
   background-color: ${themeColors.darkBlue};
   display: flex;
-  flex-direction: row;
-  height: 11.5rem;
+  flex-direction: column;
 `;
 
 const headerWrapperStyle = css`
   align-items: flex-end;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   ${marginStyle}
 `;
 
-const logoTitleWrapperStyle = css`
-  align-items: flex-end;
-  display: flex;
-  flex-direction: row;
+const navStyle = css`
+  align-self: flex-end;
+  margin: 5rem 0;
+`;
+
+const navItemStyle = css`
+  color: ${themeColors.white};
+  font-family: ${fonts.calibre};
+  font-size: 2.4rem;
+  font-weight: 600;
+  margin: 0 2rem;
   text-decoration: none;
 `;
 
 const titleStyle = css`
   color: ${themeColors.white};
-  font-family: ${fonts.swiftNeueLtPro};
-  font-size: 4.2rem;
+  font-family: ${fonts.calibre};
+  font-size: 10rem;
   font-weight: 400;
-  padding: 0 5rem 0 1rem;
+  line-height: 14rem;
+  margin: 5rem 0 1rem 0;
+`;
 
-  @media (max-width: 670px) {
-    font-size: 3rem;
-    line-height: 3rem;
-  }
+const underlineStyle = css`
+  border-bottom: 2rem solid ${themeColors.skyBlue};
+`;
 
-  @media (max-width: 500px) {
-    border-bottom: 0;
-    margin: 0;
-    padding: 0 0 0 1rem;
-  }
+const subtitleStyle = css`
+  color: ${themeColors.white};
+  font-family: ${fonts.swiftNeueLtPro};
+  font-size: 3.6rem;
+  font-weight: normal;
+  line-height: 5rem;
+  margin-bottom: 12rem;
+  text-align: right;
+  width: 65rem;
 `;
 
 const Header: React.FC = () => (
   <header css={headerStyle}>
     <div css={headerWrapperStyle}>
-      <Link to="/" css={logoTitleWrapperStyle}>
-        <h1 css={titleStyle}>Retrofitting Suburbia</h1>
-      </Link>
+      <nav css={navStyle}>
+        <Link to="/" css={navItemStyle} activeStyle={{ borderBottom: `4px solid ${themeColors.white}` }}>
+          Home
+        </Link>
+        <Link to="/about" css={navItemStyle} activeStyle={{ borderBottom: `4px solid ${themeColors.white}` }}>
+          About
+        </Link>
+      </nav>
+      <h1 css={titleStyle}>
+        <span css={underlineStyle}>
+          Rethink
+        </span>
+        {' '}
+        <span>
+          the Suburban Strip
+        </span>
+      </h1>
+      <p css={subtitleStyle}>First best place to start transforming old uses the meet the needs of residents</p>
     </div>
   </header>
 );
