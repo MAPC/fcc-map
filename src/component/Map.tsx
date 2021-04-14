@@ -82,6 +82,11 @@ const Map: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) => {
                 '#5456a0',
               ],
               'circle-radius': 3,
+              'circle-opacity': [
+                'match', ['get', 'csv_Top Qu'],
+                1,
+                1, 0,
+              ],
             }}
             layout={{ visibility: currentPanel !== 2 ? 'visible' : 'none' }}
           />

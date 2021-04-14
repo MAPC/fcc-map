@@ -12,6 +12,7 @@ const themeColors = {
   accentBlue: '#007DA3',
   darkBlue: '#111436',
   fontGray: '#707070',
+  black: '#000000',
 };
 
 const marginStyle = css`

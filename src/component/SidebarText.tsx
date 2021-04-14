@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { css, jsx } from '@emotion/react';
-import image from '../images/visualization.png';
 
 const sectionStyle = css`
   margin: 3rem;
@@ -12,17 +11,9 @@ const sectionStyle = css`
 const SidebarText: React.FC = () => (
   <div>
     <div className="step" data-step="a" css={sectionStyle}>
-      <h2>Section One</h2>
       <p>
-        Introduce the idea of &quot;suburban retrofit&quot; and highlight how many spots there are on the map (over 5,000!). Each of these represents at least one parcel, but when zoomed out it&apos;s a little hard to tell how much space that is. Insert snippet about 10 square miles---that&apos;s a lot of Boston, and basically all of Woburn!
+        While stories like this are still uncommon across the region, the opportunities for them are widespread. Across Metro Boston, there are thousands of acres of obsolete, outdated, and unattractive commercial properties built up in the latter part of the 20th Century, during a period when land use controls turned away from the historical New England development patterns to auto-oriented sprawl like that seen across the rest of America. Many of these old commercial plazas are now struggling due to competition from more recent shopping centers and online shopping. Communities across the region are facing the question of what’s next for these properties?  Landborough’s experience at 123 Main Street suggests that re-envisioning these old commercial sites for the next century can benefit communities. Eyesores can be turned into assets. If even a fraction of the obsolete commercial sites were redeveloped for housing, it could help to meet the region’s housing needs, bolster municipal tax revenues, improve community character, and enhance sustainability, all without the environmental destruction and expense that goes along with development of natural areas.
       </p>
-      <p>
-        Most of the interactivity has been taken away from the map because it is currently serving as a static visual. If all of the controls were still present, it would be easy for the user to get &quot;off track&quot; from the story and difficult to bring them back in.
-      </p>
-      <p>
-        This can go on arbitrarily long, but we&apos;ll cut it off here. Just to show that we could include photos or charts here, though, here&apos;s a screencap of a Vega chart I made based off of the percentage of square miles available in each subregion:
-      </p>
-      <img src={image} alt="Pie chart of square mileage across region" css={css`width: 200px;`} />
     </div>
     <div className="step" data-step="b" css={sectionStyle}>
       <h2>Section Two: Zoom Into Natick</h2>

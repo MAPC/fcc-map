@@ -5,7 +5,9 @@ import { css, jsx } from '@emotion/react';
 import { Helmet } from 'react-helmet';
 import Layout from '../component/Layout';
 import NarrativeWrapper from '../component/NarrativeWrapper';
+import HeroImage from '../component/HeroImage';
 import { marginStyle } from '../utils/theme';
+import dedham from '../images/dior_dedham.png';
 
 const IndexPage: React.FC = () => (
   <React.Fragment>
@@ -13,8 +15,9 @@ const IndexPage: React.FC = () => (
       <title>Rethinking the Suburban Strip</title>
     </Helmet>
     <Layout cssProps={marginStyle}>
+      <HeroImage image={dedham} alt="Before picture of Dior Dedham" title="Dior Dedham" />
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nibh detracto incorrupte eos eu, iuvaret perfecto eam in, his eu possit dolorum temporibus. Te cum aeque repudiandae delicatissimi, cu populo dictas ponderum vel, dolor consequat ut vix. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. No vis iuvaret appareat. Offendit eleifend moderatius ex vix, quem odio mazim et qui, purto expetendis cotidieque quo cu, veri persius vituperata ei nec. Offendit eleifend moderatius ex vix, quem odio mazim et qui, purto expetendis cotidieque quo cu, veri persius vituperata ei nec. Vivendum intellegat et qui, ei denique consequuntur vix. Quas scaevola postulant id vis, tincidunt assueverit et pro, quo et alii scripta accommodare. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te.
+        100 years ago, the land at 123 Main Street in Landborough was a pasture; in the 1960s, it was developed into a small shopping plaza; by 2000, the plaza was struggling. In 2015, a new chapter began when this land was redeveloped as a small residential building. The new apartments/condos are home to people who might otherwise not have had a chance to live in or stay in Landborough. The apartments use less energy than single family homes and didn’t require the destruction of natural areas. People who live there can walk to get a cup of coffee, or buy a gallon of milk, or to get on the bus, so they are not contributing to traffic congestion. Tax revenue is higher than it was before. By replacing a shabby retail plaza, the new building enhanced the character of the town.
       </p>
       <NarrativeWrapper />
       <p>End of scrollytelling section. We can add a filter-able version of the map here for folks to interact with, perhaps, now that they know what they&apos;re looking at.</p>
