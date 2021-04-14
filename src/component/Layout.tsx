@@ -4,6 +4,7 @@ import React from 'react';
 import {
   css, jsx, Global, SerializedStyles,
 } from '@emotion/react';
+import { Footer } from 'mapc-design-system';
 import Header from './Header';
 import { themeColors, fonts } from '../utils/theme';
 
@@ -63,6 +64,13 @@ const Layout: React.FC<LayoutProps> = ({ children, cssProps }) => (
     <main css={cssProps}>
       {children}
     </main>
+    <Footer
+      backgroundColor={themeColors.darkBlue}
+      fontColor={themeColors.white}
+      paddingLeft={50}
+      paddingRight={50}
+      maxWidth={1366}
+    />
   </React.Fragment>
 );
 
