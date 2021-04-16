@@ -13,16 +13,26 @@ interface MunicipalDataProps {
   selectedMuni: string|undefined
 }
 
-const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni }) => {
-  const displayedMuniData = data.filter((node) => node.municipal === selectedMuni);
-  return (
-    <React.Fragment>
-      <h3>{selectedMuni ? selectedMuni : 'Select a municipality'}</h3>
-      <ul>
-        {/* {displayedMuniData ? displayedMuniData.map((node) => <li key={node.site_oid}>{node.site_oid}</li>) : ''} */}
-      </ul>
-    </React.Fragment>
-  );
-};
+function filterData(data: Array<CsvData>, selectedMuni: string|undefined): Array<JSX.Element>|undefined {
+  if (selectedMuni) {
+    return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
+      if (node.municipal === selectedMuni) {
+        list.push(<li key={node.site_oid}>{node.site_oid}</li>);
+      }
+      return list;
+    }, []);
+  }
+  return undefined;
+}
+
+const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni }) => (
+  <React.Fragment>
+    <h3>{selectedMuni || 'Select a municipality'}</h3>
+    <ul>
+      {selectedMuni ? filterData(data, selectedMuni) : ''}
+    </ul>
+  </React.Fragment>
+);
 
 export default MunicipalData;
+export { filterData };
