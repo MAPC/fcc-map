@@ -21,7 +21,7 @@ const themeColors = {
 const marginStyle = css`
   margin: 0 auto;
   padding: 0 10rem;
-  max-width: 136.6rem;
+  max-width: 116.6rem;
 `;
 
 export { fonts, themeColors, marginStyle };
