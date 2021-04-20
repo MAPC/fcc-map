@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { css, jsx } from '@emotion/react';
-import { fonts, marginStyle, themeColors } from '../utils/theme';
+import H2Ribbon from './H2Ribbon';
+import { marginStyle } from '../utils/theme';
 
 interface HeroImageProps {
   image: string,
@@ -18,16 +19,6 @@ const imageStyle = css`
   width: 100%;
 `;
 
-const titleStyle = css`
-  background: rgba(190, 232, 253, .8);
-  color: ${themeColors.black};
-  font-family: ${fonts.swiftNeueLtPro};
-  font-size: 5.2rem;
-  padding: 2rem 3rem;
-  position: absolute;
-  top: 0;
-`;
-
 const HeroImage: React.FC<HeroImageProps> = ({ image, title }) => (
   <div
     css={
@@ -37,8 +28,13 @@ const HeroImage: React.FC<HeroImageProps> = ({ image, title }) => (
       `
     }
   >
-    <div css={marginStyle}>
-      <h2 css={titleStyle}>{title}</h2>
+    <div
+      css={css`
+        ${marginStyle}
+        padding-top: 17.5rem;
+      `}
+    >
+      <H2Ribbon title={title} width={200} />
     </div>
   </div>
 );
