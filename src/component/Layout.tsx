@@ -65,7 +65,7 @@ const Layout: React.FC<LayoutProps> = ({ children, cssProps }) => (
       {children}
     </main>
     <Footer
-      backgroundColor={themeColors.darkBlue}
+      backgroundColor={themeColors.indigo}
       fontColor={themeColors.white}
       paddingLeft={50}
       paddingRight={50}

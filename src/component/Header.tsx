@@ -6,7 +6,7 @@ import { css, jsx } from '@emotion/react';
 import { fonts, themeColors, marginStyle } from '../utils/theme';
 
 const headerStyle = css`
-  background-color: ${themeColors.darkBlue};
+  background-color: ${themeColors.indigo};
   display: flex;
   flex-direction: column;
 `;
@@ -42,7 +42,7 @@ const titleStyle = css`
 `;
 
 const underlineStyle = css`
-  border-bottom: 2rem solid ${themeColors.skyBlue};
+  border-bottom: 2rem solid ${themeColors.sky};
 `;
 
 const subtitleStyle = css`

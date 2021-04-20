@@ -6,11 +6,14 @@ const fonts = {
 };
 
 const themeColors = {
+  winterSky: '#3b66b0',
+  gossamer: '#f2f5fb',
+  bayBlue: '#233069',
+  indigo: '#111436',
+  glass: '#0097c4',
+  sky: '#92c9ed',
+  clearWater: '#67cbe4',
   white: '#FFFFFF',
-  lightBlue: '#E8F7FE',
-  skyBlue: '#BEE8FD',
-  accentBlue: '#007DA3',
-  darkBlue: '#111436',
   fontGray: '#707070',
   black: '#000000',
 };

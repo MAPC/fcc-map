@@ -81,7 +81,15 @@ const Map: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) => {
                 3.5,
                 '#5456a0',
               ],
-              'circle-radius': 3,
+              'circle-radius': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                8,
+                3,
+                12,
+                7,
+              ],
               'circle-opacity': [
                 'match', ['get', 'csv_Top Qu'],
                 1,
