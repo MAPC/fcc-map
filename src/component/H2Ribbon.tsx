@@ -7,6 +7,7 @@ import triangle from '../images/triangle.svg';
 
 interface H2RibbonProps {
   title: string,
+  height: number,
   width: number
 }
 
@@ -15,7 +16,6 @@ const wrapperStyle = css`
   background: ${themeColors.sky};
   display: flex;
   flex-direction: row;
-  height: 7rem;
   margin-left: .8rem;
 `;
 
@@ -31,12 +31,15 @@ const titleStyle = css`
   font-family: ${fonts.calibre};
   font-size: 4rem;
   margin: 0;
+  padding: 1rem;
+  line-height: 4.4rem;
 `;
 
-const H2Ribbon: React.FC<H2RibbonProps> = ({ title, width }) => (
+const H2Ribbon: React.FC<H2RibbonProps> = ({ title, height, width }) => (
   <div
     css={css`
       ${wrapperStyle}
+      height: ${height}px;
       width: ${width}px;
     `}
   >

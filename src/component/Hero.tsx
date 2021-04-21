@@ -54,7 +54,7 @@ const Hero: React.FC<HeroImageProps> = ({ image, title, children }) => (
           padding-top: 17.5rem;
         `}
       >
-        <H2Ribbon title={title} width={300} />
+        <H2Ribbon title={title} width={300} height={70} />
       </div>
     </div>
     <div css={paragraphWrapperStyle}>
