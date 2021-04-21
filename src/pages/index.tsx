@@ -9,12 +9,10 @@ import Hero from '../component/Hero';
 import HighlightSection from '../component/HighlightSection';
 import TwoColImageText from '../component/TwoColImgeText';
 import BuildableArea from '../component/BuildableArea';
-import Wrapper from '../component/municipal-search/Wrapper';
-import { marginStyle, themeColors } from '../utils/theme';
+import PromisableOpportunies from '../component/PromisableOpportunities';
 import dedham from '../images/dior_dedham.png';
 import blueprint1 from '../images/blueprint1.png';
 import blueprint2 from '../images/blueprint2.png';
-import H2Ribbon from '../component/H2Ribbon';
 
 const middleParagraphStyle = css`
   margin: 0 auto;
@@ -56,7 +54,7 @@ const IndexPage: React.FC = () => (
         </div>
       </TwoColImageText>
       <BuildableArea />
-      <Wrapper />
+      <PromisableOpportunies />
     </Layout>
   </React.Fragment>
 );
