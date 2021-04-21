@@ -13,11 +13,15 @@ import PromisableOpportunies from '../component/PromisableOpportunities';
 import dedham from '../images/dior_dedham.png';
 import blueprint1 from '../images/blueprint1.png';
 import blueprint2 from '../images/blueprint2.png';
+import tempImpact1 from '../images/tempImpact1.png';
+import tempImpact2 from '../images/tempImpact2.png';
+import { themeColors, marginStyle } from '../utils/theme';
+import H2Ribbon from '../component/H2Ribbon';
 
-const middleParagraphStyle = css`
-  margin: 0 auto;
-  padding: 3rem 0;
-  width: 69rem;
+const impactH3Style = css`
+  color: ${themeColors.indigo};
+  font-size: 2.8rem;
+  margin-top: 0;
 `;
 
 const IndexPage: React.FC = () => (
@@ -50,11 +54,56 @@ const IndexPage: React.FC = () => (
         </div>
         <div className="images">
           <img src={blueprint1} />
-          <img src={blueprint2} />
         </div>
       </TwoColImageText>
       <BuildableArea />
       <PromisableOpportunies />
+      <div css={css`
+        ${marginStyle};
+        padding-top: 8.5rem;
+        padding-bottom: 5rem;
+      `}>
+        <H2Ribbon title="Impacts" height={70} width={650} />
+      </div>
+      <TwoColImageText>
+        <div className="images" css={css`margin-right: 4rem;`}>
+          <img src={tempImpact1} />
+        </div>
+        <div className="text">
+          <h3 css={impactH3Style}>Fiscal</h3>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Harum repudiandae sea at. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Vivendum intellegat et qui, ei denique consequuntur vix. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Sit fugit nostrum et. Partiendo adversarium no mea. Tritani reprehendunt pro an, his ne liber iusto. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Sonet tibique sea et. Harum repudiandae sea at. No epicuri hendrerit consetetur sit, sit dicta adipiscing ex, in facete detracto deterruisset duo.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Vivendum intellegat et qui, ei denique consequuntur vix. Pri viderer tamquam ei. Offendit eleifend moderatius ex vix, quem odio mazim et qui, purto expetendis cotidieque quo cu, veri persius vituperata ei nec. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. His an amet petentium voluptatibus, modo malis error nec no. Vivendum intellegat et qui, ei denique consequuntur vix. Vivendum intellegat et qui, ei denique consequuntur vix. Semper aeterno percipit ut his, sea ex utinam referrentur repudiandae. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Ad per diam dicant interesset, lorem iusto sensibus ut sed. Offendit eleifend moderatius ex vix, quem odio mazim et qui, purto expetendis cotidieque quo cu, veri persius vituperata ei nec.
+          </p>
+        </div>
+      </TwoColImageText>
+      <TwoColImageText>
+        <div className="text" css={css`margin-right: 4rem;`}>
+          <h3 css={impactH3Style}>Environmental</h3>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Harum repudiandae sea at. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Vivendum intellegat et qui, ei denique consequuntur vix. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Sit fugit nostrum et. Partiendo adversarium no mea. Tritani reprehendunt pro an, his ne liber iusto. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Sonet tibique sea et. Harum repudiandae sea at. No epicuri hendrerit consetetur sit, sit dicta adipiscing ex, in facete detracto deterruisset duo.
+          </p>
+        </div>
+        <div className="images">
+          <img src={tempImpact2} />
+        </div>
+      </TwoColImageText>
+      <TwoColImageText>
+        <div className="images" css={css`margin-right: 4rem;`}>
+          <img src={tempImpact1} />
+        </div>
+        <div className="text">
+          <h3 css={impactH3Style}>Equitable</h3>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Harum repudiandae sea at. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Vivendum intellegat et qui.
+          </p>
+          <p>
+            Lei denique consequuntur vix. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Sit fugit nostrum et. Partiendo adversarium no mea. Tritani reprehendunt pro an, his ne liber iusto. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Sonet tibique sea et. Harum repudiandae sea at. No epicuri hendrerit consetetur sit, sit dicta adipiscing ex, in facete detracto deterruisset duo.
+          </p>
+        </div>
+      </TwoColImageText>
     </Layout>
   </React.Fragment>
 );
