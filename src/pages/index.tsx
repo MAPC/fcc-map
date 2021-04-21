@@ -11,6 +11,7 @@ import TwoColImageText from '../component/TwoColImgeText';
 import BuildableArea from '../component/BuildableArea';
 import PromisableOpportunies from '../component/PromisableOpportunities';
 import HomepageEnd from '../component/HomepageEnd';
+import Explore from '../component/Explore';
 import dedham from '../images/dior_dedham.png';
 import blueprint1 from '../images/blueprint1.png';
 import blueprint2 from '../images/blueprint2.png';
@@ -106,6 +107,7 @@ const IndexPage: React.FC = () => (
         </div>
       </TwoColImageText>
       <HomepageEnd />
+      <Explore />
     </Layout>
   </React.Fragment>
 );
