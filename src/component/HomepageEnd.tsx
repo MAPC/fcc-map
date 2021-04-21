@@ -15,7 +15,6 @@ const changedWrapper = css`
   float: right;
   padding: 6rem 7.5rem;
   position: relative;
-  margin-top: -2rem;
   width: 80rem;
   z-index: 10;
 `;
@@ -31,6 +30,7 @@ const relatedReportsWrapper = css`
   float: left;
   padding: 5rem 10rem;
   position: relative;
+  margin-top: -4rem;
   width: 40rem;
 `;
 
