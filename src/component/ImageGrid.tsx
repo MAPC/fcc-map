@@ -4,11 +4,11 @@ import React from 'react';
 import { css, jsx } from '@emotion/react';
 import grid1 from '../images/grid_1.png';
 import grid2 from '../images/grid_2.png';
-import grid3 from '../images/grid_3.png';
 
 const gridStyle = css`
   display: grid;
-  margin: 0 auto;
+  float: left;
+  margin-right: 4rem;
   width: 69rem;
 `;
 
@@ -20,7 +20,8 @@ const ImageGrid: React.FC = () => (
       css={css`
         grid-column: 1 / 3;
         grid-row: 1 / 2;
-        width: 69rem;
+        padding-bottom: 1rem;
+        width: 70rem;
       `}
     />
     <img
@@ -29,15 +30,17 @@ const ImageGrid: React.FC = () => (
       css={css`
         grid-column: 1 / 2;
         grid-row: 2 / 3;
+        padding-right: .5rem;
         width: 34.5rem;
       `}
     />
     <img
-      src={grid3}
+      src={grid2} // Should swap out with another image of same dimensions
       alt="Highlight Dior Dedham"
       css={css`
         grid-column: 2 / 3;
         grid-row: 2 / 3;
+        padding-left: .5rem;
         width: 34.5rem;
       `}
     />
