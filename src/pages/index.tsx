@@ -8,9 +8,12 @@ import NarrativeWrapper from '../component/NarrativeWrapper';
 import Hero from '../component/Hero';
 import CalloutRibbon from '../component/CalloutRibbon';
 import HighlightSection from '../component/HighlightSection';
+import TwoColImageText from '../component/TwoColImgeText';
 import Wrapper from '../component/municipal-search/Wrapper';
 import { themeColors } from '../utils/theme';
 import dedham from '../images/dior_dedham.png';
+import blueprint1 from '../images/blueprint1.png';
+import blueprint2 from '../images/blueprint2.png';
 
 const middleParagraphStyle = css`
   margin: 0 auto;
@@ -37,6 +40,20 @@ const IndexPage: React.FC = () => (
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. No vis iuvaret appareat. Offendit eleifend moderatius ex vix, quem odio mazim et qui, purto expetendis cotidieque quo cu, veri persius vituperata ei nec. Scripta periculis ei eam, te pro movet reformidans. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Vivendum intellegat et qui, ei denique consequuntur vix. Scripta periculis ei eam, te pro movet reformidans. Accusam explicari sed ei. Vivendum intellegat et qui, ei denique consequuntur vix. Vivendum intellegat et qui, ei denique consequuntur vix. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Pri veritus expetendis ex. Prima zril primis eu sed, mei ei eirmod moderatius adversarium. Ridens nostro perfecto ad cum, debet omnes splendide sit eu, vix an iisque dissentias. Qui gloriatur scribentur et, id velit verear mel, cum no porro debet.
         </p>
       </HighlightSection>
+      <TwoColImageText>
+        <div className="text" css={css`margin-right: 4rem;`}>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Harum repudiandae sea at. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Vivendum intellegat et qui, ei denique consequuntur vix. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Sit fugit nostrum et. Partiendo adversarium no mea. Tritani reprehendunt pro an, his ne liber iusto. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Sonet tibique sea et. Harum repudiandae sea at. No epicuri hendrerit consetetur sit, sit dicta adipiscing ex, in facete detracto deterruisset duo.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Scripta periculis ei eam, te pro movet reformidans. Scripta periculis ei eam, te pro movet reformidans. Offendit eleifend moderatius ex vix, quem odio mazim et qui, purto expetendis cotidieque quo cu, veri persius vituperata ei nec. Usu ut commune mentitum, putent facete vim id. Vivendum intellegat et qui, ei denique consequuntur vix. Scripta periculis ei eam, te pro movet reformidans. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Vivendum intellegat et qui, ei denique consequuntur vix. Vivendum intellegat et qui, ei denique consequuntur vix. Erroribus adipiscing id eam. Vivendum intellegat et qui, ei denique consequuntur vix. Pri posse graeco definitiones cu, id eam populo quaestio adipiscing, usu quod malorum te. Unum dicam posidonium eu vix, sea eu ubique viderer civibus, oporteat signiferumque eos et. Offendit eleifend moderatius ex vix, quem odio mazim et qui, purto expetendis cotidieque quo cu, veri persius vituperata ei nec.
+          </p>
+        </div>
+        <div className="images">
+          <img src={blueprint1} />
+          <img src={blueprint2} />
+        </div>
+      </TwoColImageText>
       <p css={middleParagraphStyle}>
         The region and its communities need to think strategically about these opportunities in order to maximize the benefits of commercial site retrofits. Where should we start? This report takes a comprehensive look at low-density commercial sites across the region. Using a wide range of information, we evaluated all the sites to identify those with the best potential for redevelopment, and we estimated the local and regional costs and benefits associated with reusing even some of those sites. This information is intended to help local communities begin a conversation about how they might rethink future growth in their town; and to support policy makers and state agencies who will play an important role in their reuse. Working together, these relics of the past can be transformed to meet the needs of the future.
       </p>
