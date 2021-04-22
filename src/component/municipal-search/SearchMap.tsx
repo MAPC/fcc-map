@@ -70,7 +70,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
       <ReactMapGL
         {...viewport}
         ref={mapRef}
-        width="600px"
+        width="520px"
         height="600px"
         onViewportChange={handleViewportChange}
         mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"

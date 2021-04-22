@@ -36,6 +36,7 @@ const visualizationPlaceholder = css`
   align-items: center;
   justify-content: center;
   color: ${themeColors.white};
+  margin-bottom: 8.5rem;
 `;
 
 const BuildableArea: React.FC = () => (

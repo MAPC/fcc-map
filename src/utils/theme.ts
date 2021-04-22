@@ -16,6 +16,7 @@ const themeColors = {
   white: '#FFFFFF',
   fontGray: '#707070',
   black: '#000000',
+  warmGray: '#E9E9E9',
 };
 
 const marginStyle = css`
