@@ -73,6 +73,7 @@ const NarrativeWrapper: React.FC = () => {
       display: flex;
       flex-direction: row;
       height: 100%;
+      margin-top: 5rem;
     `}
     >
       <SidebarText />

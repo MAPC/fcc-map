@@ -4,8 +4,12 @@ import React from 'react';
 import { css, jsx } from '@emotion/react';
 
 const sectionStyle = css`
-  margin: 3rem;
+  margin: 0 4.5rem 0 0;
   min-height: 100vh;
+
+  p:first-of-type {
+    margin-top: 0;
+  }
 `;
 
 const SidebarText: React.FC = () => (
@@ -16,7 +20,6 @@ const SidebarText: React.FC = () => (
       </p>
     </div>
     <div className="step" data-step="b" css={sectionStyle}>
-      <h2>Section Two: Zoom Into Natick</h2>
       <p>
         Scroll and notice the change in map view; we zoomed in are focused on Natick. We also changed basemaps to show some additional context. Scroll up just a little bit and the circles come back/we zoom out. This is both a joy and peril of scrollytelling: you can go forward or backward, and you need to make sure it&apos;s a digestable experience either way.
       </p>
@@ -28,7 +31,6 @@ const SidebarText: React.FC = () => (
       </p>
     </div>
     <div className="step" data-step="c" css={sectionStyle}>
-      <h2>Section Three</h2>
       <p>
         Now we&apos;re viewing the parcel layer instead of the dots. Here, it&apos;s clear that the dark blue parcels are the larger ones along route 9, whereas the parcels closer to commuter rail stops are smaller.
       </p>

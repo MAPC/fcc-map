@@ -48,7 +48,7 @@ const ScrollMap: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) 
         ref={(ref) => assignRef(ref)}
         transitionDuration={1000}
         transitionInterpolator={new FlyToInterpolator()}
-        width="700px"
+        width="755px"
         height="100%"
         onViewportChange={(nextViewport) => setViewport(nextViewport)}
         mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"

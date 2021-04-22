@@ -48,8 +48,8 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
   }, []);
 
   const [viewport, setViewport] = useState({
-    latitude: 42.329755482312734,
-    longitude: -71.09049350120513,
+    latitude: 42.40319165277521,
+    longitude: -71.10714566074827,
     zoom: 8.4,
   });
 
