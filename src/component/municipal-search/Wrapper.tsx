@@ -26,6 +26,11 @@ const Wrapper: React.FC = () => {
             nodes {
               site_oid
               municipal
+              Growth_Potential_Score
+              Healthy_Communtiies_Score
+              Healthy_Watersheds_Score
+              Travel_Choices_Score
+              Overall_Score
             }
           }
         }

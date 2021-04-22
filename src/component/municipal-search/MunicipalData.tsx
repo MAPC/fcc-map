@@ -2,11 +2,16 @@
 
 import React from 'react';
 import { jsx, css } from '@emotion/react';
-import { themeColors, fonts } from '../../utils/theme';
+import SiteRow from './SiteRow';
 
-type CsvData = {
-  'site_oid': string,
-  municipal: string
+export type CsvData = {
+  site_oid: string,
+  municipal: string,
+  Growth_Potential_Score: string,
+  Healthy_Communtiies_Score: string,
+  Healthy_Watersheds_Score: string,
+  Travel_Choices_Score: string,
+  Overall_Score: string
 }
 
 interface MunicipalDataProps {
@@ -31,30 +36,16 @@ const wrapperStyle = css`
 const ulStyle = css`
   padding-left: 0;
   list-style: none;
-`;
-
-const liStyle = css`
-  background: ${themeColors.warmGray};
-  margin: .5rem 0;
-  padding: .8rem 2rem;
-`;
-
-const titleStyle = css`
-  color: ${themeColors.indigo};
-  font-family: ${fonts.calibre};
-  font-size: 2rem;
-  font-weight: 600;
+  max-height: 55rem;
+  overflow-y: scroll;
+  padding-right: 1rem;
 `;
 
 function filterData(data: Array<CsvData>, selectedMuni: string|undefined): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
       if (node.municipal === selectedMuni) {
-        list.push(
-          <li key={node.site_oid} css={liStyle}>
-            <span css={titleStyle}>{node.site_oid}</span>
-          </li>
-        );
+        list.push(<SiteRow node={node} />);
       }
       return list;
     }, []);
