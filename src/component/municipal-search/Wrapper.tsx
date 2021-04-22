@@ -22,7 +22,7 @@ const Wrapper: React.FC = () => {
     <StaticQuery
       query={graphql`
         query TabularSiteData {
-          allSiteSuitabilityV2QuintilesCsv(filter: {Top_Quartile: {eq: "TRUE"}}) {
+          allSitesQuintilesCsv(filter: {top_quintile: {eq: "TRUE"}}) {
             nodes {
               site_oid
               municipal
@@ -32,7 +32,7 @@ const Wrapper: React.FC = () => {
       `}
       render={(data) => (
         <div css={wrapperStyle}>
-          <MunicipalData data={data.allSiteSuitabilityV2QuintilesCsv.nodes} selectedMuni={selectedMuni} containerRef={containerRef} />
+          <MunicipalData data={data.allSitesQuintilesCsv.nodes} selectedMuni={selectedMuni} containerRef={containerRef} />
           <SearchMap selectedMuni={selectedMuni} setMuni={setMuni} containerRef={containerRef} />
         </div>
       )}

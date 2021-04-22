@@ -1,10 +1,10 @@
 /** @jsx jsx */
 
 import React, {
-  useRef, useReducer, useCallback, useEffect, useMemo
+  useRef, useState, useCallback, useEffect, useMemo
 } from 'react';
 import { jsx, css } from '@emotion/react';
-import ReactMapGL, { Source, Layer, NavigationControl } from 'react-map-gl';
+import ReactMapGL, { Source, Layer, NavigationControl, InteractiveMap } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
 import municipalities from '../../utils/municipalities';
 
@@ -34,41 +34,27 @@ function handleClick(e: Array<mapboxgl.EventData>): string {
 }
 
 const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, containerRef }) => {
-  const mapRef = useRef<mapboxgl.Map | null>();
+  const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
-  // useEffect(() => {
-  //   if (mapRef && mapRef.current) {
-  //     const map = mapRef.current;
-  //     console.log(map)
-  //     map?.on('load', () => {
-  //       map?.moveLayer('state-label');
-  //       map?.moveLayer('settlement-minor-label');
-  //       map?.moveLayer('settlement-major-label');
-  //     });
-  //   }
-  // }, []);
-
-  const initialState = {
-    viewport: {
-      latitude: 42.3653,
-      longitude: -71.0834,
-      zoom: 8.4,
-    },
-  };
-
-  function reducer(state: any, action: any) {
-    switch (action.type) {
-      case 'setViewport':
-        return { ...state, viewport: action.viewport };
-      default:
-        return state;
+  useEffect(() => {
+    if (mapRef && mapRef.current) {
+      const map = mapRef.current.getMap();
+      map?.on('load', () => {
+        map?.moveLayer('state-label');
+        map?.moveLayer('settlement-minor-label');
+        map?.moveLayer('settlement-major-label');
+      });
     }
-  }
+  }, []);
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [viewport, setViewport] = useState({
+    latitude: 42.329755482312734,
+    longitude: -71.09049350120513,
+    zoom: 8.4,
+  });
 
   const handleViewportChange = useCallback(
-    (viewport) => dispatch({ type: 'setViewport', viewport }), [],
+    (viewport) => setViewport(viewport), [],
   );
 
   const handleGeocoderViewportChange = useCallback((newViewport) => {
@@ -82,7 +68,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
   return (
     <div css={mapStyle}>
       <ReactMapGL
-        {...state.viewport}
+        {...viewport}
         ref={mapRef}
         width="600px"
         height="600px"
@@ -92,15 +78,13 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
         scrollZoom={false}
         onClick={(e) => {
           setMuni(handleClick(e.features));
-          dispatch({
-            type: 'setViewport',
-            viewport: {
-              ...state.viewport, longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 11, transitionDuration: 1000,
-            },
-          });
+          setViewport({
+            ...viewport,
+            longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 11
+          })
         }}
       >
-         <Geocoder
+        <Geocoder
           containerRef={containerRef}
           mapRef={mapRef}
           onViewportChange={handleGeocoderViewportChange}
@@ -121,6 +105,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             }
           }, [])}
           marker={false}
+          placeholder="Search for a municipality"
         />
         <Source id="Municipalities" type="vector" url="mapbox://ihill.763lks2o">
           <Layer
@@ -147,6 +132,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             source-layer="retrofit_site_pts-3ot9ol"
             paint={{
               'circle-color': [
+                'match',
+                ['get', 'municipal'],
+                [selectedMuni || ''],
+                [
                 'step',
                 ['get', 'Overall_Sc'],
                 '#FFFDA7',
@@ -158,6 +147,8 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 '#649abd',
                 3.5,
                 '#5456a0',
+                ],
+                'gray'
               ],
               'circle-radius': [
                 'interpolate',
