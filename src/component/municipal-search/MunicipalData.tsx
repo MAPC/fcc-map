@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { jsx, css } from '@emotion/react';
+import { themeColors, fonts } from '../../utils/theme';
 
 type CsvData = {
   'site_oid': string,
@@ -10,8 +11,15 @@ type CsvData = {
 
 interface MunicipalDataProps {
   data: Array<CsvData>,
-  selectedMuni: string|undefined
+  selectedMuni: string|undefined,
+  containerRef: React.RefObject<HTMLInputElement>,
 }
+
+const SearchBarStyle = css`
+  .mapboxgl-ctrl-geocoder {
+    width: 40rem;
+  }
+`;
 
 function filterData(data: Array<CsvData>, selectedMuni: string|undefined): Array<JSX.Element>|undefined {
   if (selectedMuni) {
@@ -25,9 +33,9 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined): Array
   return undefined;
 }
 
-const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni }) => (
+const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, containerRef }) => (
   <React.Fragment>
-    <h3>{selectedMuni || 'Select a municipality'}</h3>
+    <div ref={containerRef} css={SearchBarStyle} />
     <ul>
       {selectedMuni ? filterData(data, selectedMuni) : ''}
     </ul>

@@ -1,18 +1,23 @@
 /** @jsx jsx */
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import { jsx, css } from '@emotion/react';
+import { themeColors } from '../../utils/theme';
 import MunicipalData from './MunicipalData';
 import Map from './Map';
 
 const wrapperStyle = css`
+  background: ${themeColors.gossamer};
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  padding: 3.5rem 5rem;
 `;
 
 const Wrapper: React.FC = () => {
   const [selectedMuni, setMuni] = useState<string|undefined>();
+  const containerRef = useRef<HTMLInputElement>(null);
   return (
     <StaticQuery
       query={graphql`
@@ -26,13 +31,10 @@ const Wrapper: React.FC = () => {
         }
       `}
       render={(data) => (
-        <React.Fragment>
-          <h2 id="municipal">Temp Header - Municipal Search</h2>
-          <div css={wrapperStyle}>
-            <MunicipalData data={data.allSiteSuitabilityV2QuintilesCsv.nodes} selectedMuni={selectedMuni} />
-            <Map selectedMuni={selectedMuni} setMuni={setMuni} />
-          </div>
-        </React.Fragment>
+        <div css={wrapperStyle}>
+          <MunicipalData data={data.allSiteSuitabilityV2QuintilesCsv.nodes} selectedMuni={selectedMuni} containerRef={containerRef} />
+          <Map selectedMuni={selectedMuni} setMuni={setMuni} containerRef={containerRef} />
+        </div>
       )}
     />
   );

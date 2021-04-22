@@ -61,16 +61,16 @@ const Map: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) => {
         touchRotate={false}
         keyboard={false}
       >
-        <Source id="Sites" type="vector" url="mapbox://ihill.ayu61cpw">
+        <Source id="Sites" type="vector" url="mapbox://ihill.0a4w5d52">
           <Layer
             type="circle"
             id="Sites (circles)"
             source="Sites"
-            source-layer="site_suitability_pt_quintile-bz2r40"
+            source-layer="retrofit_site_pts-3ot9ol"
             paint={{
               'circle-color': [
                 'step',
-                ['get', 'csv_Overal'],
+                ['get', 'Overall_Sc'],
                 '#FFFDA7',
                 2,
                 '#99f26d',
@@ -91,7 +91,7 @@ const Map: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) => {
                 7,
               ],
               'circle-opacity': [
-                'match', ['get', 'csv_Top Qu'],
+                'match', ['get', 'top20_p'],
                 1,
                 1, 0,
               ],
@@ -99,12 +99,12 @@ const Map: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) => {
             layout={{ visibility: currentPanel !== 2 ? 'visible' : 'none' }}
           />
         </Source>
-        <Source id="Parcels" type="vector" url="mapbox://ihill.2z6o4h6v">
+        <Source id="Parcels" type="vector" url="mapbox://ihill.2yxozn9p">
           <Layer
             type="fill"
             id="Sites (parcels)"
             source="Parcels"
-            source-layer="site_geometry-9va4jv"
+            source-layer="retrofit_site_geo-cvc0x0"
             paint={{ 'fill-color': '#b3b3b3' }}
             layout={{ visibility: currentPanel === 2 ? 'visible' : 'none' }}
           />

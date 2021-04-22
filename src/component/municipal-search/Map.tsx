@@ -1,15 +1,17 @@
 /** @jsx jsx */
 
 import React, {
-  useRef, useReducer, useCallback, useEffect,
+  useRef, useReducer, useCallback, useEffect, useMemo
 } from 'react';
 import { jsx, css } from '@emotion/react';
 import ReactMapGL, { Source, Layer, NavigationControl } from 'react-map-gl';
-// import municipalities from '../../utils/municipalities';
+import Geocoder from 'react-map-gl-geocoder';
+import municipalities from '../../utils/municipalities';
 
 interface MunicipalMapProps {
   selectedMuni: string|undefined,
   setMuni: React.Dispatch<React.SetStateAction<string|undefined>>,
+  containerRef: React.RefObject<HTMLInputElement>,
 }
 
 const navigationStyle = css`
@@ -31,21 +33,20 @@ function handleClick(e: Array<mapboxgl.EventData>): string {
   return '';
 }
 
-const Map: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni }) => {
-  const mapRef = useRef<mapboxgl.Map | null>(null);
+const Map: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, containerRef }) => {
+  const mapRef = useRef<mapboxgl.Map | null>();
 
-  useEffect(() => {
-    const map = mapRef.current;
-    map?.on('load', () => {
-      map?.moveLayer('state-label');
-      map?.moveLayer('settlement-minor-label');
-      map?.moveLayer('settlement-major-label');
-    });
-  }, []);
-
-  const assignRef = (ref: ReactMapGL | null) => {
-    mapRef.current = ref && ref.getMap();
-  };
+  // useEffect(() => {
+  //   if (mapRef && mapRef.current) {
+  //     const map = mapRef.current;
+  //     console.log(map)
+  //     map?.on('load', () => {
+  //       map?.moveLayer('state-label');
+  //       map?.moveLayer('settlement-minor-label');
+  //       map?.moveLayer('settlement-major-label');
+  //     });
+  //   }
+  // }, []);
 
   const initialState = {
     viewport: {
@@ -70,19 +71,19 @@ const Map: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni }) => {
     (viewport) => dispatch({ type: 'setViewport', viewport }), [],
   );
 
-  // const handleGeocoderViewportChange = useCallback((newViewport) => {
-  //   const geocoderDefaultOverrides = { transitionDuration: 1000, zoom: 11 };
-  //   return handleViewportChange({
-  //     ...newViewport,
-  //     ...geocoderDefaultOverrides,
-  //   });
-  // }, []);
+  const handleGeocoderViewportChange = useCallback((newViewport) => {
+    const geocoderDefaultOverrides = { transitionDuration: 1000, zoom: 11 };
+    return handleViewportChange({
+      ...newViewport,
+      ...geocoderDefaultOverrides,
+    });
+  }, []);
 
   return (
     <div css={mapStyle}>
       <ReactMapGL
         {...state.viewport}
-        ref={(ref) => assignRef(ref)}
+        ref={mapRef}
         width="600px"
         height="600px"
         onViewportChange={handleViewportChange}
@@ -99,6 +100,28 @@ const Map: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni }) => {
           });
         }}
       >
+         <Geocoder
+          containerRef={containerRef}
+          mapRef={mapRef}
+          onViewportChange={handleGeocoderViewportChange}
+          mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
+          types="place"
+          bbox={useMemo(() => ([-71.66866501431952, 41.97523050594343, -70.53487628480008, 42.74357855916575]), [])}
+          filter={useCallback((item) => {
+            if (municipalities.find(row => item.place_name.includes(`${row}, Massachusetts`))) {
+              return true
+            }
+            return false;
+          }, [])}
+          onResult={useCallback((e) => {
+            if (e.result.text === 'Manchester-by-the-Sea') {
+              setMuni('Manchester')
+            } else {
+              setMuni(e.result.text)
+            }
+          }, [])}
+          marker={false}
+        />
         <Source id="Municipalities" type="vector" url="mapbox://ihill.763lks2o">
           <Layer
             type="fill"
@@ -116,31 +139,25 @@ const Map: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni }) => {
             }}
           />
         </Source>
-        <Source id="Sites" type="vector" url="mapbox://ihill.ayu61cpw">
+        <Source id="Sites" type="vector" url="mapbox://ihill.0a4w5d52">
           <Layer
             type="circle"
             id="Sites (circles)"
             source="Sites"
-            source-layer="site_suitability_pt_quintile-bz2r40"
+            source-layer="retrofit_site_pts-3ot9ol"
             paint={{
               'circle-color': [
-                'match',
-                ['get', 'csv_munici'],
-                [selectedMuni],
-                [
-                  'step',
-                  ['get', 'csv_Overal'],
-                  '#FFFDA7',
-                  2,
-                  '#99f26d',
-                  2.5,
-                  '#78cd98',
-                  3,
-                  '#649abd',
-                  3.5,
-                  '#5456a0',
-                ],
-                '#000000',
+                'step',
+                ['get', 'Overall_Sc'],
+                '#FFFDA7',
+                2,
+                '#99f26d',
+                2.5,
+                '#78cd98',
+                3,
+                '#649abd',
+                3.5,
+                '#5456a0',
               ],
               'circle-radius': [
                 'interpolate',
@@ -152,7 +169,7 @@ const Map: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni }) => {
                 7,
               ],
               'circle-opacity': [
-                'match', ['get', 'csv_Top Qu'],
+                'match', ['get', 'top20_p'],
                 1,
                 1, 0,
               ],
