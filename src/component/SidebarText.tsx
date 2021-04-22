@@ -30,11 +30,6 @@ const SidebarText: React.FC = () => (
         This map below provides an example of the analysis at the municipal level (Town of Natick). As expected, there are numerous suitable sites around the commuter rail stations. Less intuitive, however, is the analysis suggests some of the most suitable sites are located along Rt 9. This is likely due to larger parcels (increasing capacity potential) and the number of jobs located nearby. The maps providing a geographic and visual depiction of the suitability analysis. The analysis can also summarize for each individual parcel the various rankings and relative scores for the various criteria.
       </p>
     </div>
-    <div className="step" data-step="c" css={sectionStyle}>
-      <p>
-        Now we&apos;re viewing the parcel layer instead of the dots. Here, it&apos;s clear that the dark blue parcels are the larger ones along route 9, whereas the parcels closer to commuter rail stops are smaller.
-      </p>
-    </div>
   </div>
 );
 

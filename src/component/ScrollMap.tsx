@@ -86,12 +86,12 @@ const ScrollMap: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) 
                 ['linear'],
                 ['zoom'],
                 8,
-                3,
+                2.5,
                 12,
                 7,
               ]
             }}
-            layout={{ visibility: currentPanel !== 2 ? 'visible' : 'none' }}
+            layout={{ visibility: currentPanel === 1 ? 'visible' : 'none' }}
           />
         </Source>
         <Source id="Parcels" type="vector" url="mapbox://ihill.2yxozn9p">
@@ -101,7 +101,7 @@ const ScrollMap: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) 
             source="Parcels"
             source-layer="retrofit_site_geo-cvc0x0"
             paint={{ 'fill-color': '#b3b3b3' }}
-            layout={{ visibility: currentPanel === 2 ? 'visible' : 'none' }}
+            layout={{ visibility: currentPanel === 0 ? 'visible' : 'none' }}
           />
         </Source>
       </ReactMapGL>

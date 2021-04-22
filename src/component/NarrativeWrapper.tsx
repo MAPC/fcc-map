@@ -21,23 +21,16 @@ interface PanelInterface {
 const panelSettings: PanelInterface = {
   0: {
     viewport: {
-      latitude: 42.329755482312734,
-      longitude: -71.09049350120513,
-      zoom: 8,
+      latitude: 42.24477934567755,
+      longitude: -71.17334359526778,
+      zoom: 13.5,
     },
   },
   1: {
     viewport: {
-      latitude: 42.27722101940692,
-      longitude: -71.3599202388301,
-      zoom: 12,
-    },
-  },
-  2: {
-    viewport: {
-      latitude: 42.27722101940692,
-      longitude: -71.3599202388301,
-      zoom: 12,
+      latitude: 42.329755482312734,
+      longitude: -71.09049350120513,
+      zoom: 8,
     },
   },
 };
