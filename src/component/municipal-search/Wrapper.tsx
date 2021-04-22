@@ -13,6 +13,7 @@ const wrapperStyle = css`
   flex-direction: row;
   justify-content: space-between;
   padding: 3.5rem 5rem;
+  margin: 4.5rem 0 5rem 0;
 `;
 
 const Wrapper: React.FC = () => {

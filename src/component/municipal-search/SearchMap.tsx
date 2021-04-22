@@ -4,7 +4,7 @@ import React, {
   useRef, useState, useCallback, useEffect, useMemo
 } from 'react';
 import { jsx, css } from '@emotion/react';
-import ReactMapGL, { Source, Layer, NavigationControl, InteractiveMap } from 'react-map-gl';
+import ReactMapGL, { Source, Layer, NavigationControl } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
 import municipalities from '../../utils/municipalities';
 

@@ -63,7 +63,6 @@ const IndexPage: React.FC = () => (
       <div css={css`
         ${marginStyle};
         padding-top: 8.5rem;
-        padding-bottom: 5rem;
       `}>
         <H2Ribbon title="Impacts" height={70} width={650} />
       </div>

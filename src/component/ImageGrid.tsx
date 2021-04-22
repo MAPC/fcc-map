@@ -8,7 +8,7 @@ import grid2 from '../images/grid_2.png';
 const gridStyle = css`
   display: grid;
   float: left;
-  margin-right: 4rem;
+  margin: 2rem 5.5rem 0 0;
   width: 69rem;
 `;
 

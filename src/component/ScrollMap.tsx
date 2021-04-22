@@ -89,12 +89,7 @@ const ScrollMap: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) 
                 3,
                 12,
                 7,
-              ],
-              'circle-opacity': [
-                'match', ['get', 'top20_p'],
-                1,
-                1, 0,
-              ],
+              ]
             }}
             layout={{ visibility: currentPanel !== 2 ? 'visible' : 'none' }}
           />
