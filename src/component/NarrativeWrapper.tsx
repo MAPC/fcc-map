@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { css, jsx } from '@emotion/react';
 import 'intersection-observer';
 import scrollama from 'scrollama';
-import Map from './Map';
+import ScrollMap from './ScrollMap';
 import SidebarText from './SidebarText';
 import { marginStyle } from '../utils/theme';
 
@@ -76,7 +76,7 @@ const NarrativeWrapper: React.FC = () => {
     `}
     >
       <SidebarText />
-      <Map currentPanel={currentPanel} viewport={viewport} setViewport={setViewport} />
+      <ScrollMap currentPanel={currentPanel} viewport={viewport} setViewport={setViewport} />
     </div>
   );
 };

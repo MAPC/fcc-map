@@ -18,7 +18,7 @@ interface MapProps {
   }>>
 }
 
-const Map: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) => {
+const ScrollMap: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) => {
   const mapRef = useRef<mapboxgl.Map | null>(null);
 
   useEffect(() => {
@@ -114,4 +114,4 @@ const Map: React.FC<MapProps> = ({ currentPanel, viewport, setViewport }) => {
   );
 };
 
-export default Map;
+export default ScrollMap;

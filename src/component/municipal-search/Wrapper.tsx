@@ -5,7 +5,7 @@ import { StaticQuery, graphql } from 'gatsby';
 import { jsx, css } from '@emotion/react';
 import { themeColors } from '../../utils/theme';
 import MunicipalData from './MunicipalData';
-import Map from './Map';
+import SearchMap from './SearchMap';
 
 const wrapperStyle = css`
   background: ${themeColors.gossamer};
@@ -33,7 +33,7 @@ const Wrapper: React.FC = () => {
       render={(data) => (
         <div css={wrapperStyle}>
           <MunicipalData data={data.allSiteSuitabilityV2QuintilesCsv.nodes} selectedMuni={selectedMuni} containerRef={containerRef} />
-          <Map selectedMuni={selectedMuni} setMuni={setMuni} containerRef={containerRef} />
+          <SearchMap selectedMuni={selectedMuni} setMuni={setMuni} containerRef={containerRef} />
         </div>
       )}
     />

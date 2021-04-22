@@ -33,7 +33,7 @@ function handleClick(e: Array<mapboxgl.EventData>): string {
   return '';
 }
 
-const Map: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, containerRef }) => {
+const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, containerRef }) => {
   const mapRef = useRef<mapboxgl.Map | null>();
 
   // useEffect(() => {
@@ -184,4 +184,4 @@ const Map: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, containerRef 
   );
 };
 
-export default Map;
+export default SearchMap;
