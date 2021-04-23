@@ -45,7 +45,7 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined): Array
   if (selectedMuni) {
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
       if (node.municipal === selectedMuni) {
-        list.push(<SiteRow node={node} />);
+        list.push(<SiteRow node={node} key={node.site_oid} />);
       }
       return list;
     }, []);
