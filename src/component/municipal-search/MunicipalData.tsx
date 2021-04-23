@@ -18,6 +18,7 @@ interface MunicipalDataProps {
   data: Array<CsvData>,
   selectedMuni: string|undefined,
   containerRef: React.RefObject<HTMLInputElement>,
+  dispatch: React.Dispatch<unknown>
 }
 
 const SearchBarStyle = css`
@@ -41,11 +42,11 @@ const ulStyle = css`
   padding-right: 1rem;
 `;
 
-function filterData(data: Array<CsvData>, selectedMuni: string|undefined): Array<JSX.Element>|undefined {
+function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
       if (node.municipal === selectedMuni) {
-        list.push(<SiteRow node={node} key={node.site_oid} />);
+        list.push(<SiteRow node={node} key={node.site_oid} dispatch={dispatch} />);
       }
       return list;
     }, []);
@@ -53,11 +54,11 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined): Array
   return undefined;
 }
 
-const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, containerRef }) => (
+const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, containerRef, dispatch }) => (
   <div css={wrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
     <ul css={ulStyle}>
-      {selectedMuni ? filterData(data, selectedMuni) : ''}
+      {selectedMuni ? filterData(data, selectedMuni, dispatch) : ''}
     </ul>
   </div>
 );

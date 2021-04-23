@@ -1,6 +1,6 @@
 /** @jsx jsx */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useReducer } from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import { jsx, css } from '@emotion/react';
 import { themeColors } from '../../utils/theme';
@@ -16,7 +16,28 @@ const wrapperStyle = css`
   margin: 4.5rem 0 5rem 0;
 `;
 
+type MunicipalSearch = {
+  highlightedSites: Array<number|undefined>,
+}
+
+const initialState: MunicipalSearch = {
+  highlightedSites: []
+}
+
+function reducer(state: MunicipalSearch, action: any) {
+  switch(action.type) {
+    case 'addSite':
+      if (state.highlightedSites.find(site => site === action.toggledSite)) {
+        return {...state, highlightedSites: state.highlightedSites.filter(item => item !== action.toggledSite)}
+      }
+      return {...state, highlightedSites: [...state.highlightedSites, action.toggledSite]};
+    default:
+      return {...state};
+  }
+}
+
 const Wrapper: React.FC = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [selectedMuni, setMuni] = useState<string|undefined>();
   const containerRef = useRef<HTMLInputElement>(null);
   return (
@@ -38,8 +59,17 @@ const Wrapper: React.FC = () => {
       `}
       render={(data) => (
         <div css={wrapperStyle}>
-          <MunicipalData data={data.allSitesQuintilesCsv.nodes} selectedMuni={selectedMuni} containerRef={containerRef} />
-          <SearchMap selectedMuni={selectedMuni} setMuni={setMuni} containerRef={containerRef} />
+          <MunicipalData
+            data={data.allSitesQuintilesCsv.nodes}
+            selectedMuni={selectedMuni}
+            containerRef={containerRef}
+            dispatch={dispatch}
+          />
+          <SearchMap
+            selectedMuni={selectedMuni}
+            setMuni={setMuni}
+            containerRef={containerRef}
+          />
         </div>
       )}
     />
