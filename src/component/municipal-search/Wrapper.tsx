@@ -69,6 +69,7 @@ const Wrapper: React.FC = () => {
             selectedMuni={selectedMuni}
             setMuni={setMuni}
             containerRef={containerRef}
+            highlightedSites={state.highlightedSites}
           />
         </div>
       )}

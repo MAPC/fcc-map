@@ -7,11 +7,13 @@ import { jsx, css } from '@emotion/react';
 import ReactMapGL, { Source, Layer, NavigationControl, Popup } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
 import municipalities from '../../utils/municipalities';
+import { themeColors } from '../../utils/theme';
 
 interface MunicipalMapProps {
   selectedMuni: string|undefined,
   setMuni: React.Dispatch<React.SetStateAction<string|undefined>>,
   containerRef: React.RefObject<HTMLInputElement>,
+  highlightedSites: Array<number|number>
 }
 
 const navigationStyle = css`
@@ -33,7 +35,7 @@ function handleClick(e: Array<mapboxgl.EventData>): string {
   return '';
 }
 
-const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, containerRef }) => {
+const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, containerRef, highlightedSites }) => {
   const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
   useEffect(() => {
@@ -187,6 +189,15 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 1,
                 1, 0,
               ],
+              'circle-stroke-color': highlightedSites.length > 0 ? [
+                'match',
+                ['get', 'site_oid'],
+                highlightedSites,
+                '#FDB525',
+                'rgba(0, 0, 0, 0)'
+              ]
+              : 'rgba(0, 0, 0, 0)',
+              'circle-stroke-width': 2
             }}
           />
         </Source>

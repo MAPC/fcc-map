@@ -31,10 +31,6 @@ const buttonStyle = css`
   float: right;
 `;
 
-const starStyle = css`
-
-`;
-
 const detailListStyle = css`
   padding-left: 0;
   list-style: none;
@@ -49,10 +45,10 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
   return (
     <li key={node.site_oid} css={liStyle}>
       <button css={buttonStyle} onClick={() => {
-        dispatch({ type: 'addSite', toggledSite: node.site_oid });
+        dispatch({ type: 'addSite', toggledSite: +node.site_oid });
         toggleHightlight(!highlighted);
       }}>
-        <Star size={20} weight="fill" color={highlighted ? themeColors.glass : themeColors.fontGray} />
+        <Star size={20} weight="fill" color={highlighted ? '#FDB525' : themeColors.fontGray} />
       </button>
       <p css={titleStyle}>{node.municipal} site {node.site_oid}</p>
       <ul css={detailListStyle}>
