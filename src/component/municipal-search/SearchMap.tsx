@@ -4,7 +4,7 @@ import React, {
   useRef, useState, useCallback, useEffect, useMemo
 } from 'react';
 import { jsx, css } from '@emotion/react';
-import ReactMapGL, { Source, Layer, NavigationControl } from 'react-map-gl';
+import ReactMapGL, { Source, Layer, NavigationControl, Popup } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
 import municipalities from '../../utils/municipalities';
 
@@ -52,6 +52,9 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
     longitude: -71.10714566074827,
     zoom: 8,
   });
+  const [showPopup, togglePopup] = useState<boolean>(false);
+  const [lngLat, setLngLat] = useState<any>();
+  const [site, setSite] = useState<any>();
 
   const handleViewportChange = useCallback(
     (viewport) => setViewport(viewport), [],
@@ -83,6 +86,15 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 11
           })
         }}
+        onHover={(e) => {
+          if (e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol')) {
+            setLngLat(e.lngLat);
+            togglePopup(true);
+            setSite(e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol').properties);
+          } else {
+            togglePopup(false);
+          }
+        }}
       >
         <Geocoder
           containerRef={containerRef}
@@ -107,6 +119,17 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
           marker={false}
           placeholder="Search for a municipality"
         />
+        {showPopup && (
+          <Popup
+            latitude={lngLat[1]}
+            longitude={lngLat[0]}
+            closeButton={false}
+            onClose={() => togglePopup(false)}
+            anchor="top"
+          >
+            <p>{site?.municipal} site {site?.site_oid}</p>
+          </Popup>
+        )}
         <Source id="Municipalities" type="vector" url="mapbox://ihill.763lks2o">
           <Layer
             type="fill"

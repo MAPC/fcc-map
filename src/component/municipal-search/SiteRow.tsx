@@ -34,12 +34,13 @@ function parseDouble(input: number): string {
 
 const SiteRow: React.FC<SiteRowProps> = ({ node }) => (
   <li key={node.site_oid} css={liStyle}>
-    <p css={titleStyle}>Overall Score: {parseDouble(+node.Overall_Score)}</p>
+    <p css={titleStyle}>{node.municipal} site {node.site_oid}</p>
     <ul css={detailListStyle}>
       <li>Growth Potential Score: {parseDouble(+node.Growth_Potential_Score)}</li>
       <li>Healthy Communities Score: {parseDouble(+node.Healthy_Communtiies_Score)}</li>
       <li>Healthy Watersheds Score: {parseDouble(+node.Healthy_Watersheds_Score)}</li>
       <li>Travel Choices Score: {parseDouble(+node.Travel_Choices_Score)}</li>
+      <li>Overall Score: {parseDouble(+node.Overall_Score)}</li>
     </ul>
   </li>
 );

@@ -12493,6 +12493,11 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
+phosphor-react@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/phosphor-react/-/phosphor-react-1.2.1.tgz#f897bef4ef022bd7162bccca3a9dd584e65d36f0"
+  integrity sha512-1AviNwceMegZWdV1Xuq5f73eiI99cKCCrjRPM1Ov49byeJQue4Nu4CzvEafIKa+mexQYWaYes3dGFUp9s0mFnw==
+
 physical-cpu-count@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/physical-cpu-count/-/physical-cpu-count-2.0.0.tgz#18de2f97e4bf7a9551ad7511942b5496f7aba660"
