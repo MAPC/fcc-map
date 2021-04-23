@@ -15,6 +15,8 @@ const headerWrapperStyle = css`
   display: flex;
   flex-direction: column;
   height: 67.5rem;
+  position: relative;
+  z-index: 10;
   ${marginStyle}
 `;
 
