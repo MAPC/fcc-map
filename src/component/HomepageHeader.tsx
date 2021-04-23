@@ -1,8 +1,8 @@
 /** @jsx jsx */
 
 import React, { useEffect, useState } from 'react';
-import { Link } from 'gatsby';
 import { css, jsx } from '@emotion/react';
+import Navigation from './Navigation';
 import { fonts, themeColors, marginStyle } from '../utils/theme';
 
 const headerStyle = css`
@@ -18,20 +18,6 @@ const headerWrapperStyle = css`
   position: relative;
   z-index: 10;
   ${marginStyle}
-`;
-
-const navStyle = css`
-  align-self: flex-end;
-  margin: 5rem 0;
-`;
-
-const navItemStyle = css`
-  color: ${themeColors.white};
-  font-family: ${fonts.calibre};
-  font-size: 2.4rem;
-  font-weight: 600;
-  margin: 0 2rem;
-  text-decoration: none;
 `;
 
 const titleStyle = css`
@@ -59,7 +45,7 @@ const subtitleStyle = css`
   width: 65rem;
 `;
 
-const Header: React.FC = () => {
+const HomepageHeader: React.FC = () => {
   const [pageWidth, updatePageWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
   useEffect(() => {
     const handleResize = () => updatePageWidth(window.innerWidth);
@@ -74,14 +60,7 @@ const Header: React.FC = () => {
         <line x1={pageWidth} y1="100" x2={(pageWidth / 2) + 100} y2="675" stroke={themeColors.gossamer} strokeOpacity=".25" />
       </svg>
       <div css={headerWrapperStyle}>
-        <nav css={navStyle}>
-          <Link to="/" css={navItemStyle} activeStyle={{ borderBottom: `4px solid ${themeColors.sky}`, color: `${themeColors.sky}` }}>
-            Home
-          </Link>
-          <Link to="/about" css={navItemStyle} activeStyle={{ borderBottom: `4px solid ${themeColors.white}`, color: `${themeColors.sky}` }}>
-            About
-          </Link>
-        </nav>
+        <Navigation />
         <h1 css={titleStyle}>
           <span css={highlightStyle}>
             Rethink
@@ -97,4 +76,4 @@ const Header: React.FC = () => {
   )
 };
 
-export default Header;
+export default HomepageHeader;

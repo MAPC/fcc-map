@@ -5,15 +5,9 @@ import {
   css, jsx, Global, SerializedStyles,
 } from '@emotion/react';
 import { Footer } from 'mapc-design-system';
-import Header from './Header';
 import { themeColors, fonts } from '../utils/theme';
 
-type LayoutProps = {
-  cssProps?: SerializedStyles,
-  children: Array<JSX.Element>
-}
-
-const Layout: React.FC<LayoutProps> = ({ children, cssProps }) => (
+const Layout: React.FC = ({ children }) => (
   <React.Fragment>
     <Global styles={css`
       @import url("//hello.myfonts.net/count/37908e");
@@ -60,10 +54,7 @@ const Layout: React.FC<LayoutProps> = ({ children, cssProps }) => (
         height: 100%;
       }`}
     />
-    <Header />
-    <main css={cssProps}>
-      {children}
-    </main>
+    {children}
     <Footer
       backgroundColor={themeColors.indigo}
       fontColor={themeColors.white}
