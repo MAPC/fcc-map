@@ -8,6 +8,8 @@ import ReactMapGL, { Source, Layer, NavigationControl, Popup } from 'react-map-g
 import Geocoder from 'react-map-gl-geocoder';
 import municipalities from '../../utils/municipalities';
 import { themeColors } from '../../utils/theme';
+// import MunicipalRow from './MunicipalRow';
+
 
 interface MunicipalMapProps {
   selectedMuni: string|undefined,
@@ -52,7 +54,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
   const [viewport, setViewport] = useState({
     latitude: 42.40319165277521,
     longitude: -71.10714566074827,
-    zoom: 8,
+    zoom: 8
   });
   const [showPopup, togglePopup] = useState<boolean>(false);
   const [lngLat, setLngLat] = useState<any>();
@@ -63,7 +65,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
   );
 
   const handleGeocoderViewportChange = useCallback((newViewport) => {
-    const geocoderDefaultOverrides = { transitionDuration: 1000, zoom: 11 };
+    const geocoderDefaultOverrides = { transitionDuration: 1000, zoom: 12 };
     return handleViewportChange({
       ...newViewport,
       ...geocoderDefaultOverrides,
@@ -72,6 +74,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
 
   return (
     <div css={mapStyle}>
+      {/* <MunicipalRow /> */}
       <ReactMapGL
         {...viewport}
         ref={mapRef}
@@ -80,13 +83,20 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
         onViewportChange={handleViewportChange}
         mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
         mapStyle="mapbox://styles/ihill/cknj7cvb513e317rxm4a8i9ah"
-        scrollZoom={false}
+        scrollZoom={true}
         onClick={(e) => {
-          setMuni(handleClick(e.features));
-          setViewport({
-            ...viewport,
-            longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 11
-          })
+          if (e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol')) {
+            setViewport({
+              ...viewport,
+              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 16
+            })
+          } else {
+            setMuni(handleClick(e.features));
+            setViewport({
+              ...viewport,
+              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 12
+            })
+          }
         }}
         onHover={(e) => {
           if (e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol')) {
@@ -144,7 +154,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 ['get', 'municipal'],
                 [`${selectedMuni}`],
                 'hsla(0, 0%, 0%, 0)',
-                'hsla(0, 0%, 0%, 0.3)',
+                'hsla(0, 0%, 0%, 0.4)',
               ],
             }}
           />
@@ -197,7 +207,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 'rgba(0, 0, 0, 0)'
               ]
               : 'rgba(0, 0, 0, 0)',
-              'circle-stroke-width': 2
+              'circle-stroke-width': 3
             }}
           />
         </Source>

@@ -3,6 +3,7 @@ require('dotenv').config({
 });
 
 module.exports = {
+  pathPrefix: "/retrofitting-search-map-embed",
   siteMetadata: {
     title: 'retrofitting-suburbia',
   },

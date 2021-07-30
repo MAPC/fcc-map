@@ -9,7 +9,8 @@ const testData: Array<CsvData> = [
     Healthy_Communtiies_Score: '1',
     Healthy_Watersheds_Score: '1',
     Travel_Choices_Score: '1',
-    Overall_Score: '1'
+    Overall_Score: '1',
+    Number_of_Parcels_on_Site: '1'
   },
   {
     municipal: 'Acton',
@@ -18,7 +19,8 @@ const testData: Array<CsvData> = [
     Healthy_Communtiies_Score: '1',
     Healthy_Watersheds_Score: '1',
     Travel_Choices_Score: '1',
-    Overall_Score: '1'
+    Overall_Score: '1',
+    Number_of_Parcels_on_Site: '1'
   },
   {
     municipal: 'Bedford',
@@ -27,7 +29,8 @@ const testData: Array<CsvData> = [
     Healthy_Communtiies_Score: '1',
     Healthy_Watersheds_Score: '1',
     Travel_Choices_Score: '1',
-    Overall_Score: '1'
+    Overall_Score: '1',
+    Number_of_Parcels_on_Site: '1'
   },
 ];
 
