@@ -40,19 +40,6 @@ function handleClick(e: Array<mapboxgl.EventData>): string {
 const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, containerRef, highlightedSites }) => {
   const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
-  // grabs user's current lat long coordinates and adjusts viewport
-  React.useEffect(() => {
-    navigator.geolocation.getCurrentPosition((pos) => {
-      setViewport({
-        ...viewport,
-        latitude: pos.coords.latitude,
-        longitude: pos.coords.longitude,
-        zoom: 10,
-        transitionDuration: 1000
-      });
-    });
-  }, [viewport]);
-
   // useEffect(() => {
   //   if (mapRef && mapRef.current) {
   //     const map = mapRef.current.getMap();
@@ -64,7 +51,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
   //   }
   // }, []);
 
-  // setting initial viewport to boston?
   const [viewport, setViewport] = useState({
     latitude: 42.40319165277521,
     longitude: -71.10714566074827,
@@ -85,6 +71,19 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
       ...geocoderDefaultOverrides,
     });
   }, []);
+
+  // grabs user's current lat long coordinates and adjusts viewport
+  React.useEffect(() => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      setViewport({
+        ...viewport,
+        latitude: pos.coords.latitude,
+        longitude: pos.coords.longitude,
+        zoom: 10,
+        transitionDuration: 1000
+      });
+    });
+  }, [viewport]);
 
   return (
     <div css={mapStyle}>
