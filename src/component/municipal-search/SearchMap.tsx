@@ -100,13 +100,13 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
         scrollZoom={true}
 
         // loading map, attempting to set viewport to municipality
-        onLoad={(e) => {
-          console.log('loaded');
-            setViewport({
-              ...viewport,
-              longitude: -71.4328, latitude: 42.4851, zoom: 12, transitionDuration: 1000
-            })
-        }}
+        // onLoad={(e) => {
+        //   console.log('loaded');
+        //     setViewport({
+        //       ...viewport,
+        //       longitude: -71.4328, latitude: 42.4851, zoom: 12, transitionDuration: 1000
+        //     })
+        // }}
 
         onClick={(e) => {
           if (e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol')) {
