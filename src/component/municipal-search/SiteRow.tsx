@@ -51,23 +51,23 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
   return (
     <li key={node.site_oid} css={liStyle}
       onMouseEnter={(e) => {
-        for (let index = 0; index < e.target.children.length; index++) {
-          const element = e.target.children[index];
-          element.style.border = `${themeColors.warmGray}`;
-          if (element.children.background) {
-            for (let j = 0; j < element.children.length; j++) {
-              const nestedChild = element.children[j];
-              nestedChild.style.background = `${themeColors.warmGray}`;
-            }
-          }
-        }
+        // for (let index = 0; index < e.target.children.length; index++) {
+        //   const element = e.target.children[index];
+        //   element.style.border = `${themeColors.warmGray}`;
+        //   if (element.children.background) {
+        //     for (let j = 0; j < element.children.length; j++) {
+        //       const nestedChild = element.children[j];
+        //       nestedChild.style.background = `${themeColors.warmGray}`;
+        //     }
+        //   }
+        // }
 
-        if (e.target.css={liStyle}) {
-          e.target.style.background = 'white';
-          console.log(e.target);
-        } else {
-          e.target.style.background = `${themeColors.warmGray}`;
-        }
+        // if (e.target.css={liStyle}) {
+        //   e.target.style.background = 'white';
+        //   console.log(e.target);
+        // } else {
+        //   e.target.style.background = `${themeColors.warmGray}`;
+        // }
 
         if (!highlighted) {
           toggleHightlight(!highlighted);
@@ -76,21 +76,22 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
       }}
 
       onMouseLeave={(e) => {
-        for (let index = 0; index < e.target.children.length; index++) {
-          const element = e.target.children[index];
-          element.style.background = `${themeColors.warmGray}`;
-          if (element.children.length) {
-            for (let j = 0; j < element.children.length; j++) {
-              const nestedChild = element.children[j];
-              nestedChild.style.background = `${themeColors.warmGray}`;
-            }
-          }
-        }
+        // for (let index = 0; index < e.target.children.length; index++) {
+        //   const element = e.target.children[index];
+        //   element.style.background = `${themeColors.warmGray}`;
+        //   if (element.children.length) {
+        //     for (let j = 0; j < element.children.length; j++) {
+        //       const nestedChild = element.children[j];
+        //       nestedChild.style.background = `${themeColors.warmGray}`;
+        //     }
+        //   }
+        // }
 
-        if (e.target.css={liStyle}) {
-          e.target.style.background = 'white';
-          console.log(e.target);
-        } 
+        // if (e.target.css={liStyle}) {
+        //   e.target.style.background = 'white';
+        //   console.log(e.target);
+        // } 
+        
         // if (e.target.css={liStyle}) {
         //   e.target.style.border = 'white 2px solid';
         // } else if (e.target.css!={liStyle}) {
