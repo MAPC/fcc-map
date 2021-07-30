@@ -10,7 +10,6 @@ import municipalities from '../../utils/municipalities';
 import { themeColors } from '../../utils/theme';
 // import MunicipalRow from './MunicipalRow';
 
-
 interface MunicipalMapProps {
   selectedMuni: string|undefined,
   setMuni: React.Dispatch<React.SetStateAction<string|undefined>>,
@@ -40,16 +39,17 @@ function handleClick(e: Array<mapboxgl.EventData>): string {
 const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, containerRef, highlightedSites }) => {
   const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
-  // useEffect(() => {
-  //   if (mapRef && mapRef.current) {
-  //     const map = mapRef.current.getMap();
-  //     map?.on('load', () => {
-  //       map?.moveLayer('state-label');
-  //       map?.moveLayer('settlement-minor-label');
-  //       map?.moveLayer('settlement-major-label');
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (mapRef && mapRef.current) {
+      const map = mapRef.current.getMap();
+      map?.on('load', () => {
+        // pass in functions here to grab municipal and site rows?
+        map?.moveLayer('state-label');
+        map?.moveLayer('settlement-minor-label');
+        map?.moveLayer('settlement-major-label');
+      });
+    }
+  }, []);
 
   const [viewport, setViewport] = useState({
     latitude: 42.40319165277521,
@@ -73,17 +73,17 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
   }, []);
 
   // grabs user's current lat long coordinates and adjusts viewport
-  React.useEffect(() => {
-    navigator.geolocation.getCurrentPosition((pos) => {
-      setViewport({
-        ...viewport,
-        latitude: pos.coords.latitude,
-        longitude: pos.coords.longitude,
-        zoom: 10,
-        transitionDuration: 1000
-      });
-    });
-  }, [viewport]);
+  // useEffect(() => {
+  //   navigator.geolocation.getCurrentPosition((pos) => {
+  //     setViewport({
+  //       ...viewport,
+  //       latitude: pos.coords.latitude,
+  //       longitude: pos.coords.longitude,
+  //       zoom: 10,
+  //       transitionDuration: 1000
+  //     });
+  //   });
+  // }, [viewport]);
 
   return (
     <div css={mapStyle}>
@@ -97,6 +97,16 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
         mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
         mapStyle="mapbox://styles/ihill/cknj7cvb513e317rxm4a8i9ah"
         scrollZoom={true}
+
+        // loading map, attempting to set viewport to municipality
+        onLoad={(e) => {
+          console.log('loaded');
+            setViewport({
+              ...viewport,
+              longitude: -71.4328, latitude: 42.4851, zoom: 12, transitionDuration: 1000
+            })
+        }}
+
         onClick={(e) => {
           if (e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol')) {
             setViewport({

@@ -4,7 +4,6 @@ import React from 'react';
 import {
   css, jsx, Global, SerializedStyles,
 } from '@emotion/react';
-import { Footer } from 'mapc-design-system';
 import { themeColors, fonts } from '../utils/theme';
 
 const Layout: React.FC = ({ children }) => (
@@ -55,13 +54,6 @@ const Layout: React.FC = ({ children }) => (
       }`}
     />
     {children}
-    <Footer
-      backgroundColor={themeColors.indigo}
-      fontColor={themeColors.white}
-      paddingLeft={50}
-      paddingRight={50}
-      maxWidth={1366}
-    />
   </React.Fragment>
 );
 
