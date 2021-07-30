@@ -12,8 +12,8 @@ export type CsvData = {
   Healthy_Communtiies_Score: string,
   Healthy_Watersheds_Score: string,
   Travel_Choices_Score: string,
-  Overall_Score: string
-  // Number_of_Parcels_on_Site: string
+  Overall_Score: string,
+  Number_of_Parcels_on_Site: string
 }
 
 // attempting to add muni data
