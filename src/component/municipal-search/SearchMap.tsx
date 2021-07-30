@@ -4,7 +4,7 @@ import React, {
   useRef, useState, useCallback, useEffect, useMemo
 } from 'react';
 import { jsx, css } from '@emotion/react';
-import ReactMapGL, { Source, Layer, NavigationControl, Popup } from 'react-map-gl';
+import ReactMapGL, { Source, Layer, NavigationControl, Popup, GeolocateControl } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
 import municipalities from '../../utils/municipalities';
 import { themeColors } from '../../utils/theme';
@@ -40,17 +40,31 @@ function handleClick(e: Array<mapboxgl.EventData>): string {
 const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, containerRef, highlightedSites }) => {
   const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
-  useEffect(() => {
-    if (mapRef && mapRef.current) {
-      const map = mapRef.current.getMap();
-      map?.on('load', () => {
-        map?.moveLayer('state-label');
-        map?.moveLayer('settlement-minor-label');
-        map?.moveLayer('settlement-major-label');
+  // grabs user's current lat long coordinates and adjusts viewport
+  React.useEffect(() => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      setViewport({
+        ...viewport,
+        latitude: pos.coords.latitude,
+        longitude: pos.coords.longitude,
+        zoom: 10,
+        transitionDuration: 1000
       });
-    }
-  }, []);
+    });
+  }, [viewport]);
 
+  // useEffect(() => {
+  //   if (mapRef && mapRef.current) {
+  //     const map = mapRef.current.getMap();
+  //     map?.on('load', () => {
+  //       map?.moveLayer('state-label');
+  //       map?.moveLayer('settlement-minor-label');
+  //       map?.moveLayer('settlement-major-label');
+  //     });
+  //   }
+  // }, []);
+
+  // setting initial viewport to boston?
   const [viewport, setViewport] = useState({
     latitude: 42.40319165277521,
     longitude: -71.10714566074827,
@@ -88,13 +102,13 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
           if (e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol')) {
             setViewport({
               ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 16
+              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 16, transitionDuration: 1000
             })
           } else {
             setMuni(handleClick(e.features));
             setViewport({
               ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 12
+              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 12, transitionDuration: 1000
             })
           }
         }}
