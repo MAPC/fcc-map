@@ -20,8 +20,8 @@ const themeColors = {
 };
 
 const marginStyle = css`
-  margin: 0 auto;
-  padding: 0 10rem;
+  margin: 0;
+  padding: 0;
   max-width: 116.6rem;
 `;
 

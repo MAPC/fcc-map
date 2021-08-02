@@ -8,9 +8,23 @@ import ReactMapGL, { Source, Layer, NavigationControl, Popup, GeolocateControl }
 import Geocoder from 'react-map-gl-geocoder';
 import municipalities from '../../utils/municipalities';
 import { themeColors } from '../../utils/theme';
-import MunicipalRow from './MunicipalRow';
+import MunicipalRow from './MunicipalRow'; //added
+// import { CsvData } from './MunicipalData'; //added
+
+export type CsvData = {
+  // site_oid: string,
+  // municipal: string,
+  // Growth_Potential_Score: string,
+  // Healthy_Communtiies_Score: string,
+  // Healthy_Watersheds_Score: string,
+  // Travel_Choices_Score: string,
+  // Overall_Score: string,
+  muni_id: string //added
+}
 
 interface MunicipalMapProps {
+  data: Array<CsvData>, //added
+  dispatch: React.Dispatch<unknown>, //added
   selectedMuni: string|undefined,
   setMuni: React.Dispatch<React.SetStateAction<string|undefined>>,
   containerRef: React.RefObject<HTMLInputElement>,
@@ -36,7 +50,7 @@ function handleClick(e: Array<mapboxgl.EventData>): string {
   return '';
 }
 
-const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, containerRef, highlightedSites }) => {
+const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, containerRef, highlightedSites }) => {
   const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
   useEffect(() => {
@@ -87,7 +101,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
 
   return (
     <div css={mapStyle}>
-      <MunicipalRow selectedMuni={selectedMuni}/>
+      <MunicipalRow selectedMuni={selectedMuni} node={data} />
       <ReactMapGL
         {...viewport}
         ref={mapRef}

@@ -139,7 +139,7 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
         <li>Healthy Watersheds Score: {parseDouble(+node.Healthy_Watersheds_Score)}</li>
         <li>Travel Choices Score: {parseDouble(+node.Travel_Choices_Score)}</li>
         <li>Overall Score: {parseDouble(+node.Overall_Score)}</li>
-        <li>Number of Parcels on Site: {parseDouble(+node.Number_of_Parcels_on_Site)}</li>
+        <li>Test data: {parseDouble(+node.muni_id)}</li>
       </ul>
     </li>
   )

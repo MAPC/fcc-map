@@ -13,20 +13,8 @@ export type CsvData = {
   Healthy_Watersheds_Score: string,
   Travel_Choices_Score: string,
   Overall_Score: string,
-  Number_of_Parcels_on_Site: string
+  muni_id: string //added
 }
-
-// attempting to add muni data
-// export type CsvDataMunicipalRow = {
-//   site_oid: string,
-//   municipal: string,
-//   Growth_Potential_Score: string,
-//   Healthy_Communtiies_Score: string,
-//   Healthy_Watersheds_Score: string,
-//   Travel_Choices_Score: string,
-//   Overall_Score: string,  
-//   Number_of_Parcels_on_Site: string
-// }
 
 interface MunicipalDataProps {
   data: Array<CsvData>,
@@ -68,25 +56,10 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
   return undefined;
 }
 
-// function filtering data for MunicipalRow
-// function filterDataMuni(dataMuni: Array<CsvDataMunicipalRow>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>): Array<JSX.Element>|undefined {
-//   if (selectedMuni) {
-//     return dataMuni.reduce((list: Array<JSX.Element>, node: CsvDataMunicipalRow) => {
-//       if (node.municipal === selectedMuni) {
-//         list.push(<MunicipalRow node={node} key={node.site_oid} dispatch={dispatch} />);
-//       }
-//       return list;
-//     }, []);
-//   }
-//   return undefined;
-// }
-
 const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, containerRef, dispatch }) => (
   <div css={wrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
     <ul css={ulStyle}>
-      {/* adding MunicipalRow here, ends up just doubling SiteRows */}
-      {/* {selectedMuni ? filterDataMuni(dataMuni, selectedMuni, dispatch) : ''} */}
       {selectedMuni ? filterData(data, selectedMuni, dispatch) : ''}
     </ul>
   </div>

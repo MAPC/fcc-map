@@ -4,18 +4,10 @@ import React, { useState } from 'react';
 import { jsx, css } from '@emotion/react';
 import { themeColors, fonts } from '../../utils/theme';
 import { CsvData } from './MunicipalData';
-import { Star } from 'phosphor-react';
 
-// interface MunicipalRowProps {
-//   node: CsvData,
-//   dispatch: React.Dispatch<unknown>
-// }
-
-interface MunicipalDataProps {
-  // data: Array<CsvData>,
+interface MunicipalRowProps {
   selectedMuni: string|undefined,
-  // containerRef: React.RefObject<HTMLInputElement>,
-  // dispatch: React.Dispatch<unknown>
+  node: CsvData
 }
 
 const muniRowStyle = css`
@@ -49,28 +41,15 @@ function parseDouble(input: number): string {
 }
 
 // rendering MunicipalRow, imported into SearchMap
-const MunicipalRow: React.FC<MunicipalDataProps> = ({ selectedMuni }) => {
+const MunicipalRow: React.FC<MunicipalRowProps> = ({ node, selectedMuni }) => {
   return (
     <div css={muniRowStyle}>
       <p css={titleStyle}>{selectedMuni}</p>
       <ul css={detailListStyle}>
+        <li>Test data/muni_id: {parseDouble(+node.muni_id)}</li>
         <li>Tax Revenue Before: </li>
-        <li>Tax Revenue After: </li>
       </ul>
     </div>
-
-    // <li css={liStyle}>
-    //   <p>This renders</p>
-    //   <p css={titleStyle}>{node.municipal} site {node.site_oid}</p>
-    //   <ul css={detailListStyle}>
-    //     <li>Growth Potential Score: {parseDouble(+node.Growth_Potential_Score)}</li>
-    //     <li>Healthy Communities Score: {parseDouble(+node.Healthy_Communtiies_Score)}</li>
-    //     <li>Healthy Watersheds Score: {parseDouble(+node.Healthy_Watersheds_Score)}</li>
-    //     <li>Travel Choices Score: {parseDouble(+node.Travel_Choices_Score)}</li>
-    //     <li>Overall Score: {parseDouble(+node.Overall_Score)}</li>
-    //     <li>Number of Parcels on Site: {parseDouble(+node.Number_of_Parcels_on_Site)}</li>
-    //   </ul>
-    // </li>
 
   )
 };

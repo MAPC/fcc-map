@@ -8,12 +8,13 @@ import MunicipalData from './MunicipalData';
 import SearchMap from './SearchMap';
 
 const wrapperStyle = css`
+  width: 90vw;
+  height: 93vh;
   background: ${themeColors.gossamer};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 3.5rem 5rem;
-  margin: 4.5rem 0 5rem 0;
+  padding: 3.5vw 5vw;
 `;
 
 type MunicipalSearch = {
@@ -53,6 +54,7 @@ const Wrapper: React.FC = () => {
               Healthy_Watersheds_Score
               Travel_Choices_Score
               Overall_Score
+              muni_id
             }
           }
         }
@@ -66,10 +68,12 @@ const Wrapper: React.FC = () => {
             dispatch={dispatch}
           />
           <SearchMap
+            data={data.allSitesQuintilesCsv.nodes} //passing down data from csv
             selectedMuni={selectedMuni}
             setMuni={setMuni}
             containerRef={containerRef}
             highlightedSites={state.highlightedSites}
+            dispatch={dispatch} //need later to filterData for MunicipalRow
           />
         </div>
       )}
