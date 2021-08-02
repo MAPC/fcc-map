@@ -14,7 +14,7 @@ const wrapperStyle = css`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 3.5vw 5vw;
+  padding: 3.5vh 5vw;
 `;
 
 type MunicipalSearch = {
