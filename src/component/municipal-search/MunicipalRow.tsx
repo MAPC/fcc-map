@@ -6,14 +6,21 @@ import { themeColors, fonts } from '../../utils/theme';
 import { CsvData } from './MunicipalData';
 import { Star } from 'phosphor-react';
 
-interface MunicipalRowProps {
-  node: CsvData,
-  dispatch: React.Dispatch<unknown>
+// interface MunicipalRowProps {
+//   node: CsvData,
+//   dispatch: React.Dispatch<unknown>
+// }
+
+interface MunicipalDataProps {
+  // data: Array<CsvData>,
+  selectedMuni: string|undefined,
+  // containerRef: React.RefObject<HTMLInputElement>,
+  // dispatch: React.Dispatch<unknown>
 }
 
-const liStyle = css`
-  background: ${themeColors.warmGray};
-  margin: .5rem 0;
+const muniRowStyle = css`
+  background: ${themeColors.white};
+  margin: 0 0 2rem;
   padding: 1.5rem 2rem;
 `;
 
@@ -41,73 +48,30 @@ function parseDouble(input: number): string {
   return input.toFixed(2);
 }
 
-const MunicipalRow: React.FC<MunicipalRowProps> = ({ node, dispatch }) => {
-  const [highlighted, toggleHightlight] = useState<boolean>(false);
-  const [starred, toggleStarred] = useState<boolean>(false);
+// rendering MunicipalRow, imported into SearchMap
+const MunicipalRow: React.FC<MunicipalDataProps> = ({ selectedMuni }) => {
   return (
-    <li key={node.site_oid} css={liStyle} 
-      onMouseEnter={(e) => {
-        // e.target.style.background = themeColors.white
-        // for (let index = 0; index < e.target.children.length; index++) {
-        //   const element = e.target.children[index];
-        //   element.style.background = themeColors.white;
-        //   if (element.children.length) {
-        //     for (let j = 0; j < element.children.length; j++) {
-        //       const nestedChild = element.children[j];
-        //       nestedChild.style.background = themeColors.white;
-        //     }
-        //   }
-        // }
-        if (!highlighted) {
-          toggleHightlight(!highlighted);
-          dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-        }
-      }}
-      onMouseLeave={(e) => {
-        // e.target.style.background = themeColors.warmGray
-        // for (let index = 0; index < e.target.children.length; index++) {
-        //   const element = e.target.children[index];
-        //   element.style.background = themeColors.warmGray;
-        //   if (element.children.length) {
-        //     for (let j = 0; j < element.children.length; j++) {
-        //       const nestedChild = element.children[j];
-        //       nestedChild.style.background = themeColors.warmGray;
-        //     }
-        //   }  
-        // }
-        if (highlighted && !starred) {
-          toggleHightlight(!highlighted);
-          dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-        }
-      }}
-    > 
-      <button css={buttonStyle} 
-        onClick={() => {
-          if (highlighted && starred) {
-            toggleStarred(false);
-            toggleHightlight(false);
-            dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-          } else if (highlighted && !starred) {
-            toggleStarred(true);
-          } else if (!highlighted && !starred) {
-            toggleStarred(true);
-            toggleHightlight(true);
-            dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-          }
-        }}
-      >
-        <Star size={20} weight="fill" color={highlighted ? '#FDB525' : themeColors.fontGray} />
-      </button>
-      <p css={titleStyle}>{node.municipal} site {node.site_oid}</p>
+    <div css={muniRowStyle}>
+      <p css={titleStyle}>{selectedMuni}</p>
       <ul css={detailListStyle}>
-        <li>Growth Potential Score: {parseDouble(+node.Growth_Potential_Score)}</li>
-        <li>Healthy Communities Score: {parseDouble(+node.Healthy_Communtiies_Score)}</li>
-        <li>Healthy Watersheds Score: {parseDouble(+node.Healthy_Watersheds_Score)}</li>
-        <li>Travel Choices Score: {parseDouble(+node.Travel_Choices_Score)}</li>
-        <li>Overall Score: {parseDouble(+node.Overall_Score)}</li>
-        <li>Number of Parcels on Site: {parseDouble(+node.Number_of_Parcels_on_Site)}</li>
+        <li>Tax Revenue Before: </li>
+        <li>Tax Revenue After: </li>
       </ul>
-    </li>
+    </div>
+
+    // <li css={liStyle}>
+    //   <p>This renders</p>
+    //   <p css={titleStyle}>{node.municipal} site {node.site_oid}</p>
+    //   <ul css={detailListStyle}>
+    //     <li>Growth Potential Score: {parseDouble(+node.Growth_Potential_Score)}</li>
+    //     <li>Healthy Communities Score: {parseDouble(+node.Healthy_Communtiies_Score)}</li>
+    //     <li>Healthy Watersheds Score: {parseDouble(+node.Healthy_Watersheds_Score)}</li>
+    //     <li>Travel Choices Score: {parseDouble(+node.Travel_Choices_Score)}</li>
+    //     <li>Overall Score: {parseDouble(+node.Overall_Score)}</li>
+    //     <li>Number of Parcels on Site: {parseDouble(+node.Number_of_Parcels_on_Site)}</li>
+    //   </ul>
+    // </li>
+
   )
 };
 

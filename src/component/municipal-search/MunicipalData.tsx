@@ -30,7 +30,6 @@ export type CsvData = {
 
 interface MunicipalDataProps {
   data: Array<CsvData>,
-  // dataMuni: Array<CsvDataMunicipalRow>, //added
   selectedMuni: string|undefined,
   containerRef: React.RefObject<HTMLInputElement>,
   dispatch: React.Dispatch<unknown>
@@ -52,7 +51,7 @@ const wrapperStyle = css`
 const ulStyle = css`
   padding-left: 0;
   list-style: none;
-  max-height: 55rem;
+  max-height: 70.5rem;
   overflow-y: scroll;
   padding-right: 1rem;
 `;

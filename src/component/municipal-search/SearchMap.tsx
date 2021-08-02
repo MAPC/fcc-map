@@ -8,7 +8,7 @@ import ReactMapGL, { Source, Layer, NavigationControl, Popup, GeolocateControl }
 import Geocoder from 'react-map-gl-geocoder';
 import municipalities from '../../utils/municipalities';
 import { themeColors } from '../../utils/theme';
-// import MunicipalRow from './MunicipalRow';
+import MunicipalRow from './MunicipalRow';
 
 interface MunicipalMapProps {
   selectedMuni: string|undefined,
@@ -43,7 +43,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
     if (mapRef && mapRef.current) {
       const map = mapRef.current.getMap();
       map?.on('load', () => {
-        // pass in functions here to grab municipal and site rows?
         map?.moveLayer('state-label');
         map?.moveLayer('settlement-minor-label');
         map?.moveLayer('settlement-major-label');
@@ -88,7 +87,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
 
   return (
     <div css={mapStyle}>
-      {/* <MunicipalRow /> */}
+      <MunicipalRow selectedMuni={selectedMuni}/>
       <ReactMapGL
         {...viewport}
         ref={mapRef}
