@@ -14,9 +14,10 @@ const themeColors = {
   sky: '#92c9ed',
   clearWater: '#67cbe4',
   white: '#FFFFFF',
-  fontGray: '#707070',
+  fontGray: '#545454',
   black: '#000000',
   warmGray: '#E9E9E9',
+  warmGrayTransparent: '#f7f7f7f5'
 };
 
 const marginStyle = css`

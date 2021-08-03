@@ -38,6 +38,7 @@ const buttonStyle = css`
 const detailListStyle = css`
   padding-left: 0;
   list-style: none;
+  color: ${themeColors.fontGray}
 `;
 
 function parseDouble(input: number): string {
@@ -52,6 +53,7 @@ const MunicipalRow: React.FC<MunicipalRowProps> = ({ node, selectedMuni, dispatc
       <ul css={detailListStyle}>
         <li>Test data/muni_id: {parseDouble(+node.muni_id)}</li>
         <li>Tax Revenue Before: </li>
+        <li>Tax Revenue After: </li>
       </ul>
     </div>
 

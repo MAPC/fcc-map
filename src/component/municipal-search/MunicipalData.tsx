@@ -4,6 +4,7 @@ import React from 'react';
 import { jsx, css } from '@emotion/react';
 import SiteRow from './SiteRow';
 import MunicipalRow from './MunicipalRow';
+import { themeColors, fonts } from '../../utils/theme';
 
 export type CsvData = {
   site_oid: string,
@@ -25,8 +26,8 @@ interface MunicipalDataProps {
 
 const SearchBarStyle = css`
   .mapboxgl-ctrl-geocoder {
-    max-width: 50rem;
-    width: 50rem;
+    max-width: 45rem;
+    width: 45rem;
     margin: 4vh 2vw 2vh;
     z-index: 5;
   }
@@ -35,14 +36,14 @@ const SearchBarStyle = css`
 const wrapperStyle = css`
   display: flex;
   flex-direction: column;
-  width: 50rem;
+  width: 45rem;
 `;
 
 const ulStyle = css`
   padding-left: 0;
   list-style: none;
   max-height: 86vh;
-  width: 50rem;
+  width: 45rem;
   overflow-y: scroll;
   padding-right: 1rem;
   z-index: 1;

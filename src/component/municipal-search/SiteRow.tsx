@@ -12,10 +12,9 @@ interface SiteRowProps {
 }
 
 let liStyle = css`
-  background: ${themeColors.warmGray};
+  background: ${themeColors.warmGrayTransparent};
   margin: .5rem 0;
   padding: 1.5rem 2rem;
-  border: 2px solid ${themeColors.warmGray};
 `;
 
 const titleStyle = css`
@@ -24,7 +23,6 @@ const titleStyle = css`
   font-size: 2rem;
   font-weight: 600;
   margin: 0 0 1rem 0;
-  border: 2px solid ${themeColors.warmGray};
 `;
 
 const buttonStyle = css`
@@ -32,13 +30,12 @@ const buttonStyle = css`
   border: none;
   float: right;
   cursor: pointer;
-  border: 2px solid ${themeColors.warmGray};
 `;
 
 const detailListStyle = css`
   padding-left: 0;
   list-style: none;
-  border: 2px solid ${themeColors.warmGray};
+  // border: 2px solid ${themeColors.fontGray};
 `;
 
 function parseDouble(input: number): string {
@@ -139,7 +136,7 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
         <li>Healthy Watersheds Score: {parseDouble(+node.Healthy_Watersheds_Score)}</li>
         <li>Travel Choices Score: {parseDouble(+node.Travel_Choices_Score)}</li>
         <li>Overall Score: {parseDouble(+node.Overall_Score)}</li>
-        <li>Test data: {parseDouble(+node.muni_id)}</li>
+        <li>Test data/muni_id: {parseDouble(+node.muni_id)}</li>
       </ul>
     </li>
   )
