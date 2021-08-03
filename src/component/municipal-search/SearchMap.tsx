@@ -8,19 +8,7 @@ import ReactMapGL, { Source, Layer, NavigationControl, Popup, GeolocateControl }
 import Geocoder from 'react-map-gl-geocoder';
 import municipalities from '../../utils/municipalities';
 import { themeColors } from '../../utils/theme';
-import MunicipalRow from './MunicipalRow'; //added
 import { CsvData } from './MunicipalData'; //added
-
-// export type CsvData = {
-//   // site_oid: string,
-//   // municipal: string,
-//   // Growth_Potential_Score: string,
-//   // Healthy_Communtiies_Score: string,
-//   // Healthy_Watersheds_Score: string,
-//   // Travel_Choices_Score: string,
-//   // Overall_Score: string,
-//   muni_id: string //added
-// }
 
 interface MunicipalMapProps {
   data: Array<CsvData>, //added
@@ -106,16 +94,11 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
 
   return (
     <div css={mapStyle}>
-      <MunicipalRow selectedMuni={selectedMuni} node={data} />
       <ReactMapGL
         {...viewport}
         ref={mapRef}
         width="100vw"
         height="100vh"
-        position="absolute"
-        top="0"
-        left="0"
-        z-index="3"
         onViewportChange={handleViewportChange}
         mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
         mapStyle="mapbox://styles/ihill/cknj7cvb513e317rxm4a8i9ah"

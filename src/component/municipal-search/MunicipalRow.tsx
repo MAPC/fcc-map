@@ -8,6 +8,7 @@ import { CsvData } from './MunicipalData';
 interface MunicipalRowProps {
   selectedMuni: string|undefined,
   node: CsvData
+  dispatch: React.Dispatch<unknown>
 }
 
 const muniRowStyle = css`
@@ -44,7 +45,7 @@ function parseDouble(input: number): string {
 }
 
 // rendering MunicipalRow, imported into SearchMap
-const MunicipalRow: React.FC<MunicipalRowProps> = ({ node, selectedMuni }) => {
+const MunicipalRow: React.FC<MunicipalRowProps> = ({ node, selectedMuni, dispatch }) => {
   return (
     <div css={muniRowStyle}>
       <p css={titleStyle}>{selectedMuni}</p>

@@ -4,7 +4,6 @@ import React from 'react';
 import { jsx, css } from '@emotion/react';
 import SiteRow from './SiteRow';
 import MunicipalRow from './MunicipalRow';
-// import MunicipalRow from './MunicipalRow';
 
 export type CsvData = {
   site_oid: string,
@@ -62,9 +61,23 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
   return undefined;
 }
 
+// similar to filterData, grabs corresponding MunicipalRow on municipality selection 
+function showMunicipalRow(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>): Array<JSX.Element>|undefined {
+  if (selectedMuni) {
+    return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
+      if (node.municipal === selectedMuni) {
+        list.push(<MunicipalRow node={node} selectedMuni={selectedMuni} dispatch={dispatch} />);
+      }
+      return list;
+    }, []);
+  }
+  return undefined;
+}
+
 const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, containerRef, dispatch }) => (
   <div css={wrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
+    {selectedMuni ? showMunicipalRow(data, selectedMuni, dispatch) : ''} {/* renders the MunicipalRow on municipality selection */}
     <ul css={ulStyle}>
       {selectedMuni ? filterData(data, selectedMuni, dispatch) : ''}
     </ul>
@@ -73,3 +86,4 @@ const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, conta
 
 export default MunicipalData;
 export { filterData };
+export { showMunicipalRow };
