@@ -38,8 +38,9 @@ const navigationStyle = css`
 `;
 
 const mapStyle = css`
-  flex-shrink: 0;
-  padding-left: 5rem;
+  // flex-shrink: 0;
+  position: absolute;
+  top: 0;
 `;
 
 function handleClick(e: Array<mapboxgl.EventData>): string {
@@ -105,8 +106,12 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
       <ReactMapGL
         {...viewport}
         ref={mapRef}
-        width="520px"
-        height="600px"
+        width="100vw"
+        height="100vh"
+        position="absolute"
+        top="0"
+        left="0"
+        z-index="3"
         onViewportChange={handleViewportChange}
         mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
         mapStyle="mapbox://styles/ihill/cknj7cvb513e317rxm4a8i9ah"

@@ -27,6 +27,7 @@ const SearchBarStyle = css`
   .mapboxgl-ctrl-geocoder {
     max-width: 50rem;
     width: 50rem;
+    margin: 4vh 2vw 2vh;
   }
 `;
 
@@ -39,9 +40,12 @@ const wrapperStyle = css`
 const ulStyle = css`
   padding-left: 0;
   list-style: none;
-  max-height: 70.5rem;
+  max-height: 86vh;
+  width: 50rem;
   overflow-y: scroll;
   padding-right: 1rem;
+  z-index: 1;
+  margin: 0 2vw 4vh;
 `;
 
 function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>): Array<JSX.Element>|undefined {

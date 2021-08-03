@@ -8,13 +8,13 @@ import MunicipalData from './MunicipalData';
 import SearchMap from './SearchMap';
 
 const wrapperStyle = css`
-  width: 90vw;
-  height: 93vh;
+  width: 100vw;
+  height: 100vh;
   background: ${themeColors.gossamer};
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 3.5vh 5vw;
+  // display: flex;
+  // flex-direction: row;
+  // justify-content: space-between;
+  // padding: 3.5vh 5vw;
 `;
 
 type MunicipalSearch = {

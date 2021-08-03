@@ -12,8 +12,11 @@ interface MunicipalRowProps {
 
 const muniRowStyle = css`
   background: ${themeColors.white};
-  margin: 0 0 2rem;
+  margin: 4vh 2vw;
   padding: 1.5rem 2rem;
+  position: absolute;
+  z-index: 1;
+  right: 0;
 `;
 
 const titleStyle = css`
