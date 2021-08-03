@@ -3,6 +3,7 @@
 import React from 'react';
 import { jsx, css } from '@emotion/react';
 import SiteRow from './SiteRow';
+import MunicipalRow from './MunicipalRow';
 // import MunicipalRow from './MunicipalRow';
 
 export type CsvData = {
@@ -28,6 +29,7 @@ const SearchBarStyle = css`
     max-width: 50rem;
     width: 50rem;
     margin: 4vh 2vw 2vh;
+    z-index: 5;
   }
 `;
 

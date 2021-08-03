@@ -9,18 +9,18 @@ import Geocoder from 'react-map-gl-geocoder';
 import municipalities from '../../utils/municipalities';
 import { themeColors } from '../../utils/theme';
 import MunicipalRow from './MunicipalRow'; //added
-// import { CsvData } from './MunicipalData'; //added
+import { CsvData } from './MunicipalData'; //added
 
-export type CsvData = {
-  // site_oid: string,
-  // municipal: string,
-  // Growth_Potential_Score: string,
-  // Healthy_Communtiies_Score: string,
-  // Healthy_Watersheds_Score: string,
-  // Travel_Choices_Score: string,
-  // Overall_Score: string,
-  muni_id: string //added
-}
+// export type CsvData = {
+//   // site_oid: string,
+//   // municipal: string,
+//   // Growth_Potential_Score: string,
+//   // Healthy_Communtiies_Score: string,
+//   // Healthy_Watersheds_Score: string,
+//   // Travel_Choices_Score: string,
+//   // Overall_Score: string,
+//   muni_id: string //added
+// }
 
 interface MunicipalMapProps {
   data: Array<CsvData>, //added
@@ -41,6 +41,10 @@ const mapStyle = css`
   // flex-shrink: 0;
   position: absolute;
   top: 0;
+`;
+
+const inputStyle = css`
+  z-index: 2;
 `;
 
 function handleClick(e: Array<mapboxgl.EventData>): string {
@@ -126,6 +130,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
         //     })
         // }}
 
+        onLoad={() => {
+
+        }}
+
         onClick={(e) => {
           if (e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol')) {
             setViewport({
@@ -151,6 +159,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
         }}
       >
         <Geocoder
+          css={inputStyle}
           containerRef={containerRef}
           mapRef={mapRef}
           onViewportChange={handleGeocoderViewportChange}
@@ -182,6 +191,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
             anchor="top"
           >
             <p>{site?.municipal} site {site?.site_oid}</p>
+            <p>Muni ID: {site?.muni_id}</p> {/* passed in new data here to popup*/}
           </Popup>
         )}
         <Source id="Municipalities" type="vector" url="mapbox://ihill.763lks2o">
