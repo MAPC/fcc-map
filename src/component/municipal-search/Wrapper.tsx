@@ -44,31 +44,32 @@ const Wrapper: React.FC = () => {
   return (
     <StaticQuery
       query={graphql`
-        query TabularSiteData {
-          allSitesQuintilesCsv(filter: {top_quintile: {eq: "TRUE"}}) {
+        {
+          allJoinedPyCsv(filter: {top_quintile: {eq: "TRUE"}}) {
             nodes {
-              site_oid
               municipal
+              site_oid
               Growth_Potential_Score
               Healthy_Communtiies_Score
               Healthy_Watersheds_Score
               Travel_Choices_Score
               Overall_Score
-              muni_id
+              Tax_Revenue_Differential
             }
           }
         }
       `}
+      
       render={(data) => (
         <div css={wrapperStyle}>
           <MunicipalData
-            data={data.allSitesQuintilesCsv.nodes}
+            data={data.allJoinedPyCsv.nodes}
             selectedMuni={selectedMuni}
             containerRef={containerRef}
             dispatch={dispatch}
           />
           <SearchMap
-            data={data.allSitesQuintilesCsv.nodes} //passing down data from csv
+            data={data.allJoinedPyCsv.nodes} //passing down data from csv
             selectedMuni={selectedMuni}
             setMuni={setMuni}
             containerRef={containerRef}

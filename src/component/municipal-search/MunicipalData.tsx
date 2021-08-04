@@ -14,7 +14,7 @@ export type CsvData = {
   Healthy_Watersheds_Score: string,
   Travel_Choices_Score: string,
   Overall_Score: string,
-  muni_id: string //added
+  Tax_Revenue_Differential: string //added for MunicipalRow
 }
 
 interface MunicipalDataProps {
@@ -50,6 +50,33 @@ const ulStyle = css`
   margin: 0 2vw 4vh;
 `;
 
+//  iterating through sites' tax differentials and returning the sum
+// let taxDifferentials: Array<number> = [];
+
+// function getTax(data: Array<CsvData>, selectedMuni: string|undefined, taxDifferentials: Array<number>): Array<number>|undefined {
+//   if (selectedMuni) {
+//     data.reduce((taxDifferentials: Array<number>, node: CsvData) => {
+//       if (node.municipal === selectedMuni) {
+//         taxDifferentials.push(parseInt(node.Tax_Revenue_Differential));
+//       }
+//       // console.log(list2);
+//       // for (let index = 0; index < list2.length; index++) {
+//       //   let sum = 0;
+//       //   sum = sum + parseFloat(list2[index]);
+//       // }
+//       // console.log(taxDifferentials);
+
+//       return taxDifferentials;
+//     }, []);
+//     return taxDifferentials;
+//   }
+//   return undefined;
+// }
+
+// console.log('returned tax differentials' + taxDifferentials)
+
+
+
 function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
@@ -81,10 +108,11 @@ const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, conta
     {selectedMuni ? showMunicipalRow(data, selectedMuni, dispatch) : ''} {/* renders the MunicipalRow on municipality selection */}
     <ul css={ulStyle}>
       {selectedMuni ? filterData(data, selectedMuni, dispatch) : ''}
+      {/* {selectedMuni ? getTax(data, selectedMuni, taxDifferentials) : ''} */}
     </ul>
   </div>
 );
 
 export default MunicipalData;
 export { filterData };
-export { showMunicipalRow };
+// export { showMunicipalRow };

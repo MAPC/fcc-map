@@ -35,7 +35,11 @@ const buttonStyle = css`
 const detailListStyle = css`
   padding-left: 0;
   list-style: none;
-  // border: 2px solid ${themeColors.fontGray};
+`;
+
+const rightAlign = css`
+  color: ${themeColors.fontLightGray};
+  float: right;
 `;
 
 function parseDouble(input: number): string {
@@ -131,12 +135,13 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
       </button>
       <p css={titleStyle}>{node.municipal} site {node.site_oid}</p>
       <ul css={detailListStyle}>
-        <li>Growth Potential Score: {parseDouble(+node.Growth_Potential_Score)}</li>
-        <li>Healthy Communities Score: {parseDouble(+node.Healthy_Communtiies_Score)}</li>
-        <li>Healthy Watersheds Score: {parseDouble(+node.Healthy_Watersheds_Score)}</li>
-        <li>Travel Choices Score: {parseDouble(+node.Travel_Choices_Score)}</li>
-        <li>Overall Score: {parseDouble(+node.Overall_Score)}</li>
-        <li>Test data/muni_id: {parseDouble(+node.muni_id)}</li>
+        <li>Growth Potential Score: {parseDouble(+node.Growth_Potential_Score)} <span css={rightAlign}>20%</span></li>
+        <li>Healthy Communities Score: {parseDouble(+node.Healthy_Communtiies_Score)}<span css={rightAlign}>20%</span></li>
+        <li>Healthy Watersheds Score: {parseDouble(+node.Healthy_Watersheds_Score)}<span css={rightAlign}>20%</span></li>
+        <li>Travel Choices Score: {parseDouble(+node.Travel_Choices_Score)}<span css={rightAlign}>40%</span></li>
+        <li>Overall Score: {parseDouble(+node.Overall_Score)}<span css={rightAlign}>100%</span></li>
+        {/* <li>{parseDouble(+node.Tax_Revenue_before_retrofit)}</li> */}
+        {/* <li>Test data/muni_id: {parseDouble(+node.muni_id)}</li> */}
       </ul>
     </li>
   )

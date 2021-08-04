@@ -12,6 +12,7 @@ interface MunicipalRowProps {
 }
 
 const muniRowStyle = css`
+  width: 45rem;
   background: ${themeColors.white};
   margin: 4vh 2vw;
   padding: 1.5rem 2rem;
@@ -41,8 +42,24 @@ const detailListStyle = css`
   color: ${themeColors.fontGray}
 `;
 
+// function sumInput
+// function sumInput(data: Array<CsvData>, selectedMuni: string|undefined): string {
+//   if (selectedMuni) {
+//     return data.forEach((sum: number, node: CsvData) => {
+//       if (node.municipal === selectedMuni) {
+//         num += node.Tax_Revenue_Differential;
+//       }
+//       return num;
+//     }, '');
+//   }
+// }
+
 function parseDouble(input: number): string {
   return input.toFixed(2);
+}
+
+function parseCommas(string: any) {
+  return string.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 // rendering MunicipalRow, imported into SearchMap
@@ -51,9 +68,7 @@ const MunicipalRow: React.FC<MunicipalRowProps> = ({ node, selectedMuni, dispatc
     <div css={muniRowStyle}>
       <p css={titleStyle}>{selectedMuni}</p>
       <ul css={detailListStyle}>
-        <li>Test data/muni_id: {parseDouble(+node.muni_id)}</li>
-        <li>Tax Revenue Before: </li>
-        <li>Tax Revenue After: </li>
+        <li>Tax Revenue Differential: ${parseCommas(parseDouble(+node.Tax_Revenue_Differential))}</li>
       </ul>
     </div>
 

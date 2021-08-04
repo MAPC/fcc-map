@@ -79,19 +79,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
     });
   }, []);
 
-  // grabs user's current lat long coordinates and adjusts viewport
-  // useEffect(() => {
-  //   navigator.geolocation.getCurrentPosition((pos) => {
-  //     setViewport({
-  //       ...viewport,
-  //       latitude: pos.coords.latitude,
-  //       longitude: pos.coords.longitude,
-  //       zoom: 10,
-  //       transitionDuration: 1000
-  //     });
-  //   });
-  // }, [viewport]);
-
   return (
     <div css={mapStyle}>
       <ReactMapGL
@@ -105,34 +92,32 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
         scrollZoom={true}
 
         // loading map, attempting to set viewport to municipality
-        // onLoad={(e) => {
-        //   console.log('loaded');
-        //     setViewport({
-        //       ...viewport,
-        //       longitude: -71.4328, latitude: 42.4851, zoom: 12, transitionDuration: 1000
-        //     })
-        // }}
-
         onLoad={() => {
-
+          console.log('loaded');
+            setMuni('Acton');
+            setViewport({
+              ...viewport,
+              longitude: -71.4328, latitude: 42.4851, zoom: 10, transitionDuration: 1000
+            })
         }}
 
         onClick={(e) => {
           if (e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol')) {
+            setMuni(handleClick(e.features));
             setViewport({
               ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 16, transitionDuration: 1000
+              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 15, transitionDuration: 1000
             })
           } else {
             setMuni(handleClick(e.features));
             setViewport({
               ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 12, transitionDuration: 1000
+              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 11, transitionDuration: 1000
             })
           }
         }}
-        onHover={(e) => {
-          if (e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol')) {
+        onHover={(e) => {          
+          if (e.features && e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol')) {
             setLngLat(e.lngLat);
             togglePopup(true);
             setSite(e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol').properties);
@@ -158,7 +143,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
           onResult={useCallback((e) => {
             if (e.result.text === 'Manchester-by-the-Sea') {
               setMuni('Manchester')
-            } else {
+            } else {              
               setMuni(e.result.text)
             }
           }, [])}
@@ -174,7 +159,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
             anchor="top"
           >
             <p>{site?.municipal} site {site?.site_oid}</p>
-            <p>Muni ID: {site?.muni_id}</p> {/* passed in new data here to popup*/}
           </Popup>
         )}
         <Source id="Municipalities" type="vector" url="mapbox://ihill.763lks2o">
