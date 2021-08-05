@@ -140,8 +140,6 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
         <li>Healthy Watersheds Score: {parseDouble(+node.Healthy_Watersheds_Score)}<span css={rightAlign}>20%</span></li>
         <li>Travel Choices Score: {parseDouble(+node.Travel_Choices_Score)}<span css={rightAlign}>40%</span></li>
         <li>Overall Score: {parseDouble(+node.Overall_Score)}<span css={rightAlign}>100%</span></li>
-        {/* <li>{parseDouble(+node.Tax_Revenue_before_retrofit)}</li> */}
-        {/* <li>Test data/muni_id: {parseDouble(+node.muni_id)}</li> */}
       </ul>
     </li>
   )

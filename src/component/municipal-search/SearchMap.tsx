@@ -178,6 +178,61 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
             }}
           />
         </Source>
+
+        {/* source layer for sites polygons 
+        <Source id="Sites" type="vector" url="mapbox://ihill.2yxozn9p">
+          <Layer
+            type="circle"
+            id="Sites (circles)"
+            source="Sites"
+            source-layer="retrofit_site_geo-cvc0x0"
+            paint={{
+              'circle-color': [
+                'match',
+                ['get', 'municipal'],
+                [selectedMuni || ''],
+                [
+                'step',
+                ['get', 'Overall_Sc'],
+                '#FFFDA7',
+                2,
+                '#99f26d',
+                2.5,
+                '#78cd98',
+                3,
+                '#649abd',
+                3.5,
+                '#5456a0',
+                ],
+                'gray'
+              ],
+              'circle-radius': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                8,
+                3,
+                12,
+                7,
+              ],
+              'circle-opacity': [
+                'match', ['get', 'top20_p'],
+                1,
+                1, 0,
+              ],
+              'circle-stroke-color': highlightedSites.length > 0 ? [
+                'match',
+                ['get', 'site_oid'],
+                highlightedSites,
+                '#FDB525',
+                'rgba(0, 0, 0, 0)'
+              ]
+              : 'rgba(0, 0, 0, 0)',
+              'circle-stroke-width': 3
+            }}
+          />
+        </Source> */}
+
         <Source id="Sites" type="vector" url="mapbox://ihill.0a4w5d52">
           <Layer
             type="circle"

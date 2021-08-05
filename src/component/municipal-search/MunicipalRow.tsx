@@ -6,9 +6,11 @@ import { themeColors, fonts } from '../../utils/theme';
 import { CsvData } from './MunicipalData';
 
 interface MunicipalRowProps {
+  data: Array<CsvData>,
   selectedMuni: string|undefined,
-  node: CsvData
-  dispatch: React.Dispatch<unknown>
+  node: CsvData,
+  dispatch: React.Dispatch<unknown>,
+  sum: number
 }
 
 const muniRowStyle = css`
@@ -42,36 +44,25 @@ const detailListStyle = css`
   color: ${themeColors.fontGray}
 `;
 
-// function sumInput
-// function sumInput(data: Array<CsvData>, selectedMuni: string|undefined): string {
-//   if (selectedMuni) {
-//     return data.forEach((sum: number, node: CsvData) => {
-//       if (node.municipal === selectedMuni) {
-//         num += node.Tax_Revenue_Differential;
-//       }
-//       return num;
-//     }, '');
-//   }
-// }
-
+// two decimal places
 function parseDouble(input: number): string {
   return input.toFixed(2);
 }
 
+// commas
 function parseCommas(string: any) {
   return string.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 // rendering MunicipalRow, imported into SearchMap
-const MunicipalRow: React.FC<MunicipalRowProps> = ({ node, selectedMuni, dispatch }) => {
+const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, node, selectedMuni, dispatch, sum }) => {
   return (
     <div css={muniRowStyle}>
       <p css={titleStyle}>{selectedMuni}</p>
       <ul css={detailListStyle}>
-        <li>Tax Revenue Differential: ${parseCommas(parseDouble(+node.Tax_Revenue_Differential))}</li>
+        <li>Tax Revenue Differential: ${parseCommas(parseDouble(sum))}</li>
       </ul>
     </div>
-
   )
 };
 
