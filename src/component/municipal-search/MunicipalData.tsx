@@ -22,7 +22,6 @@ interface MunicipalDataProps {
   selectedMuni: string|undefined,
   containerRef: React.RefObject<HTMLInputElement>,
   dispatch: React.Dispatch<unknown>
-  // sum: number
 }
 
 const SearchBarStyle = css`
@@ -64,11 +63,11 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
 }
 
 // similar to filterData, grabs corresponding MunicipalRow on municipality selection 
-function showMunicipalRow(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, sum: number): Array<JSX.Element>|undefined {
+function showMunicipalRow(data: Array<CsvData>, selectedMuni: string|undefined): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
       if (node.municipal === selectedMuni) {
-        list.push(<MunicipalRow data={data} node={node} selectedMuni={selectedMuni} dispatch={dispatch} sum={sum}/>);
+        list.push(<MunicipalRow data={data} selectedMuni={selectedMuni} />);
       }
       return list;
     }, []);
@@ -76,30 +75,33 @@ function showMunicipalRow(data: Array<CsvData>, selectedMuni: string|undefined, 
   return undefined;
 }
 
-//  iterating through sites' tax differentials and returning the sum
-var taxDifferentials: Array<number> = [];
-var sum: number = 0;
+// //  iterating through sites' tax differentials and returning the sum
+// var taxDifferentials: Array<number> = [];
+// var sum: number = 0;
+// function getTax(data: Array<CsvData>, selectedMuni: string|undefined, taxDifferentials: Array<number>): number {
+//   // if (selectedMuni) 
+//     sum = 0; //reset value of sum for new municipality selection 
+//     data.reduce((taxDifferentials: Array<number>, node: CsvData) => {
+//       if (node.municipal === selectedMuni) {
+//         taxDifferentials.push(parseInt(node.Tax_Revenue_Differential));
+//       }
+//       return taxDifferentials;
+//     }, taxDifferentials);    
+//   // } 
+//   // loop through each site's tax differentials and add
+//   for (let index = 0; index < taxDifferentials.length; index++) {
+//     sum = sum + taxDifferentials[index];
+//   }
+//   console.log('sum: ', sum);
+//   console.log(selectedMuni)
+//   return sum;
+// }
 
-function getTax(data: Array<CsvData>, selectedMuni: string|undefined, taxDifferentials: Array<number>): number {
-  if (selectedMuni) {
-    data.reduce((taxDifferentials: Array<number>, node: CsvData) => {
-      if (node.municipal === selectedMuni) {
-        taxDifferentials.push(parseInt(node.Tax_Revenue_Differential));
-      }
-      return taxDifferentials;
-    }, taxDifferentials);    
-  }
-  for (let index = 0; index < taxDifferentials.length; index++) {
-    sum = sum + taxDifferentials[index];
-  }
-  console.log('sum: ', sum);
-  return sum;
-}
 const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, containerRef, dispatch }) => (
   <div css={wrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
-    {selectedMuni ? getTax(data, selectedMuni, taxDifferentials) : ''} {/* gets tax on municipality selection */}
-    {selectedMuni ? showMunicipalRow(data, selectedMuni, dispatch, sum) : ''} {/* renders the MunicipalRow on municipality selection */}
+    {/* {selectedMuni ? getTax(data, selectedMuni, taxDifferentials) : ''} gets tax on municipality selection */}
+    {selectedMuni ? showMunicipalRow(data, selectedMuni) : ''} {/* renders the MunicipalRow on municipality selection */}
     <ul css={ulStyle}>
       {selectedMuni ? filterData(data, selectedMuni, dispatch) : ''}
     </ul>
