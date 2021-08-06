@@ -161,6 +161,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
             <p>{site?.municipal} site {site?.site_oid}</p>
           </Popup>
         )}
+        {/* any municipality not highlighted is given a transparent overlap */}
         <Source id="Municipalities" type="vector" url="mapbox://ihill.763lks2o">
           <Layer
             type="fill"
@@ -178,6 +179,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
             }}
           />
         </Source>
+        {/* circles denoting sites */}
         <Source id="Sites" type="vector" url="mapbox://ihill.0a4w5d52">
           <Layer
             type="circle"
@@ -202,8 +204,8 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
                 3.5,
                 '#5456a0',
                 ],
-                'gray'
-              ],
+                'gray',
+              ], 
               'circle-radius': [
                 'interpolate',
                 ['linear'],
@@ -217,8 +219,28 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
                 'match', ['get', 'top20_p'],
                 1,
                 1, 0,
+              ]
+            }}
+          />
+        </Source>
+        {/* source layer for highlighted filled circles */}
+        <Source id="Sites" type="vector" url="mapbox://ihill.0a4w5d52">
+          <Layer
+            type="circle"
+            id="Sites (filled)"
+            source="Sites"
+            source-layer="retrofit_site_pts-3ot9ol"
+            paint={{
+              'circle-radius': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                8,
+                3,
+                12,
+                7,
               ],
-              'circle-stroke-color': highlightedSites.length > 0 ? [
+              'circle-color': highlightedSites.length > 0 ? [
                 'match',
                 ['get', 'site_oid'],
                 highlightedSites,
@@ -226,12 +248,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
                 'rgba(0, 0, 0, 0)'
               ]
               : 'rgba(0, 0, 0, 0)',
-              'circle-stroke-width': 3
             }}
           />
         </Source>
-
-        {/* source layer targeting the outlines of sites */}
+        {/* source layer targeting the OUTLINES of sites */}
         <Source id="Sites_polygons" type="vector" url="mapbox://ihill.2yxozn9p">
           <Layer
             type="line"
@@ -252,6 +272,26 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
           />
         </Source>
 
+        {/* source layer targeting the FILL of sites */}
+        {/* <Source id="Sites_polygons" type="vector" url="mapbox://ihill.2yxozn9p">
+          <Layer
+            type="fill"
+            id="Sites (fill)"
+            source="Sites_polygons"
+            source-layer="retrofit_site_geo-cvc0x0"
+            paint={{
+              'fill-color': highlightedSites.length > 0 ? [
+                'match',
+                ['get', 'site_oid'],
+                highlightedSites,
+                '#FDB525',
+                'rgba(0, 0, 0, 0)'
+              ]
+              : 'rgba(0, 0, 0, 0)',
+              'fill-opacity': 0.5
+            }}
+          />
+        </Source> */}
 
         <div css={navigationStyle}>
           <NavigationControl />
