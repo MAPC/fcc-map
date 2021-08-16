@@ -7,7 +7,6 @@ import { jsx, css } from '@emotion/react';
 import ReactMapGL, { Source, Layer, NavigationControl, Popup, GeolocateControl } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
 import municipalities from '../../utils/municipalities';
-import { themeColors } from '../../utils/theme';
 import { CsvData } from './MunicipalData'; //added
 
 interface MunicipalMapProps {
@@ -43,7 +42,7 @@ function handleClick(e: Array<mapboxgl.EventData>): string {
   return '';
 }
 
-const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, containerRef, highlightedSites }) => {
+const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, containerRef, highlightedSites }) => {
   const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
   useEffect(() => {
@@ -161,7 +160,8 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
             <p>{site?.municipal} site {site?.site_oid}</p>
           </Popup>
         )}
-        {/* any municipality not highlighted is given a transparent overlap */}
+
+        {/* any municipality not highlighted is given a transparent overlay */}
         <Source id="Municipalities" type="vector" url="mapbox://ihill.763lks2o">
           <Layer
             type="fill"
@@ -174,12 +174,13 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
                 ['get', 'municipal'],
                 [`${selectedMuni}`],
                 'hsla(0, 0%, 0%, 0)',
-                'hsla(0, 0%, 0%, 0.4)',
+                'hsla(0, 0%, 0%, 0.3)',
               ],
             }}
           />
         </Source>
-        {/* circles denoting sites */}
+
+        {/* circles denoting sites, working */}
         <Source id="Sites" type="vector" url="mapbox://ihill.0a4w5d52">
           <Layer
             type="circle"
@@ -194,15 +195,17 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
                 [
                 'step',
                 ['get', 'Overall_Sc'],
-                '#FFFDA7',
-                2,
-                '#99f26d',
-                2.5,
-                '#78cd98',
-                3,
-                '#649abd',
-                3.5,
-                '#5456a0',
+                'thistle',
+                4.04969622,
+                'midnightblue',
+                4.2376095,
+                'slateblue',
+                4.42552278,
+                'cadetblue',
+                4.61343605,
+                'goldenrod',
+                4.80134933,
+                'firebrick',
                 ],
                 'gray',
               ], 
@@ -223,7 +226,8 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
             }}
           />
         </Source>
-        {/* source layer for highlighted filled circles */}
+
+        {/* source layer for highlighted filled circles, working */}
         <Source id="Sites" type="vector" url="mapbox://ihill.0a4w5d52">
           <Layer
             type="circle"
@@ -251,13 +255,57 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
             }}
           />
         </Source>
-        {/* source layer targeting the OUTLINES of sites */}
-        <Source id="Sites_polygons" type="vector" url="mapbox://ihill.2yxozn9p">
+
+        {/* new source layer using new dataset, targeting site circles */}
+        {/* <Source id="Sites_polygons" type="vector" url="mapbox://ihill.cksarko5x033z28qpjf0m6f0p-7ojnm">
+          <Layer
+            type="circle"
+            id="Sites (circles)"
+            source="Sites"
+            source-layer="Sites_mp_clean_points"
+            paint={{
+              'circle-color': [
+                'match',
+                ['get', 'municipal'],
+                [selectedMuni || ''],
+                ['match',
+                ['get', 'Top_Category'],
+                1, 'pink',
+                2, 'red',
+                3, 'yellow',
+                4, 'green',
+                5, 'blue',
+                'lavender' //other or no match 
+                ],
+                'gray'
+              ],
+              'circle-radius': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                8,
+                3,
+                12,
+                7,
+              ],
+              'circle-opacity': 1
+              // ,
+              // 'circle-opacity': [
+              //   'match', ['get', 'top20_p'],
+              //   1,
+              //   1, 0,
+              // ]
+            }}
+          />
+        </Source> */}
+
+        <Source id="Sites_polygons" type="vector" url="mapbox://ihill.5ofxrajx">
+          {/* layer targeting the OUTLINES of sites, working */}
           <Layer
             type="line"
-            id="Sites (outline)"
+            id="Sites (highlight)"
             source="Sites_polygons"
-            source-layer="retrofit_site_geo-cvc0x0"
+            source-layer="Sites_mp_clean_mapbox_layer-71n0va"
             paint={{
               'line-width': 3,
               'line-color': highlightedSites.length > 0 ? [
@@ -270,28 +318,56 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, setMuni, c
               : 'rgba(0, 0, 0, 0)'
             }}
           />
-        </Source>
-
-        {/* source layer targeting the FILL of sites */}
-        {/* <Source id="Sites_polygons" type="vector" url="mapbox://ihill.2yxozn9p">
-          <Layer
+          {/* source layer targeting the FILL of sites, but not filtering based on Top Category. Error of null */}
+          {/* <Layer
             type="fill"
             id="Sites (fill)"
             source="Sites_polygons"
-            source-layer="retrofit_site_geo-cvc0x0"
+            source-layer="Sites_mp_clean_mapbox_layer-71n0va"
             paint={{
-              'fill-color': highlightedSites.length > 0 ? [
+              'fill-opacity': 0.35,
+              'fill-color': [
                 'match',
-                ['get', 'site_oid'],
-                highlightedSites,
-                '#FDB525',
-                'rgba(0, 0, 0, 0)'
+                ['get', 'municipal'],
+                [selectedMuni || ''],
+                // [
+                //   'step',
+                //   ['get', 'Overall_Score'],
+                //   'pink',
+                //   4.04969622,
+                //   'yellow',
+                //   4.2376095,
+                //   'green',
+                //   4.42552278,
+                //   'blue',
+                //   4.61343605,
+                //   'purple',
+                //   4.80134933,
+                //   'slategray',
+                // ],
+                'lavender',
+                'gray'
               ]
-              : 'rgba(0, 0, 0, 0)',
-              'fill-opacity': 0.5
             }}
           />
-        </Source> */}
+          <Layer
+            type="line"
+            id="Sites (outline)"
+            source="Sites_polygons"
+            source-layer="Sites_mp_clean_mapbox_layer-71n0va"
+            paint={{
+              'line-width': 3,
+              'line-opacity': 0.5,
+              'line-color': [
+                'match',
+                ['get', 'municipal'],
+                [selectedMuni || ''],
+                'lavender',
+                'gray'
+              ]
+            }}
+          /> */}
+        </Source>
 
         <div css={navigationStyle}>
           <NavigationControl />

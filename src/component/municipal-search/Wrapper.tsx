@@ -43,33 +43,58 @@ const Wrapper: React.FC = () => {
   const containerRef = useRef<HTMLInputElement>(null);
   return (
     <StaticQuery
+      // query={graphql`
+      //   {
+      //     allJoinedPyCsv(filter: {top_quintile: {eq: "TRUE"}}) {
+      //       nodes {
+      //         municipal
+      //         site_oid
+      //         Growth_Potential_Score
+      //         Healthy_Communtiies_Score
+      //         Healthy_Watersheds_Score
+      //         Travel_Choices_Score
+      //         Overall_Score
+      //         Tax_Revenue_Differential
+      //       }
+      //     }
+      //   }
+      // `}
+
+      // new Sites_mp_clean query
       query={graphql`
         {
-          allJoinedPyCsv(filter: {top_quintile: {eq: "TRUE"}}) {
+          allSitesMpCleanCsv {
             nodes {
               municipal
               site_oid
+              Quintile_Category
+              Top_Category
               Growth_Potential_Score
               Healthy_Communtiies_Score
               Healthy_Watersheds_Score
               Travel_Choices_Score
               Overall_Score
-              Tax_Revenue_Differential
+              Number_of_Parcels_on_Site
+              Tax_Revenue__after_retrofit_
+              Tax_Revenue__before_retrofit_
+              Site_Tax_Revenue_Change
+              Municipal_Avg_Tax_Increase
+              Municipal_Total_Tax_Increase
             }
           }
         }
       `}
-      
+
       render={(data) => (
         <div css={wrapperStyle}>
           <MunicipalData
-            data={data.allJoinedPyCsv.nodes}
+            data={data.allSitesMpCleanCsv.nodes}
             selectedMuni={selectedMuni}
             containerRef={containerRef}
             dispatch={dispatch}
           />
           <SearchMap
-            data={data.allJoinedPyCsv.nodes} //passing down data from csv
+            data={data.allSitesMpCleanCsv.nodes} //passing down data from csv
             selectedMuni={selectedMuni}
             setMuni={setMuni}
             containerRef={containerRef}

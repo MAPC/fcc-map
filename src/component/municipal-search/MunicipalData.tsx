@@ -7,14 +7,21 @@ import MunicipalRow from './MunicipalRow';
 import { themeColors, fonts } from '../../utils/theme';
 
 export type CsvData = {
-  site_oid: string,
+  Quintile_Category: string,
+  Top_Category: string,
   municipal: string,
+  site_oid: string,
   Growth_Potential_Score: string,
   Healthy_Communtiies_Score: string,
   Healthy_Watersheds_Score: string,
   Travel_Choices_Score: string,
   Overall_Score: string,
-  Tax_Revenue_Differential: string //added for MunicipalRow
+  Number_of_Parcels_on_Site: string,
+  Site_Tax_Revenue_Change: string,
+  Tax_Revenue__after_retrofit_: string,
+  Tax_Revenue__before_retrofit_: string,
+  Municipal_Avg_Tax_Increase: string,
+  Municipal_Total_Tax_Increase: string
 }
 
 interface MunicipalDataProps {
@@ -53,7 +60,7 @@ const ulStyle = css`
 function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
-      if (node.municipal === selectedMuni) {
+      if (node.municipal === selectedMuni && node.Quintile_Category === '5') {
         list.push(<SiteRow node={node} key={node.site_oid} dispatch={dispatch} />);
       }
       return list;
@@ -66,8 +73,8 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
 function showMunicipalRow(data: Array<CsvData>, selectedMuni: string|undefined): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
-      if (node.municipal === selectedMuni) {
-        list.push(<MunicipalRow data={data} selectedMuni={selectedMuni} />);
+      if (node.municipal === selectedMuni && node.Quintile_Category === '5') {
+        list.push(<MunicipalRow data={data} node={node} selectedMuni={selectedMuni} />);
       }
       return list;
     }, []);
@@ -75,32 +82,9 @@ function showMunicipalRow(data: Array<CsvData>, selectedMuni: string|undefined):
   return undefined;
 }
 
-// //  iterating through sites' tax differentials and returning the sum
-// var taxDifferentials: Array<number> = [];
-// var sum: number = 0;
-// function getTax(data: Array<CsvData>, selectedMuni: string|undefined, taxDifferentials: Array<number>): number {
-//   // if (selectedMuni) 
-//     sum = 0; //reset value of sum for new municipality selection 
-//     data.reduce((taxDifferentials: Array<number>, node: CsvData) => {
-//       if (node.municipal === selectedMuni) {
-//         taxDifferentials.push(parseInt(node.Tax_Revenue_Differential));
-//       }
-//       return taxDifferentials;
-//     }, taxDifferentials);    
-//   // } 
-//   // loop through each site's tax differentials and add
-//   for (let index = 0; index < taxDifferentials.length; index++) {
-//     sum = sum + taxDifferentials[index];
-//   }
-//   console.log('sum: ', sum);
-//   console.log(selectedMuni)
-//   return sum;
-// }
-
 const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, containerRef, dispatch }) => (
   <div css={wrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
-    {/* {selectedMuni ? getTax(data, selectedMuni, taxDifferentials) : ''} gets tax on municipality selection */}
     {selectedMuni ? showMunicipalRow(data, selectedMuni) : ''} {/* renders the MunicipalRow on municipality selection */}
     <ul css={ulStyle}>
       {selectedMuni ? filterData(data, selectedMuni, dispatch) : ''}
@@ -110,4 +94,3 @@ const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, conta
 
 export default MunicipalData;
 export { filterData };
-// export { showMunicipalRow };

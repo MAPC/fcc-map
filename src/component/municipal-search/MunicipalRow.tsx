@@ -7,7 +7,8 @@ import { CsvData } from './MunicipalData';
 
 interface MunicipalRowProps {
   data: Array<CsvData>,
-  selectedMuni: string|undefined,
+  node: CsvData,
+  selectedMuni: string|undefined
 }
 
 const muniRowStyle = css`
@@ -41,27 +42,24 @@ const detailListStyle = css`
   color: ${themeColors.fontGray}
 `;
 
-//  iterating through sites' tax differentials and returning the sum
-let taxDifferentials: Array<number> = [];
-let sum: number = 0;
-function getTax(data: Array<CsvData>, selectedMuni: string|undefined, taxDifferentials: Array<number>): number {
-    data.reduce((taxDifferentials: Array<number>, node: CsvData) => {
-      if (node.municipal === selectedMuni) {
-        taxDifferentials.push(parseInt(node.Tax_Revenue_Differential));
-      }
-      return taxDifferentials;
-    }, taxDifferentials);  
-
-    if (taxDifferentials.length > 0) {
-      sum = 0;
-      // console.log('if taxdifferentials.length > 0: ', taxDifferentials.length);
-      for (let index = 0; index < taxDifferentials.length; index++) {
-        sum = sum + taxDifferentials[index];
-      }
+// iterating through sites' tax differentials and returning the number of sites and sum
+function getTax(data: Array<CsvData>, selectedMuni: string|undefined): Array<number> {
+  let taxDifferentials: Array<number> = [];
+  let sum: number = 0;
+  data.reduce((taxDifferentials: Array<number>, node: CsvData) => {
+    if (node.municipal === selectedMuni && node.Quintile_Category === '5') {
+      taxDifferentials.push(parseFloat(node.Site_Tax_Revenue_Change));
     }
-  return sum;
+    return taxDifferentials;
+  }, taxDifferentials);  
+  if (taxDifferentials.length > 0) {
+    sum = 0;
+    taxDifferentials.forEach(function(e) {
+      sum = sum + e;
+    });
+  }
+  return [taxDifferentials.length, sum];
 }
-
 
 // two decimal places
 function parseDouble(input: number): string {
@@ -74,13 +72,16 @@ function parseCommas(string: any) {
 }
 
 // rendering MunicipalRow, imported into SearchMap
-const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, selectedMuni }) => {
+const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, node, selectedMuni }) => {
+  const quantitySites : number = getTax(data, selectedMuni)[0];
+  const differential : number = getTax(data, selectedMuni)[1]; 
   return (
     <div css={muniRowStyle}>
       <p css={titleStyle}>{selectedMuni}</p>
       <ul css={detailListStyle}>
-        {/* {getTax(data, selectedMuni, taxDifferentials)} gets tax on municipality selection */}
-        <li>Tax Revenue Differential: ${parseCommas(parseDouble(getTax(data, selectedMuni, taxDifferentials)))}</li>
+        <li>Tax Revenue Differential: ${parseCommas(parseDouble(differential))}</li>
+        <li>Average Tax Revenue Differential Per Site: ${parseCommas(parseDouble(parseFloat(node.Municipal_Avg_Tax_Increase)))}</li>
+        <li>Quantity of Sites: {quantitySites}</li>
       </ul>
     </div>
   )

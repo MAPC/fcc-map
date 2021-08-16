@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { jsx, css } from '@emotion/react';
 import { themeColors, fonts } from '../../utils/theme';
 import { CsvData } from './MunicipalData';
-import { Star } from 'phosphor-react';
+import { PushPinSimple } from 'phosphor-react';
 
 interface SiteRowProps {
   node: CsvData,
@@ -37,9 +37,9 @@ const detailListStyle = css`
   list-style: none;
 `;
 
-const rightAlign = css`
-  color: ${themeColors.fontLightGray};
-  float: right;
+const bold = css`
+  font-weight: 600;
+  padding-right: 3px;
 `;
 
 function parseDouble(input: number): string {
@@ -52,24 +52,6 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
   return (
     <li key={node.site_oid} css={liStyle}
       onMouseEnter={(e) => {
-        // for (let index = 0; index < e.target.children.length; index++) {
-        //   const element = e.target.children[index];
-        //   element.style.border = `${themeColors.warmGray}`;
-        //   if (element.children.background) {
-        //     for (let j = 0; j < element.children.length; j++) {
-        //       const nestedChild = element.children[j];
-        //       nestedChild.style.background = `${themeColors.warmGray}`;
-        //     }
-        //   }
-        // }
-
-        // if (e.target.css={liStyle}) {
-        //   e.target.style.background = 'white';
-        //   console.log(e.target);
-        // } else {
-        //   e.target.style.background = `${themeColors.warmGray}`;
-        // }
-
         if (!highlighted) {
           toggleHightlight(!highlighted);
           dispatch({ type: 'addSite', toggledSite: +node.site_oid });
@@ -77,39 +59,6 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
       }}
 
       onMouseLeave={(e) => {
-        // for (let index = 0; index < e.target.children.length; index++) {
-        //   const element = e.target.children[index];
-        //   element.style.background = `${themeColors.warmGray}`;
-        //   if (element.children.length) {
-        //     for (let j = 0; j < element.children.length; j++) {
-        //       const nestedChild = element.children[j];
-        //       nestedChild.style.background = `${themeColors.warmGray}`;
-        //     }
-        //   }
-        // }
-
-        // if (e.target.css={liStyle}) {
-        //   e.target.style.background = 'white';
-        //   console.log(e.target);
-        // } 
-        
-        // if (e.target.css={liStyle}) {
-        //   e.target.style.border = 'white 2px solid';
-        // } else if (e.target.css!={liStyle}) {
-        //   e.target.style.border = 'none';
-        // } 
-        
-        // for (let index = 0; index < e.target.children.length; index++) {
-        //   const element = e.target.children[index];
-        //   element.style.border = 'none';
-        //   if (element.children.length) {
-        //     for (let j = 0; j < element.children.length; j++) {
-        //       const nestedChild = element.children[j];
-        //       nestedChild.style.border = 'none';
-        //     }
-        //   }  
-        // }
-
         if (highlighted && !starred) {
           toggleHightlight(!highlighted);
           dispatch({ type: 'addSite', toggledSite: +node.site_oid });
@@ -117,6 +66,12 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
       }}
     > 
       <button css={buttonStyle} 
+        onLoad={() => {
+          if (highlighted) {
+            toggleStarred(true);
+            dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+          }
+        }}
         onClick={() => {
           if (highlighted && starred) {
             toggleStarred(false);
@@ -131,15 +86,15 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
           }
         }}
       >
-        <Star size={20} weight="fill" color={highlighted ? '#FDB525' : themeColors.fontGray} />
+        <PushPinSimple size={20} weight="fill" color={highlighted ? '#FDB525' : themeColors.fontGray} />
       </button>
       <p css={titleStyle}>{node.municipal} site {node.site_oid}</p>
       <ul css={detailListStyle}>
-        <li>Growth Potential Score: {parseDouble(+node.Growth_Potential_Score)} <span css={rightAlign}>20%</span></li>
-        <li>Healthy Communities Score: {parseDouble(+node.Healthy_Communtiies_Score)}<span css={rightAlign}>20%</span></li>
-        <li>Healthy Watersheds Score: {parseDouble(+node.Healthy_Watersheds_Score)}<span css={rightAlign}>20%</span></li>
-        <li>Travel Choices Score: {parseDouble(+node.Travel_Choices_Score)}<span css={rightAlign}>40%</span></li>
-        <li>Overall Score: {parseDouble(+node.Overall_Score)}<span css={rightAlign}>100%</span></li>
+        <li><span css={bold}>{parseDouble(+node.Growth_Potential_Score)}</span>/1 Growth Potential Score</li>
+        <li><span css={bold}>{parseDouble(+node.Healthy_Communtiies_Score)}</span>/1 Healthy Communities Score</li>
+        <li><span css={bold}>{parseDouble(+node.Healthy_Watersheds_Score)}</span>/1 Healthy Watersheds Score</li>
+        <li><span css={bold}>{parseDouble(+node.Travel_Choices_Score)}</span>/2 Travel Choices Score</li>
+        <li><span css={bold}>{parseDouble(+node.Overall_Score)}</span>/5 Overall Score</li>
       </ul>
     </li>
   )
