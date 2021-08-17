@@ -89,17 +89,19 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
         mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
         mapStyle="mapbox://styles/ihill/cknj7cvb513e317rxm4a8i9ah"
         scrollZoom={true}
-
-        // loading map, attempting to set viewport to municipality
         onLoad={() => {
           console.log('loaded');
-            setMuni('Acton');
+          let randomMuni = () => {
+              let index = Math.floor(Math.random() * municipalities.length);
+              console.log('randomMuni: ', municipalities[index]);
+              return municipalities[index];
+            };            
+            setMuni(randomMuni);
             setViewport({
               ...viewport,
-              longitude: -71.4328, latitude: 42.4851, zoom: 10, transitionDuration: 1000
+              longitude: -71.211580, latitude: 42.338030, zoom: 9, transitionDuration: 1000
             })
         }}
-
         onClick={(e) => {
           if (e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol')) {
             setMuni(handleClick(e.features));
@@ -160,7 +162,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             <p>{site?.municipal} site {site?.site_oid}</p>
           </Popup>
         )}
-
         {/* any municipality not highlighted is given a transparent overlay */}
         <Source id="Municipalities" type="vector" url="mapbox://ihill.763lks2o">
           <Layer
@@ -179,7 +180,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             }}
           />
         </Source>
-
         {/* circles using Sites_mp_clean_points_csv */}
         <Source id="Sites" type="vector" url="mapbox://ihill.ckseu5a9h3gry28pa20itgrq7-8tgwx">
           <Layer
@@ -223,7 +223,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             }}
           />
         </Source>
-
         {/* source layer for highlighted filled circles, not working */}
         {/* <Source id="Sites" type="vector" url="mapbox://ihill.ckseu5a9h3gry28pa20itgrq7-8tgwx">
           <Layer
@@ -252,7 +251,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             }}
           />
         </Source> */}
-
         {/* source layer targeting the OUTLINES of sites on hover */}
         <Source id="Sites_polygons" type="vector" url="mapbox://ihill.5ofxrajx">
           <Layer
@@ -273,7 +271,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             }}
           /> 
         </Source>
-
         {/* source layer targeting the FILL of sites, filtering based on Top Category */}
         <Source id="Sites_polygons" type="vector" url="mapbox://ihill.5ofxrajx">
           <Layer
@@ -304,14 +301,13 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                   3, 'cadetblue',
                   4, 'slateblue',
                   5, 'midnightblue',
-                  'thistle' // polygon fill for bottom 80% 
+                  'thistle' // fill for bottom 80% 
                 ],
-                'gray' // polygon fill for anything outside selectedMuni
+                'gray' // fill for anything outside selectedMuni
               ]
             }}
           /> 
         </Source>
-
         <div css={navigationStyle}>
           <NavigationControl />
         </div>
