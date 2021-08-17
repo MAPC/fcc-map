@@ -174,8 +174,15 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 'match',
                 ['get', 'municipal'],
                 [`${selectedMuni}`],
-                'hsla(0, 0%, 0%, 0)',
-                'hsla(0, 0%, 0%, 0.3)',
+                'hsla(0, 0%, 0%, 0)', // if selectedMuni, no overlay
+                // 'hsla(0, 0%, 0%, 0.3)',
+                [
+                  'match',
+                  ['get', 'municipal'],
+                  ['Arlington', 'Belmont', 'Beverly', 'Boston', 'Braintree', 'Brookline', 'Burlington', 'Cambridge', 'Chelsea', 'Danvers', 'Dedham', 'Everett', 'Framingham', 'Lexington', 'Lynn', 'Malden', 'Medford', 'Melrose', 'Middleton', 'Natick', 'Needham', 'Newton', 'Norwell', 'Norwood', 'Peabody', 'Quincy', 'Randolph', 'Reading', 'Revere', 'Salem', 'Saugus', 'Somerville', 'Stoneham', 'Stoughton', 'Swampscott', 'Walpole', 'Waltham', 'Watertown', 'Westwood', 'Winchester', 'Winthrop', 'Woburn' ], 
+                  'hsla(0, 0%, 0%, 0.2)', // munis containing top sites
+                  'hsla(0, 0%, 0%, 0.325)' // munis without top sites
+                ]
               ],
             }}
           />
