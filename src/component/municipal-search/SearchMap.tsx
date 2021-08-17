@@ -282,7 +282,16 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             source="Sites_polygons"
             source-layer="Sites_mp_clean_mapbox_layer-71n0va"
             paint={{
-              'fill-opacity': 0.3,
+              'fill-opacity':
+              [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                8,
+                0.1,
+                16,
+                0.5,
+              ],
               'fill-color': [
                 'match',
                 ['get', 'municipal'],
@@ -295,9 +304,9 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                   3, 'cadetblue',
                   4, 'slateblue',
                   5, 'midnightblue',
-                  '#c8c9cb'
+                  'thistle' // polygon fill for bottom 80% 
                 ],
-                '#c8c9cb' //gray
+                'gray' // polygon fill for anything outside selectedMuni
               ]
             }}
           /> 

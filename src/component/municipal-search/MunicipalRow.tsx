@@ -62,8 +62,8 @@ function getTax(data: Array<CsvData>, selectedMuni: string|undefined): Array<num
 }
 
 // two decimal places
-function parseDouble(input: number): string {
-  return input.toFixed(2);
+function parseToString(input: number): string {
+  return input.toFixed(0);
 }
 
 // commas
@@ -79,8 +79,8 @@ const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, node, selectedMuni })
     <div css={muniRowStyle}>
       <p css={titleStyle}>{selectedMuni}</p>
       <ul css={detailListStyle}>
-        <li>Tax Revenue Differential: ${parseCommas(parseDouble(differential))}</li>
-        <li>Average Tax Revenue Differential Per Site: ${parseCommas(parseDouble(parseFloat(node.Municipal_Avg_Tax_Increase)))}</li>
+        <li>Tax Revenue Differential: ${parseCommas(parseToString(differential))}</li>
+        <li>Average Tax Revenue Differential Per Site: ${parseCommas(parseToString(parseFloat(node.Municipal_Avg_Tax_Increase)))}</li>
         <li>Quantity of Sites: {quantitySites}</li>
       </ul>
     </div>

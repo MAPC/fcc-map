@@ -44,6 +44,10 @@ const bold = css`
   color: black;
 `;
 
+const scoreType = css`
+  margin-left: 1.2em;
+`;
+
 function parseDouble(input: number): string {
   return input.toFixed(2);
 }
@@ -92,11 +96,11 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
       </button>
       <p css={titleStyle}>{node.municipal} site {node.site_oid}</p>
       <ul css={detailListStyle}>
-        <li><span css={bold}>{parseDouble(+node.Growth_Potential_Score)}</span>/1 Growth Potential Score</li>
-        <li><span css={bold}>{parseDouble(+node.Healthy_Communtiies_Score)}</span>/1 Healthy Communities Score</li>
-        <li><span css={bold}>{parseDouble(+node.Healthy_Watersheds_Score)}</span>/1 Healthy Watersheds Score</li>
-        <li><span css={bold}>{parseDouble(+node.Travel_Choices_Score)}</span>/2 Travel Choices Score</li>
-        <li><span css={bold}>{parseDouble(+node.Overall_Score)}</span>/5 Overall Score</li>
+        <li><span css={bold}>{parseDouble(+node.Growth_Potential_Score)}</span>/1 <span css={scoreType}>Growth Potential Score</span></li>
+        <li><span css={bold}>{parseDouble(+node.Healthy_Communtiies_Score)}</span>/1 <span css={scoreType}>Healthy Communities Score</span></li>
+        <li><span css={bold}>{parseDouble(+node.Healthy_Watersheds_Score)}</span>/1 <span css={scoreType}>Healthy Watersheds Score</span></li>
+        <li><span css={bold}>{parseDouble(+node.Travel_Choices_Score)}</span>/2 <span css={scoreType}>Travel Choices Score</span></li>
+        <li><span css={bold}>{parseDouble(+node.Overall_Score)}</span>/5 <span css={scoreType}>Overall Score</span></li>
       </ul>
     </li>
   )
