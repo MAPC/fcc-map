@@ -195,7 +195,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 [
                 'step',
                 ['get', 'Overall_Sc'],
-                'thistle',
+                '#c8c9cb',
                 4.04969622,
                 'midnightblue',
                 4.2376095,
@@ -207,7 +207,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 4.80134933,
                 'firebrick',
                 ],
-                'gray',
+                '#c8c9cb',
               ], 
               'circle-radius': [
                 'interpolate',
@@ -320,6 +320,38 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
           />
           {/* source layer targeting the FILL of sites, but not filtering based on Top Category. Error of null */}
           <Layer
+            type="fill"
+            id="Sites (fill)"
+            source="Sites_polygons"
+            source-layer="Sites_mp_clean_mapbox_layer-71n0va"
+            paint={{
+              'fill-opacity': 0.35,
+              'fill-color': [
+                'match',
+                ['get', 'municipal'],
+                [selectedMuni || ''],
+                // [
+                //   'step',
+                //   ['get', 'Overall_Score'],
+                //   'pink',
+                //   4.04969622,
+                //   'yellow',
+                //   4.2376095,
+                //   'green',
+                //   4.42552278,
+                //   'blue',
+                //   4.61343605,
+                //   'purple',
+                //   4.80134933,
+                //   'slategray',
+                // ],
+                'lavender',
+                'gray'
+              ]
+            }}
+          />
+
+<Layer
             type="fill"
             id="Sites (fill)"
             source="Sites_polygons"
