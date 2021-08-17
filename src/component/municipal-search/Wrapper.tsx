@@ -43,23 +43,6 @@ const Wrapper: React.FC = () => {
   const containerRef = useRef<HTMLInputElement>(null);
   return (
     <StaticQuery
-      // query={graphql`
-      //   {
-      //     allJoinedPyCsv(filter: {top_quintile: {eq: "TRUE"}}) {
-      //       nodes {
-      //         municipal
-      //         site_oid
-      //         Growth_Potential_Score
-      //         Healthy_Communtiies_Score
-      //         Healthy_Watersheds_Score
-      //         Travel_Choices_Score
-      //         Overall_Score
-      //         Tax_Revenue_Differential
-      //       }
-      //     }
-      //   }
-      // `}
-
       // new Sites_mp_clean query
       query={graphql`
         {
