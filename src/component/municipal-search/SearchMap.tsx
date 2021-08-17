@@ -6,12 +6,13 @@ import React, {
 import { jsx, css } from '@emotion/react';
 import ReactMapGL, { Source, Layer, NavigationControl, Popup, GeolocateControl } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
+import { CsvData } from './MunicipalData';
 import municipalities from '../../utils/municipalities';
-import { CsvData } from './MunicipalData'; //added
+import topMunicipalities from '../../utils/top-municipalities';
 
 interface MunicipalMapProps {
-  data: Array<CsvData>, //added
-  dispatch: React.Dispatch<unknown>, //added
+  data: Array<CsvData>,
+  dispatch: React.Dispatch<unknown>,
   selectedMuni: string|undefined,
   setMuni: React.Dispatch<React.SetStateAction<string|undefined>>,
   containerRef: React.RefObject<HTMLInputElement>,
@@ -57,8 +58,8 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
   }, []);
 
   const [viewport, setViewport] = useState({
-    latitude: 42.40319165277521,
-    longitude: -71.10714566074827,
+    latitude: 42.338030,
+    longitude: -71.211580,
     zoom: 8,
     transitionDuration: 1000
   });
@@ -92,9 +93,8 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
         onLoad={() => {
           console.log('loaded');
           let randomMuni = () => {
-              let index = Math.floor(Math.random() * municipalities.length);
-              console.log('randomMuni: ', municipalities[index]);
-              return municipalities[index];
+              let index = Math.floor(Math.random() * topMunicipalities.length);
+              return topMunicipalities[index];
             };            
             setMuni(randomMuni);
             setViewport({
@@ -103,7 +103,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             })
         }}
         onClick={(e) => {
-          if (e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol')) {
+          if (e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_points_csv')) {
             setMuni(handleClick(e.features));
             setViewport({
               ...viewport,
@@ -118,10 +118,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
           }
         }}
         onHover={(e) => {          
-          if (e.features && e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol')) {
+          if (e.features && e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_points_csv')) {
             setLngLat(e.lngLat);
             togglePopup(true);
-            setSite(e.features.find((row) => row.sourceLayer === 'retrofit_site_pts-3ot9ol').properties);
+            setSite(e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_points_csv').properties);
           } else {
             togglePopup(false);
           }
@@ -175,11 +175,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 ['get', 'municipal'],
                 [`${selectedMuni}`],
                 'hsla(0, 0%, 0%, 0)', // if selectedMuni, no overlay
-                // 'hsla(0, 0%, 0%, 0.3)',
                 [
                   'match',
                   ['get', 'municipal'],
-                  ['Arlington', 'Belmont', 'Beverly', 'Boston', 'Braintree', 'Brookline', 'Burlington', 'Cambridge', 'Chelsea', 'Danvers', 'Dedham', 'Everett', 'Framingham', 'Lexington', 'Lynn', 'Malden', 'Medford', 'Melrose', 'Middleton', 'Natick', 'Needham', 'Newton', 'Norwell', 'Norwood', 'Peabody', 'Quincy', 'Randolph', 'Reading', 'Revere', 'Salem', 'Saugus', 'Somerville', 'Stoneham', 'Stoughton', 'Swampscott', 'Walpole', 'Waltham', 'Watertown', 'Westwood', 'Winchester', 'Winthrop', 'Woburn' ], 
+                  topMunicipalities,
                   'hsla(0, 0%, 0%, 0.2)', // munis containing top sites
                   'hsla(0, 0%, 0%, 0.325)' // munis without top sites
                 ]
@@ -202,11 +201,11 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 [
                   'match',
                   ['get', 'Top Category'],
-                  '1', 'lightsalmon',
-                  '2', 'goldenrod',
+                  '1', 'pink',
+                  '2', 'darksalmon',
                   '3', 'cadetblue',
-                  '4', 'slateblue',
-                  '5', 'midnightblue',
+                  '4', 'cornflowerblue',
+                  '5', 'darkslateblue',
                   '#c8c9cb'
                 ],
                 '#c8c9cb' //gray
@@ -226,38 +225,20 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 '5',
                 1,
                 0 // 0 opacity bottom 80%
+              ],
+              'circle-stroke-color': 'gold',
+              'circle-stroke-width': 3,
+              'circle-stroke-opacity':
+              highlightedSites.length > 0 ? [
+                'match',
+                ['get', 'site_oid'],
+                [`${highlightedSites}`], 1, 
+                0
               ]
+              : 0
             }}
           />
         </Source>
-        {/* source layer for highlighted filled circles, not working */}
-        {/* <Source id="Sites" type="vector" url="mapbox://ihill.ckseu5a9h3gry28pa20itgrq7-8tgwx">
-          <Layer
-            type="circle"
-            id="Sites (filled)"
-            source="Sites"
-            source-layer="Sites_mp_clean_points_csv"
-            paint={{
-              'circle-radius': [
-                'interpolate',
-                ['linear'],
-                ['zoom'],
-                8,
-                3,
-                12,
-                7,
-              ],
-              'circle-color': highlightedSites.length > 0 ? [
-                'match',
-                ['get', 'site_oid'],
-                highlightedSites,
-                '#FDB525',
-                'rgba(0, 0, 0, 0)'
-              ]
-              : 'rgba(0, 0, 0, 0)',
-            }}
-          />
-        </Source> */}
         {/* source layer targeting the OUTLINES of sites on hover */}
         <Source id="Sites_polygons" type="vector" url="mapbox://ihill.5ofxrajx">
           <Layer
@@ -266,12 +247,12 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             source="Sites_polygons"
             source-layer="Sites_mp_clean_mapbox_layer-71n0va"
             paint={{
-              'line-width': 3,
+              'line-width': 5,
               'line-color': highlightedSites.length > 0 ? [
                 'match',
                 ['get', 'site_oid'],
                 highlightedSites,
-                '#FDB525',
+                'gold',
                 'rgba(0, 0, 0, 0)'
               ]
               : 'rgba(0, 0, 0, 0)'
@@ -291,10 +272,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 'interpolate',
                 ['linear'],
                 ['zoom'],
-                8,
-                0.1,
-                16,
-                0.5,
+                10,
+                0,
+                18,
+                0.8,
               ],
               'fill-color': [
                 'match',
@@ -305,9 +286,9 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                   ['get', 'Top Category'],
                   1, 'lightsalmon',
                   2, 'goldenrod',
-                  3, 'cadetblue',
-                  4, 'slateblue',
-                  5, 'midnightblue',
+                  3, 'mediumaquamarine',
+                  4, 'cornflowerblue',
+                  5, 'plum',
                   'thistle' // fill for bottom 80% 
                 ],
                 'gray' // fill for anything outside selectedMuni

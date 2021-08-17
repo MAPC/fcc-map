@@ -43,7 +43,7 @@ const Wrapper: React.FC = () => {
   const containerRef = useRef<HTMLInputElement>(null);
   return (
     <StaticQuery
-      // new Sites_mp_clean query
+      // new Sites_mp_clean.csv query
       query={graphql`
         {
           allSitesMpCleanCsv {
