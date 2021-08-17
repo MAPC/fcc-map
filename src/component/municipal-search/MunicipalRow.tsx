@@ -39,7 +39,7 @@ const buttonStyle = css`
 const detailListStyle = css`
   padding-left: 0;
   list-style: none;
-  color: ${themeColors.fontGray}
+  color: black;
 `;
 
 // iterating through sites' tax differentials and returning the number of sites and sum

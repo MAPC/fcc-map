@@ -15,7 +15,7 @@ const themeColors = {
   clearWater: '#67cbe4',
   white: '#FFFFFF',
   fontGray: '#545454',
-  fontLightGray: '#8a8a8a',
+  fontLightGray: '#757575',
   black: '#000000',
   warmGray: '#E9E9E9',
   warmGrayTransparent: '#f7f7f7f5'

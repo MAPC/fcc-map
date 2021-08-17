@@ -105,13 +105,13 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             setMuni(handleClick(e.features));
             setViewport({
               ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 15, transitionDuration: 1000
+              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 17, transitionDuration: 1500
             })
           } else {
             setMuni(handleClick(e.features));
             setViewport({
               ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 11, transitionDuration: 1000
+              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 12, transitionDuration: 1000
             })
           }
         }}
@@ -319,7 +319,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             }}
           />
           {/* source layer targeting the FILL of sites, but not filtering based on Top Category. Error of null */}
-          {/* <Layer
+          <Layer
             type="fill"
             id="Sites (fill)"
             source="Sites_polygons"
@@ -350,23 +350,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
               ]
             }}
           />
-          <Layer
-            type="line"
-            id="Sites (outline)"
-            source="Sites_polygons"
-            source-layer="Sites_mp_clean_mapbox_layer-71n0va"
-            paint={{
-              'line-width': 3,
-              'line-opacity': 0.5,
-              'line-color': [
-                'match',
-                ['get', 'municipal'],
-                [selectedMuni || ''],
-                'lavender',
-                'gray'
-              ]
-            }}
-          /> */}
+          
         </Source>
 
         <div css={navigationStyle}>

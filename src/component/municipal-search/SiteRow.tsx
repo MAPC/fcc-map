@@ -35,11 +35,13 @@ const buttonStyle = css`
 const detailListStyle = css`
   padding-left: 0;
   list-style: none;
+  color: ${themeColors.fontLightGray}
 `;
 
 const bold = css`
   font-weight: 600;
-  padding-right: 3px;
+  padding-right: 2px;
+  color: black;
 `;
 
 function parseDouble(input: number): string {
