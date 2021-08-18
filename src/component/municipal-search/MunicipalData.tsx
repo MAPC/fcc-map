@@ -4,6 +4,7 @@ import React from 'react';
 import { jsx, css } from '@emotion/react';
 import SiteRow from './SiteRow';
 import MunicipalRow from './MunicipalRow';
+import Legend from './Legend'
 import { themeColors, fonts } from '../../utils/theme';
 
 export type CsvData = {
@@ -86,6 +87,7 @@ const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, conta
   <div css={wrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
     {selectedMuni ? showMunicipalRow(data, selectedMuni) : ''} {/* renders the MunicipalRow on municipality selection */}
+    <Legend />
     <ul css={ulStyle}>
       {selectedMuni ? filterData(data, selectedMuni, dispatch) : ''}
     </ul>
