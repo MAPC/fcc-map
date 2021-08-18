@@ -93,8 +93,8 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
         onLoad={() => {
           console.log('loaded');
           let randomMuni = () => {
-              let index = Math.floor(Math.random() * topMunicipalities.length);
-              return topMunicipalities[index];
+              let index = Math.floor(Math.random() * municipalities.length);
+              return municipalities[index];
             };            
             setMuni(randomMuni);
             setViewport({
@@ -175,14 +175,8 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 ['get', 'municipal'],
                 [`${selectedMuni}`],
                 'hsla(0, 0%, 0%, 0)', // if selectedMuni, no overlay
-                [
-                  'match',
-                  ['get', 'municipal'],
-                  topMunicipalities,
-                  'hsla(0, 0%, 0%, 0.2)', // munis containing top sites
-                  'hsla(0, 0%, 0%, 0.325)' // munis without top sites
-                ]
-              ],
+                'hsla(0, 0%, 0%, 0.2)'
+              ]
             }}
           />
         </Source>
@@ -200,15 +194,15 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 [selectedMuni || ''],
                 [
                   'match',
-                  ['get', 'Top Category'],
+                  ['get', 'Quintile Category'],
                   '1', 'pink',
                   '2', 'darksalmon',
                   '3', 'cadetblue',
                   '4', 'cornflowerblue',
                   '5', 'darkslateblue',
-                  '#c8c9cb'
+                  'hsla(0, 0%, 0%, 0)'
                 ],
-                '#c8c9cb' //gray
+                'hsla(0, 0%, 0%, 0)' //no color
               ], 
               'circle-radius': [
                 'interpolate',
@@ -219,13 +213,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 12,
                 7,
               ],
-              'circle-opacity': [
-                'match',
-                ['get', 'Quintile Category'],
-                '5',
-                1,
-                0 // 0 opacity bottom 80%
-              ],
+              'circle-opacity': 1,
               'circle-stroke-color': 'gold',
               'circle-stroke-width': 3,
               'circle-stroke-opacity':
@@ -248,14 +236,15 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             source-layer="Sites_mp_clean_mapbox_layer-71n0va"
             paint={{
               'line-width': 5,
-              'line-color': highlightedSites.length > 0 ? [
+              'line-color': 'gold',
+              'line-opacity': highlightedSites.length > 0 ? [
                 'match',
                 ['get', 'site_oid'],
                 highlightedSites,
-                'gold',
-                'rgba(0, 0, 0, 0)'
+                1,
+                0
               ]
-              : 'rgba(0, 0, 0, 0)'
+              : 0
             }}
           /> 
         </Source>
@@ -274,8 +263,8 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 ['zoom'],
                 10,
                 0,
-                18,
-                0.8,
+                14,
+                0.6,
               ],
               'fill-color': [
                 'match',
@@ -283,7 +272,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 [selectedMuni || ''],
                 [
                   'match',
-                  ['get', 'Top Category'],
+                  ['get', 'Quintile Category'],
                   1, 'lightsalmon',
                   2, 'goldenrod',
                   3, 'mediumaquamarine',

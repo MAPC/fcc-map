@@ -78,12 +78,12 @@ const Legend: React.FC = () => {
         <div css={legendStyle}>
         <p css={titleStyle}>Legend</p>
         <ul css={detailListStyle}>
-          <p>Top Quintile</p>
-          <li css={liStyle}><span css={circleStyle1}>&#183;</span>1-4%</li>
-          <li css={liStyle}><span css={circleStyle2}>&#183;</span>5-8%</li>
-          <li css={liStyle}><span css={circleStyle3}>&#183;</span>9-12%</li>
-          <li css={liStyle}><span css={circleStyle4}>&#183;</span>13-16%</li>
-          <li css={liStyle}><span css={circleStyle5}>&#183;</span>17-20%</li>
+          <p>Quintile</p>
+          <li css={liStyle}><span css={circleStyle5}>&#183;</span>First</li>
+          <li css={liStyle}><span css={circleStyle4}>&#183;</span>Second</li>
+          <li css={liStyle}><span css={circleStyle3}>&#183;</span>Third</li>
+          <li css={liStyle}><span css={circleStyle2}>&#183;</span>Fourth</li>
+          <li css={liStyle}><span css={circleStyle1}>&#183;</span>Fifth</li>
         </ul>
       </div>
     );

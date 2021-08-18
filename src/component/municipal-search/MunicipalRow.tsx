@@ -47,7 +47,7 @@ function getTax(data: Array<CsvData>, selectedMuni: string|undefined): Array<num
   let taxDifferentials: Array<number> = [];
   let sum: number = 0;
   data.reduce((taxDifferentials: Array<number>, node: CsvData) => {
-    if (node.municipal === selectedMuni && node.Quintile_Category === '5') {
+    if (node.municipal === selectedMuni) {
       taxDifferentials.push(parseFloat(node.Site_Tax_Revenue_Change));
     }
     return taxDifferentials;

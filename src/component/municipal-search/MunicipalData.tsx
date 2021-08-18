@@ -61,7 +61,7 @@ const ulStyle = css`
 function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
-      if (node.municipal === selectedMuni && node.Quintile_Category === '5') {
+      if (node.municipal === selectedMuni) {
         list.push(<SiteRow node={node} key={node.site_oid} dispatch={dispatch} />);
       }
       return list;
@@ -74,7 +74,7 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
 function showMunicipalRow(data: Array<CsvData>, selectedMuni: string|undefined): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
-      if (node.municipal === selectedMuni && node.Quintile_Category === '5') {
+      if (node.municipal === selectedMuni) {
         list.push(<MunicipalRow data={data} node={node} selectedMuni={selectedMuni} />);
       }
       return list;
