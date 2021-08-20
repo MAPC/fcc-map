@@ -30,7 +30,6 @@ function reducer(state: MunicipalSearch, action: any) {
     case 'addSite':
       if (state.highlightedSites.find(site => site === action.toggledSite)) {
         console.log('wrapper - reducer - highlightedSites', state.highlightedSites);
-        
         return {...state, highlightedSites: state.highlightedSites.filter(item => item !== action.toggledSite)}
       }
       return {...state, highlightedSites: [...state.highlightedSites, action.toggledSite]};

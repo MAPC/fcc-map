@@ -3,6 +3,7 @@
 import React from 'react';
 import { jsx, css } from '@emotion/react';
 import { themeColors, fonts } from '../../utils/theme';
+import { Link } from 'gatsby';
 
 const legendStyle = css`
   width: 10rem;
@@ -85,6 +86,7 @@ const Legend: React.FC = () => {
           <li css={liStyle}><span css={circleStyle4}>&#183;</span>Fourth</li>
           <li css={liStyle}><span css={circleStyle5}>&#183;</span>Fifth</li>
         </ul>
+        <Link to="/about">More Info</Link>
       </div>
     );
 };
