@@ -243,12 +243,12 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 [
                   'match',
                   ['get', 'Quintile Category'],
-                  1, 'lightsalmon',
-                  2, 'goldenrod',
-                  3, 'mediumaquamarine',
-                  4, 'cornflowerblue',
-                  5, 'plum',
-                  'thistle' // fill for bottom 80% 
+                  1, `${themeColors.quintile1}`,
+                  2, `${themeColors.quintile2}`,
+                  3, `${themeColors.quintile3}`,
+                  4, `${themeColors.quintile4}`,
+                  5, `${themeColors.quintile5}`,
+                  'gray'
                 ],
                 'gray' // fill for anything outside selectedMuni
               ]
@@ -265,7 +265,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             source-layer="Sites_mp_clean_mapbox_layer-71n0va"
             paint={{
               'line-width': 5,
-              'line-color': 'gold',
+              'line-color': `${themeColors.gold}`,
               'line-opacity': highlightedSites.length > 0 ? [
                 'match',
                 ['get', 'site_oid'],
@@ -293,11 +293,11 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 [
                   'match',
                   ['get', 'Quintile Category'],
-                  '1', 'pink',
-                  '2', 'darksalmon',
-                  '3', 'cadetblue',
-                  '4', 'cornflowerblue',
-                  '5', 'darkslateblue',
+                  '1', `${themeColors.quintile1}`,
+                  '2', `${themeColors.quintile2}`,
+                  '3', `${themeColors.quintile3}`,
+                  '4', `${themeColors.quintile4}`,
+                  '5', `${themeColors.quintile5}`,
                   'hsla(0, 0%, 0%, 0)'
                 ],
                 'hsla(0, 0%, 0%, 0)' //no color
@@ -312,7 +312,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 7,
               ],
               'circle-opacity': 1,
-              'circle-stroke-color': 'gold',
+              'circle-stroke-color': `${themeColors.gold}`,
               'circle-stroke-width': 5,
               'circle-stroke-opacity':
               highlightedSites.length > 0 ? [

@@ -18,7 +18,13 @@ const themeColors = {
   fontLightGray: '#757575',
   black: '#000000',
   warmGray: '#E9E9E9',
-  warmGrayTransparent: '#f7f7f7f5'
+  warmGrayTransparent: '#f7f7f7f5',
+  gold: 'gold',
+  quintile1: 'darkslateblue',
+  quintile2: 'cornflowerblue',
+  quintile3: 'cadetblue',
+  quintile4: 'darksalmon',
+  quintile5: 'pink'
 };
 
 const marginStyle = css`

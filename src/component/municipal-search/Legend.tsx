@@ -38,7 +38,7 @@ const circleStyle1 = css`
   font-size: 100px;
   text-align: center;
   margin-right: 1.2rem;
-  color: pink;
+  color: ${themeColors.quintile1};
 `;
 
 const circleStyle2 = css`
@@ -46,7 +46,7 @@ const circleStyle2 = css`
   font-size: 100px;
   text-align: center;
   margin-right: 1.2rem;
-  color: darksalmon;
+  color: ${themeColors.quintile2};
 `;
 
 const circleStyle3 = css`
@@ -54,7 +54,7 @@ const circleStyle3 = css`
   font-size: 100px;
   text-align: center;
   margin-right: 1.2rem;
-  color: cadetblue;
+  color: ${themeColors.quintile3};
 `;
 
 const circleStyle4 = css`
@@ -62,7 +62,7 @@ const circleStyle4 = css`
   font-size: 100px;
   text-align: center;
   margin-right: 1.2rem;
-  color: cornflowerblue;
+  color: ${themeColors.quintile4};
 `;
 
 const circleStyle5 = css`
@@ -70,7 +70,7 @@ const circleStyle5 = css`
   font-size: 100px;
   text-align: center;
   margin-right: 1.2rem;
-  color: darkslateblue;
+  color: ${themeColors.quintile5};
 `;
 
 const Legend: React.FC = () => {
@@ -79,11 +79,11 @@ const Legend: React.FC = () => {
         <p css={titleStyle}>Legend</p>
         <ul css={detailListStyle}>
           <p>Quintile</p>
-          <li css={liStyle}><span css={circleStyle5}>&#183;</span>First</li>
-          <li css={liStyle}><span css={circleStyle4}>&#183;</span>Second</li>
+          <li css={liStyle}><span css={circleStyle1}>&#183;</span>First</li>
+          <li css={liStyle}><span css={circleStyle2}>&#183;</span>Second</li>
           <li css={liStyle}><span css={circleStyle3}>&#183;</span>Third</li>
-          <li css={liStyle}><span css={circleStyle2}>&#183;</span>Fourth</li>
-          <li css={liStyle}><span css={circleStyle1}>&#183;</span>Fifth</li>
+          <li css={liStyle}><span css={circleStyle4}>&#183;</span>Fourth</li>
+          <li css={liStyle}><span css={circleStyle5}>&#183;</span>Fifth</li>
         </ul>
       </div>
     );

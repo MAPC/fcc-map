@@ -11,10 +11,30 @@ interface SiteRowProps {
   dispatch: React.Dispatch<unknown>
 }
 
-let liStyle = css`
+const liStyle = css`
   background: ${themeColors.warmGrayTransparent};
   margin: .5rem 0;
   padding: 1.5rem 2rem;
+`;
+
+const quintile1 = css`
+border-right: 10px solid ${themeColors.quintile1};
+`;
+
+const quintile2 = css`
+border-right: 10px solid ${themeColors.quintile2};
+`;
+
+const quintile3 = css`
+border-right: 10px solid ${themeColors.quintile3};
+`;
+
+const quintile4 = css`
+border-right: 10px solid ${themeColors.quintile4};
+`;
+
+const quintile5 = css`
+border-right: 10px solid ${themeColors.quintile5};
 `;
 
 const titleStyle = css`
@@ -56,7 +76,18 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
   const [highlighted, toggleHightlight] = useState<boolean>(false);
   const [starred, toggleStarred] = useState<boolean>(false);
   return (
-    <li key={node.site_oid} css={liStyle}
+    <li key={node.site_oid} 
+    css={
+      [
+        liStyle,
+        node.Quintile_Category === '1' ? quintile1 : 
+        node.Quintile_Category === '2' ? quintile2 : 
+        node.Quintile_Category ===  '3' ? quintile3 : 
+        node.Quintile_Category ===  '4' ? quintile4 : 
+        node.Quintile_Category ===  '5' ? quintile5 : 
+        ''
+      ]
+    }
       onMouseEnter={(e) => {
         if (!highlighted) {
           toggleHightlight(!highlighted);
@@ -95,7 +126,7 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
           }
         }}
       >
-        <PushPinSimple size={20} weight="fill" color={highlighted ? '#FDB525' : themeColors.fontGray} />
+        <PushPinSimple size={20} weight="fill" color={highlighted ? themeColors.gold : themeColors.fontGray} />
       </button>
       <p css={titleStyle}>{node.municipal} site {node.site_oid}</p>
       <ul css={detailListStyle}>
