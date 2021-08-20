@@ -86,7 +86,7 @@ const Legend: React.FC = () => {
           <li css={liStyle}><span css={circleStyle4}>&#183;</span>Fourth</li>
           <li css={liStyle}><span css={circleStyle5}>&#183;</span>Fifth</li>
         </ul>
-        <Link to="/about">More Info</Link>
+        <Link to="/About">More Info</Link>
       </div>
     );
 };

@@ -257,11 +257,11 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
         </Source>
 
         {/* source layer targeting the OUTLINES of sites on hover */}
-        <Source id="Sites_polygons" type="vector" url="mapbox://ihill.5ofxrajx">
+        <Source id="Sites_highlight" type="vector" url="mapbox://ihill.5ofxrajx">
           <Layer
             type="line"
             id="Sites (highlight)"
-            source="Sites_polygons"
+            source="Sites_highlight"
             source-layer="Sites_mp_clean_mapbox_layer-71n0va"
             paint={{
               'line-width': 5,
