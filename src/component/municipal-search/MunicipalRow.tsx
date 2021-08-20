@@ -7,13 +7,13 @@ import { CsvData } from './MunicipalData';
 
 interface MunicipalRowProps {
   data: Array<CsvData>,
-  node: CsvData,
+  node: Array<CsvData>,
   selectedMuni: string|undefined
 }
 
 const muniRowStyle = css`
   width: 45rem;
-  background: ${themeColors.white};
+  background: ${themeColors.warmGrayTransparent};
   margin: 4vh 2vw;
   padding: 1.5rem 2rem;
   position: absolute;
@@ -46,6 +46,7 @@ const detailListStyle = css`
 function getTax(data: Array<CsvData>, selectedMuni: string|undefined): Array<number> {
   let taxDifferentials: Array<number> = [];
   let sum: number = 0;
+  let average: number = 0;
   data.reduce((taxDifferentials: Array<number>, node: CsvData) => {
     if (node.municipal === selectedMuni) {
       taxDifferentials.push(parseFloat(node.Site_Tax_Revenue_Change));
@@ -54,14 +55,16 @@ function getTax(data: Array<CsvData>, selectedMuni: string|undefined): Array<num
   }, taxDifferentials);  
   if (taxDifferentials.length > 0) {
     sum = 0;
+    average = 0;
     taxDifferentials.forEach(function(e) {
       sum = sum + e;
     });
+    average = sum / taxDifferentials.length;
   }
-  return [taxDifferentials.length, sum];
+  return [taxDifferentials.length, sum, average];
 }
 
-// two decimal places
+// no decimal places
 function parseToString(input: number): string {
   return input.toFixed(0);
 }
@@ -75,12 +78,14 @@ function parseCommas(string: any) {
 const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, node, selectedMuni }) => {
   const quantitySites : number = getTax(data, selectedMuni)[0];
   const differential : number = getTax(data, selectedMuni)[1]; 
+  const averageDiff : number = getTax(data, selectedMuni)[2];
   return (
     <div css={muniRowStyle}>
       <p css={titleStyle}>{selectedMuni}</p>
       <ul css={detailListStyle}>
         <li>Tax Revenue Differential: ${parseCommas(parseToString(differential))}</li>
-        <li>Average Tax Revenue Differential Per Site: ${parseCommas(parseToString(parseFloat(node.Municipal_Avg_Tax_Increase)))}</li>
+        <li>Average Tax Revenue Differential Per Site: ${parseCommas(parseToString(averageDiff))}</li>
+        {/* <li>Average Tax Revenue Differential Per Site: ${parseCommas(parseToString(parseFloat(node.Municipal_Avg_Tax_Increase)))}</li> */}
         <li>Quantity of Sites: {quantitySites}</li>
       </ul>
     </div>

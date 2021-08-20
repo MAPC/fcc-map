@@ -4,11 +4,12 @@ import React, {
   useRef, useState, useCallback, useEffect, useMemo
 } from 'react';
 import { jsx, css } from '@emotion/react';
+import { themeColors, fonts } from '../../utils/theme';
 import ReactMapGL, { Source, Layer, NavigationControl, Popup, GeolocateControl } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
 import { CsvData } from './MunicipalData';
 import municipalities from '../../utils/municipalities';
-import topMunicipalities from '../../utils/top-municipalities';
+// import topMunicipalities from '../../utils/top-municipalities';
 
 interface MunicipalMapProps {
   data: Array<CsvData>,
@@ -26,7 +27,6 @@ const navigationStyle = css`
 `;
 
 const mapStyle = css`
-  // flex-shrink: 0;
   position: absolute;
   top: 0;
 `;
@@ -35,11 +35,28 @@ const inputStyle = css`
   z-index: 2;
 `;
 
+const popupStyle = css`
+  padding: 0.8rem;
+  > h1 {
+    color: ${themeColors.indigo};
+    font-family: ${fonts.calibre};
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+  }
+  > p {
+    margin: 0;
+    color: ${themeColors.fontGray};
+    font-size: 16px;
+  }
+`;
+
 function handleClick(e: Array<mapboxgl.EventData>): string {
   const muniPolygon = e.find((feature) => feature.layer.id === 'Municipal highlight');
   if (muniPolygon) {
     return muniPolygon.properties.municipal;
   }
+  
   return '';
 }
 
@@ -79,6 +96,18 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
     });
   }, []);
 
+  function parseDouble(input: number): string {
+    return input.toFixed(2);
+  }
+
+  function parseToString(input: number): string {
+    return input.toFixed(0);
+  }
+
+  function parseCommas(string: any) {
+    return string.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   return (
     <div css={mapStyle}>
       <ReactMapGL
@@ -91,7 +120,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
         mapStyle="mapbox://styles/ihill/cknj7cvb513e317rxm4a8i9ah"
         scrollZoom={true}
         onLoad={() => {
-          console.log('loaded');
+          console.log('localStorage', localStorage);
           let randomMuni = () => {
               let index = Math.floor(Math.random() * municipalities.length);
               return municipalities[index];
@@ -103,7 +132,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             })
         }}
         onClick={(e) => {
-          if (e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_points_csv')) {
+          if (e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_mapbox_layer-71n0va')) {
             setMuni(handleClick(e.features));
             setViewport({
               ...viewport,
@@ -159,7 +188,15 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             onClose={() => togglePopup(false)}
             anchor="top"
           >
-            <p>{site?.municipal} site {site?.site_oid}</p>
+            <div css={popupStyle}>
+              <h1>{site?.municipal} site {site?.site_oid}</h1>
+              <p>Address: </p>
+              <p>Tax Revenue Differential: ${parseCommas(parseToString(parseFloat(site?.["Site Tax Revenue Change"])))}</p>
+              <p>Quantity of Parcels: {parseToString(parseFloat(site?.["Number of Parcels on Site"]))}</p>
+              <p>Build Area: {parseCommas(parseToString(parseFloat(site?.buildarea_sf)))} sq. ft.</p>
+              <p>Overall Score: {parseDouble(parseFloat(site?.["Overall Score"]))}/5</p> 
+              {/* needed [ " " ] for fields with spaces */}
+            </div>
           </Popup>
         )}
         {/* any municipality not highlighted is given a transparent overlay */}
@@ -180,74 +217,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             }}
           />
         </Source>
-        {/* circles using Sites_mp_clean_points_csv */}
-        <Source id="Sites" type="vector" url="mapbox://ihill.ckseu5a9h3gry28pa20itgrq7-8tgwx">
-          <Layer
-            type="circle"
-            id="Sites (circles)"
-            source="Sites"
-            source-layer="Sites_mp_clean_points_csv"
-            paint={{
-              'circle-color': [
-                'match',
-                ['get', 'municipal'],
-                [selectedMuni || ''],
-                [
-                  'match',
-                  ['get', 'Quintile Category'],
-                  '1', 'pink',
-                  '2', 'darksalmon',
-                  '3', 'cadetblue',
-                  '4', 'cornflowerblue',
-                  '5', 'darkslateblue',
-                  'hsla(0, 0%, 0%, 0)'
-                ],
-                'hsla(0, 0%, 0%, 0)' //no color
-              ], 
-              'circle-radius': [
-                'interpolate',
-                ['linear'],
-                ['zoom'],
-                8,
-                3,
-                12,
-                7,
-              ],
-              'circle-opacity': 1,
-              'circle-stroke-color': 'gold',
-              'circle-stroke-width': 3,
-              'circle-stroke-opacity':
-              highlightedSites.length > 0 ? [
-                'match',
-                ['get', 'site_oid'],
-                [`${highlightedSites}`], 1, 
-                0
-              ]
-              : 0
-            }}
-          />
-        </Source>
-        {/* source layer targeting the OUTLINES of sites on hover */}
-        <Source id="Sites_polygons" type="vector" url="mapbox://ihill.5ofxrajx">
-          <Layer
-            type="line"
-            id="Sites (highlight)"
-            source="Sites_polygons"
-            source-layer="Sites_mp_clean_mapbox_layer-71n0va"
-            paint={{
-              'line-width': 5,
-              'line-color': 'gold',
-              'line-opacity': highlightedSites.length > 0 ? [
-                'match',
-                ['get', 'site_oid'],
-                highlightedSites,
-                1,
-                0
-              ]
-              : 0
-            }}
-          /> 
-        </Source>
+        
         {/* source layer targeting the FILL of sites, filtering based on Top Category */}
         <Source id="Sites_polygons" type="vector" url="mapbox://ihill.5ofxrajx">
           <Layer
@@ -285,6 +255,77 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             }}
           /> 
         </Source>
+
+        {/* source layer targeting the OUTLINES of sites on hover */}
+        <Source id="Sites_polygons" type="vector" url="mapbox://ihill.5ofxrajx">
+          <Layer
+            type="line"
+            id="Sites (highlight)"
+            source="Sites_polygons"
+            source-layer="Sites_mp_clean_mapbox_layer-71n0va"
+            paint={{
+              'line-width': 5,
+              'line-color': 'gold',
+              'line-opacity': highlightedSites.length > 0 ? [
+                'match',
+                ['get', 'site_oid'],
+                highlightedSites,
+                1,
+                0
+              ]
+              : 0
+            }}
+          /> 
+        </Source>
+
+        {/* circles using Sites_mp_clean_points_csv */}
+        <Source id="Sites" type="vector" url="mapbox://ihill.ckseu5a9h3gry28pa20itgrq7-8tgwx">
+          <Layer
+            type="circle"
+            id="Sites (circles)"
+            source="Sites"
+            source-layer="Sites_mp_clean_points_csv"
+            paint={{
+              'circle-color': [
+                'match',
+                ['get', 'municipal'],
+                [selectedMuni || ''],
+                [
+                  'match',
+                  ['get', 'Quintile Category'],
+                  '1', 'pink',
+                  '2', 'darksalmon',
+                  '3', 'cadetblue',
+                  '4', 'cornflowerblue',
+                  '5', 'darkslateblue',
+                  'hsla(0, 0%, 0%, 0)'
+                ],
+                'hsla(0, 0%, 0%, 0)' //no color
+              ], 
+              'circle-radius': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                8,
+                3,
+                12,
+                7,
+              ],
+              'circle-opacity': 1,
+              'circle-stroke-color': 'gold',
+              'circle-stroke-width': 5,
+              'circle-stroke-opacity':
+              highlightedSites.length > 0 ? [
+                'match',
+                ['get', 'site_oid'],
+                [`${highlightedSites}`], 1, 
+                0
+              ]
+              : 0
+            }}
+          />
+        </Source>
+        
         <div css={navigationStyle}>
           <NavigationControl />
         </div>

@@ -62,6 +62,7 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
           toggleHightlight(!highlighted);
           dispatch({ type: 'addSite', toggledSite: +node.site_oid });
         }
+        // console.log('mouseenter, highlighted: ', highlighted);        
       }}
 
       onMouseLeave={(e) => {
@@ -69,13 +70,15 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
           toggleHightlight(!highlighted);
           dispatch({ type: 'addSite', toggledSite: +node.site_oid });
         }
+        // console.log('mouseleave, highlighted: ', highlighted);
       }}
     > 
       <button css={buttonStyle} 
+        // trying to use state to render button. onload or "on dispatch"
         onLoad={() => {
           if (highlighted) {
-            toggleStarred(true);
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+            toggleStarred(true);
           }
         }}
         onClick={() => {

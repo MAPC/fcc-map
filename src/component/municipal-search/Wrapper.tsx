@@ -29,6 +29,8 @@ function reducer(state: MunicipalSearch, action: any) {
   switch(action.type) {
     case 'addSite':
       if (state.highlightedSites.find(site => site === action.toggledSite)) {
+        console.log('wrapper - reducer - highlightedSites', state.highlightedSites);
+        
         return {...state, highlightedSites: state.highlightedSites.filter(item => item !== action.toggledSite)}
       }
       return {...state, highlightedSites: [...state.highlightedSites, action.toggledSite]};
@@ -73,6 +75,7 @@ const Wrapper: React.FC = () => {
           <MunicipalData
             data={data.allSitesMpCleanCsv.nodes}
             selectedMuni={selectedMuni}
+            node={data.allSitesMpCleanCsv.nodes}
             containerRef={containerRef}
             dispatch={dispatch}
           />

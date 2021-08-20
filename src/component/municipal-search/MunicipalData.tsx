@@ -28,6 +28,7 @@ export type CsvData = {
 interface MunicipalDataProps {
   data: Array<CsvData>,
   selectedMuni: string|undefined,
+  node: Array<CsvData>,
   containerRef: React.RefObject<HTMLInputElement>,
   dispatch: React.Dispatch<unknown>
 }
@@ -71,22 +72,29 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
 }
 
 // similar to filterData, grabs corresponding MunicipalRow on municipality selection 
-function showMunicipalRow(data: Array<CsvData>, selectedMuni: string|undefined): Array<JSX.Element>|undefined {
+// function showMunicipalRow(data: Array<CsvData>, selectedMuni: string|undefined): Array<JSX.Element>|undefined {
+//   if (selectedMuni) {
+//     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
+//       if (node.municipal === selectedMuni) {
+//         list.push(<MunicipalRow data={data} node={node} selectedMuni={selectedMuni} />);
+//       }
+//       return list;
+//     }, []);
+//   }
+//   return undefined;
+// }
+
+function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMuni: string|undefined) {
   if (selectedMuni) {
-    return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
-      if (node.municipal === selectedMuni) {
-        list.push(<MunicipalRow data={data} node={node} selectedMuni={selectedMuni} />);
-      }
-      return list;
-    }, []);
+    return <MunicipalRow data={data} node={node} selectedMuni={selectedMuni} />;
   }
   return undefined;
 }
 
-const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, containerRef, dispatch }) => (
+const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, dispatch }) => (
   <div css={wrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
-    {selectedMuni ? showMunicipalRow(data, selectedMuni) : ''} {/* renders the MunicipalRow on municipality selection */}
+    {selectedMuni ? showMunicipalRow(data, node, selectedMuni) : ''} {/* renders one MunicipalRow on municipality selection */}
     <Legend />
     <ul css={ulStyle}>
       {selectedMuni ? filterData(data, selectedMuni, dispatch) : ''}
