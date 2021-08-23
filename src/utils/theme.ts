@@ -54,14 +54,16 @@ const aboutPageStyle = css`
       float: right; 
       top: 12px;
 
-      color: ${themeColors.indigo};
       font-size: 18px;
-      text-decoration: none;
       transition: 0.3s ease-in-out;
+    }
+  }
 
-      &:hover {
-        color: ${themeColors.clearWater}; 
-      }
+  a {
+    text-decoration: none;
+    color: ${themeColors.winterSky};
+    &:hover {
+      color: ${themeColors.clearWater}; 
     }
   }
 

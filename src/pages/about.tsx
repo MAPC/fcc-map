@@ -11,52 +11,50 @@ const AboutPage: React.FC = () => {
 
           <header>
             {/* need retrofit logo here */}
-            <img src='../images/logo.png' />
+            <img src="../images/logo.png" alt="" />
             <Link to="/">Back to Retrofitting Suburbia</Link>
           </header>
 
           <main>
-            <h1>About MassBuilds</h1>
+            <h1>About Retrofitting Suburbia</h1>
 
-            <h3>What is MassBuilds?</h3>
+            <h3>What is Retrofitting Suburbia?</h3>
             <p>MassBuilds is a detailed, visual database with information on real estate developments in the Greater Boston region. By creating an account, you can download both spatial (.shp) and tabular (.csv) versions of the development data available on this site.</p>
 
-            <h3>What sorts of data can I find in MassBuilds?</h3>
+            <h3>What sorts of data can I find in Retrofitting Suburbia?</h3>
             <p>Thanks to our partners and collaborators, MassBuilds has specific details about real estate developments including but not limited to: project status, estimated year of completion, commercial square footage, number of housing units, number of parking spots, total stories and/or height, and a brief description for each development.</p>
 
-            <h3>How do I find a particular development that I am interested in?</h3>
-            <p>Developments are searchable by name or address. You can also search for a city, town, neighborhood, or a different nearby address. You can hover over any dot to see a development's name, status, and year of completion. To read the details for a particular development, click on its dot on the map.</p>
+            <h3>I have a question that is not listed above, or I am having trouble using Retrofitting Suburbia. Who can I contact?</h3>
+            <p>We are eager to improve Retrofitting Suburbia for planners, developers, and engaged citizens alike. Please contact us at <a href="mailto:">Email Address</a> with any concerns, questions, or feedback you'd like to share, and we will be sure to get back to you.</p>
 
-            <h3>I’ve noticed some data is incomplete or out of date. What should I do?</h3>
-            <p>Our data has been vetted by the MassBuilds team at MAPC and has a high degree of accuracy, but in the case that the status or details of a particular development are out of date, you can propose an edit by clicking on the development and then clicking the 'Edit' button. You must have a MassBuilds account to suggest edits.</p>
+            <h1>The Most Promising Opportunities</h1>
 
-            <h3>There is a development that I am aware of but it's not currently in the MassBuilds database. How can I add it?</h3>
-            <p>We welcome user-added developments! When you're logged in with a MassBuilds account, there will be a large, blue 'Create Development' button in the right-hand menu. When adding a new development, please be precise and include as much information as possible, including but not limited to commercial square footage, number of housing units, number of parking spaces, and a description.</p>
-
-            <h3>How can I access the entire dataset instead of looking at one development at a time?</h3>
-            <p>In the upper right-hand corner of the MassBuilds map page is the “Export Results” tab. Clicking on this tab will allow you to download a spreadsheet or spatial data file with detailed information on all of the developments in MassBuilds. The PDF export option provides a summary report of developments categorized by their development status.</p>
-
-            <h3>I have a question that is not listed above, or I am having trouble using MassBuilds. Who can I contact?</h3>
-            <p>We are eager to improve MassBuilds for planners, developers, and engaged citizens alike. Please contact us at <a href="mailto:massbuilds@mapc.org">MassBuilds@MAPC.org</a> with any concerns, questions, or feedback you'd like to share, and we will be sure to get back to you.</p>
-
-            <h1>Accounts in MassBuilds</h1>
-
-            <h3>Site Visitors with No Account</h3>
+            <h3>Navigating the Map</h3>
             <p>If you are visiting the site and do not want to make an account, you can see project descriptions, browse our map, and filter projects by location or attribute.</p>
 
-            <h3>Registered Users</h3>
+            <h3>The Quintiles System</h3>
             <p>Any site visitor can become a registered user by creating an account. Registered users may download data and suggest new developments and edits to projects that will be moderated and verified by MAPC staff before they are added to MassBuilds. We try to review moderations within a week.</p>
             <p>To become a Registered User, simply sign up for an account on MassBuilds by opening the right-hand menu and clicking 'Sign up here'. State, regional, and municipal officials may request additional privileges for their account by requesting verified status when they sign up.</p>
             <p>When you are logged in to your MassBuilds account, you will receive dashboard notifications on the status of your suggested additions and edits.</p>
 
-            <h3>Verified Users: Municipal Staff, Planning Board Members, Regional Planning Agencies, and other relevant State Agencies</h3>
+            <h1>Overall Scores</h1>
+
+            <h3>Growth Potential</h3>
+            <p>If you are visiting the site and do not want to make an account, you can see project descriptions, browse our map, and filter projects by location or attribute.</p>
+
+            <h3>Healthy Communities</h3>
+            <p>Any site visitor can become a registered user by creating an account. Registered users may download data and suggest new developments and edits to projects that will be moderated and verified by MAPC staff before they are added to MassBuilds. We try to review moderations within a week.</p>
+            <p>To become a Registered User, simply sign up for an account on MassBuilds by opening the right-hand menu and clicking 'Sign up here'. State, regional, and municipal officials may request additional privileges for their account by requesting verified status when they sign up.</p>
+            <p>When you are logged in to your MassBuilds account, you will receive dashboard notifications on the status of your suggested additions and edits.</p>
+
+            <h3>Healthy Watersheds</h3>
             <p>Members of Regional Planning Agencies and other relevant state/quasi-governmental agencies who are Verified Users may submit new developments and edit developments created by the same account without moderation from MAPC staff. When you sign up for an account on MassBuilds, you will be asked if you are an official representative of a municipal or state governmental agency or relevant quasi-governmental agency. If you select yes, your credentials will be verified by an MAPC staff member. Once verified, you will be able to add projects and edit your own developments without moderation by MAPC staff. You will not be able to moderate others’ developments.</p>
 
-            <h3>Which projects should I add to MassBuilds?</h3>
+            <h3>Travel Choices</h3>
             <p>This dataset is meant to be inclusive of building developments only (for example, street improvements would not be included). There’s no minimum size requirement for projects, but we ask that you only add projects that would be considered “impactful” to a community.</p>
             <p>Still unsure if you should add it? Here are some general guidelines:</p>
-
-            <h3>Housing projects</h3>
+ 
+            {/*<h3>Housing projects</h3>
             <ul>
               <li>Rural/suburban communities: = 10 units</li>
               <li>Urban communities: = 20 units</li>
@@ -66,7 +64,7 @@ const AboutPage: React.FC = () => {
             <ul>
               <li>Rural/suburban communities: = 20,000 sqft</li>
               <li>Urban communities: = 50,000 sqft</li>
-            </ul>
+            </ul> */}
 
             <h1>Disclaimer</h1>
             <p>
@@ -75,7 +73,7 @@ const AboutPage: React.FC = () => {
           </main>
 
           <footer>
-            <img src="../images/mapc-logo.svg" />
+            <img src="../images/mapc_logo.svg" alt="" />
           </footer>
 
       </div>

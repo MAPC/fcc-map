@@ -4,13 +4,14 @@ import React from 'react';
 import { jsx, css } from '@emotion/react';
 import { themeColors, fonts } from '../../utils/theme';
 import { Link } from 'gatsby';
+import { Info } from 'phosphor-react';
 
 const legendStyle = css`
   width: 10rem;
-  height: 20rem;
+  height: auto;
   background: ${themeColors.warmGrayTransparent};
-  margin: 36vh 2vw;
-  padding: 1.5rem 2rem;
+  margin: 30vh 2vw;
+  padding: 1.5rem 2rem 1.8rem;
   position: absolute;
   z-index: 1;
   right: 0;
@@ -74,19 +75,37 @@ const circleStyle5 = css`
   color: ${themeColors.quintile5};
 `;
 
+const linkStyle = css`
+  display: flex;
+  align-items: center;
+  font-family: ${fonts.calibre};
+  text-decoration: none;
+  color: ${themeColors.fontGray};
+  transition: 0.3s ease-in-out;
+  &:hover {
+    color: ${themeColors.gold};
+  }
+`;
+
+const iconStyle = css`
+  padding-right: 3px;
+`;
+
 const Legend: React.FC = () => {
     return (
         <div css={legendStyle}>
-        <p css={titleStyle}>Legend</p>
+        <p css={titleStyle}>Quintile</p>
         <ul css={detailListStyle}>
-          <p>Quintile</p>
           <li css={liStyle}><span css={circleStyle1}>&#183;</span>First</li>
           <li css={liStyle}><span css={circleStyle2}>&#183;</span>Second</li>
           <li css={liStyle}><span css={circleStyle3}>&#183;</span>Third</li>
           <li css={liStyle}><span css={circleStyle4}>&#183;</span>Fourth</li>
           <li css={liStyle}><span css={circleStyle5}>&#183;</span>Fifth</li>
         </ul>
-        <Link to="/about">More Info</Link>
+        <Link css={linkStyle} to="/about">
+          <Info size={20} css={iconStyle} />
+          More Info
+        </Link>
       </div>
     );
 };
