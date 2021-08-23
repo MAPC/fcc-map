@@ -30,6 +30,7 @@ interface MunicipalDataProps {
   selectedMuni: string|undefined,
   node: Array<CsvData>,
   containerRef: React.RefObject<HTMLInputElement>,
+  highlightedSites: Array<number|undefined>, //passing to SiteRow
   dispatch: React.Dispatch<unknown>
 }
 
@@ -59,30 +60,17 @@ const ulStyle = css`
   margin: 0 2vw 4vh;
 `;
 
-function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>): Array<JSX.Element>|undefined {
+function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined> ): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
       if (node.municipal === selectedMuni) {
-        list.push(<SiteRow node={node} key={node.site_oid} dispatch={dispatch} />);
+        list.push(<SiteRow node={node} key={node.site_oid} dispatch={dispatch} highlightedSites={highlightedSites} />);
       }
       return list;
     }, []);
   }
   return undefined;
 }
-
-// similar to filterData, grabs corresponding MunicipalRow on municipality selection 
-// function showMunicipalRow(data: Array<CsvData>, selectedMuni: string|undefined): Array<JSX.Element>|undefined {
-//   if (selectedMuni) {
-//     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
-//       if (node.municipal === selectedMuni) {
-//         list.push(<MunicipalRow data={data} node={node} selectedMuni={selectedMuni} />);
-//       }
-//       return list;
-//     }, []);
-//   }
-//   return undefined;
-// }
 
 function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMuni: string|undefined) {
   if (selectedMuni) {
@@ -91,13 +79,13 @@ function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMu
   return undefined;
 }
 
-const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, dispatch }) => (
+const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, highlightedSites, dispatch }) => (
   <div css={wrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
     {selectedMuni ? showMunicipalRow(data, node, selectedMuni) : ''} {/* renders one MunicipalRow on municipality selection */}
     <Legend />
     <ul css={ulStyle}>
-      {selectedMuni ? filterData(data, selectedMuni, dispatch) : ''}
+      {selectedMuni ? filterData(data, selectedMuni, dispatch, highlightedSites) : ''}
     </ul>
   </div>
 );

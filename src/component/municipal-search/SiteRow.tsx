@@ -8,7 +8,8 @@ import { PushPinSimple } from 'phosphor-react';
 
 interface SiteRowProps {
   node: CsvData,
-  dispatch: React.Dispatch<unknown>
+  dispatch: React.Dispatch<unknown>,
+  highlightedSites: Array<number|undefined>
 }
 
 const liStyle = css`
@@ -55,7 +56,7 @@ const buttonStyle = css`
 const detailListStyle = css`
   padding-left: 0;
   list-style: none;
-  color: ${themeColors.fontLightGray}
+  color: ${themeColors.fontGray}
 `;
 
 const bold = css`
@@ -72,7 +73,7 @@ function parseDouble(input: number): string {
   return input.toFixed(2);
 }
 
-const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
+const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch, highlightedSites }) => {
   const [highlighted, toggleHightlight] = useState<boolean>(false);
   const [starred, toggleStarred] = useState<boolean>(false);
   return (
@@ -93,7 +94,6 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
           toggleHightlight(!highlighted);
           dispatch({ type: 'addSite', toggledSite: +node.site_oid });
         }
-        // console.log('mouseenter, highlighted: ', highlighted);        
       }}
 
       onMouseLeave={(e) => {
@@ -101,17 +101,16 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
           toggleHightlight(!highlighted);
           dispatch({ type: 'addSite', toggledSite: +node.site_oid });
         }
-        // console.log('mouseleave, highlighted: ', highlighted);
       }}
     > 
       <button css={buttonStyle} 
         // trying to use state to render button. onload or "on dispatch"
-        onLoad={() => {
-          if (highlighted) {
-            dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-            toggleStarred(true);
-          }
-        }}
+        // onLoad={() => {
+        //   if (highlightedSites && highlightedSites === node.site_oid) {
+            // dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+        //     toggleStarred(true);
+        //   }
+        // }}
         onClick={() => {
           if (highlighted && starred) {
             toggleStarred(false);
@@ -119,6 +118,7 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch }) => {
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           } else if (highlighted && !starred) {
             toggleStarred(true);
+            // dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           } else if (!highlighted && !starred) {
             toggleStarred(true);
             toggleHightlight(true);

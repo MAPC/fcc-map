@@ -32,7 +32,7 @@ const AboutPage: React.FC = () => {
             <h3>Navigating the Map</h3>
             <p>If you are visiting the site and do not want to make an account, you can see project descriptions, browse our map, and filter projects by location or attribute.</p>
 
-            <h3>The Quintiles System</h3>
+            <h3>Opportunities by Quintile</h3>
             <p>Any site visitor can become a registered user by creating an account. Registered users may download data and suggest new developments and edits to projects that will be moderated and verified by MAPC staff before they are added to MassBuilds. We try to review moderations within a week.</p>
             <p>To become a Registered User, simply sign up for an account on MassBuilds by opening the right-hand menu and clicking 'Sign up here'. State, regional, and municipal officials may request additional privileges for their account by requesting verified status when they sign up.</p>
             <p>When you are logged in to your MassBuilds account, you will receive dashboard notifications on the status of your suggested additions and edits.</p>

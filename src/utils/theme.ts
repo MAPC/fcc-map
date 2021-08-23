@@ -20,11 +20,16 @@ const themeColors = {
   warmGray: '#E9E9E9',
   warmGrayTransparent: '#f7f7f7f5',
   gold: 'gold',
-  quintile1: 'darkslateblue',
-  quintile2: 'cornflowerblue',
-  quintile3: 'cadetblue',
-  quintile4: 'darksalmon',
-  quintile5: 'pink'
+  // quintile1: 'darkslateblue',
+  // quintile2: 'cornflowerblue',
+  // quintile3: 'cadetblue',
+  // quintile4: 'darksalmon',
+  // quintile5: 'pink'
+  quintile1: '#00008F',
+  quintile2: '#3C69E7',
+  quintile3: '#8DD9CC',
+  quintile4: '#D8BFD8',
+  quintile5: 'peachpuff'
 };
 
 const marginStyle = css`

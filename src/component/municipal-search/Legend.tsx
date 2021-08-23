@@ -81,9 +81,9 @@ const linkStyle = css`
   font-family: ${fonts.calibre};
   text-decoration: none;
   color: ${themeColors.fontGray};
-  transition: 0.3s ease-in-out;
+  transition: 0.2s ease-in-out;
   &:hover {
-    color: ${themeColors.gold};
+    color: ${themeColors.sky};
   }
 `;
 

@@ -76,6 +76,7 @@ const Wrapper: React.FC = () => {
             selectedMuni={selectedMuni}
             node={data.allSitesMpCleanCsv.nodes}
             containerRef={containerRef}
+            highlightedSites={state.highlightedSites} //passing to SiteRow
             dispatch={dispatch}
           />
           <SearchMap
