@@ -33,4 +33,70 @@ const marginStyle = css`
   max-width: 116.6rem;
 `;
 
-export { fonts, themeColors, marginStyle };
+const aboutPageStyle = css`
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  font-family: ${fonts.calibre};
+
+  header {
+    width: 85%;
+    max-width: 850px;
+    padding: 25px 0;
+    margin: 0 auto;
+
+    img {
+      width: 50px; 
+      height: auto;
+    } 
+
+    a {
+      float: right; 
+      top: 12px;
+
+      color: ${themeColors.indigo};
+      font-size: 18px;
+      text-decoration: none;
+      transition: 0.3s ease-in-out;
+
+      &:hover {
+        color: ${themeColors.clearWater}; 
+      }
+    }
+  }
+
+  main {
+    width: 85%;
+    max-width: 700px;
+    min-height: 95vh;
+    margin: 0 auto;
+    padding: 20px 0 80px;
+
+    h3 {
+      color: ${themeColors.black}
+    }
+
+    p {
+      color: ${themeColors.fontLightGray}
+    }
+
+    @include media('medium') { width: 92%; }
+  }
+
+  h1 {
+    display: inline-block;
+    margin-bottom: 40px;
+    font-size: 34px;
+    color: ${themeColors.indigo};
+    border-bottom: 6px solid ${themeColors.glass};
+  }
+
+  footer {
+    padding: 15px;
+    text-align: right;
+    background: ${themeColors.indigo};
+    img { width: 80px; }
+  }
+`;
+
+export { fonts, themeColors, marginStyle, aboutPageStyle };

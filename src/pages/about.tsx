@@ -2,93 +2,17 @@
 
 import React from 'react';
 import { jsx, css } from '@emotion/react';
-import { themeColors, fonts } from '../utils/theme';
+import { themeColors, fonts, aboutPageStyle } from '../utils/theme';
 import { Link } from 'gatsby';
-
-const aboutStyle = css`
-`;
-
-const headerStyle = css`
-  width: 85%;
-  max-width: 850px;
-  padding: 25px 0;
-  margin: 0 auto;
-`;
-
-const h1Style = css`
-  display: inline-block;
-  margin-bottom: 40px;
-  font-size: 34px;
-  border-bottom: 6px solid $color_brand-primary;
-`;
-
-const footerStyle = css`
-  padding: 15px;  
-  text-align: right;
-  background: $color_brand-primary;
-`;
-
-// .route.info-page {
-
-//   header {
-//     width: 85%;
-//     max-width: 850px;
-//     padding: 25px 0;
-//     margin: 0 auto;
-
-//     img {
-//       width: 50px; 
-//       height: auto;
-//     } 
-
-//     a {
-//       float: right; 
-//       top: 12px;
-
-//       color: $color_brand-primary;
-//       font-size: 18px;
-
-//       &:hover {
-//         color: $color_brand-primary--active; 
-//       }
-//     }
-//   }
-
-//   h1 {
-//     display: inline-block;
-
-//     margin-bottom: 40px;
-
-//     font-size: 34px;
-//     border-bottom: 6px solid $color_brand-primary;
-//   }
-
-//   footer {
-//     padding: 15px;
-
-//     text-align: right;
-
-//     background: $color_brand-primary;
-
-//     img { width: 80px; }
-//   }
-
-// }
-
 
 const AboutPage: React.FC = () => {
     return (
-        <div css={aboutStyle}>
-        <h1>This is the about component </h1>
-        <Link to="/">Home</Link>
+      <div css={aboutPageStyle}>
 
-        {/* <section class="route info-page about"> */}
-        <section>
-
-          <header css={headerStyle}>
-            {/* <img src='/assets/images/logo.png'> */}
-
-            {/* {{link-to 'Back to MassBuilds' 'map'}} */}
+          <header>
+            {/* need retrofit logo here */}
+            <img src='../images/logo.png' />
+            <Link to="/">Back to Retrofitting Suburbia</Link>
           </header>
 
           <main>
@@ -134,14 +58,14 @@ const AboutPage: React.FC = () => {
 
             <h3>Housing projects</h3>
             <ul>
-              <li>Rural/suburban communities: 10 units</li>
-              <li>Urban communities: 20 units</li>
+              <li>Rural/suburban communities: = 10 units</li>
+              <li>Urban communities: = 20 units</li>
             </ul>
 
             <h3>Commercial projects</h3>
             <ul>
-              <li>Rural/suburban communities: 20,000 sqft</li>
-              <li>Urban communities: 50,000 sqft</li>
+              <li>Rural/suburban communities: = 20,000 sqft</li>
+              <li>Urban communities: = 50,000 sqft</li>
             </ul>
 
             <h1>Disclaimer</h1>
@@ -150,11 +74,9 @@ const AboutPage: React.FC = () => {
             </p>
           </main>
 
-          <footer css={footerStyle}>
-            {/* <img src="/assets/images/mapc-logo.svg"> */}
+          <footer>
+            <img src="../images/mapc-logo.svg" />
           </footer>
-
-        </section>
 
       </div>
     );
