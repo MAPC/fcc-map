@@ -76,7 +76,7 @@ const footerStyle = css`
 // }
 
 
-const About: React.FC = () => {
+const AboutPage: React.FC = () => {
     return (
         <div css={aboutStyle}>
         <h1>This is the about component </h1>
@@ -160,4 +160,4 @@ const About: React.FC = () => {
     );
 };
 
-export default About;
+export default AboutPage;
