@@ -179,24 +179,29 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
           marker={false}
           placeholder="Search for a municipality"
         />
-        {showPopup && (
-          <Popup
-            latitude={lngLat[1]}
-            longitude={lngLat[0]}
-            closeButton={false}
-            onClose={() => togglePopup(false)}
-            anchor="top"
-          >
-            <div css={popupStyle}>
-              <h1>{site?.municipal} site {site?.site_oid}</h1>
-              <p>Address: </p>
-              <p>Quantity of Parcels: {parseToString(parseFloat(site?.["Number of Parcels on Site"]))}</p>
-              <p>Build Area: {parseCommas(parseToString(parseFloat(site?.buildarea_sf)))} sq. ft.</p>
-              <p>Overall Score: {parseDouble(parseFloat(site?.["Overall Score"]))}/5</p> 
-              {/* needed [ " " ] for fields with spaces */}
-            </div>
-          </Popup>
-        )}
+        {/* showPopup evaluates to true only if the Popup municipal matches selectedMuni */}
+        {site.municipal === selectedMuni ? 
+          showPopup && (
+            <Popup
+              latitude={lngLat[1]}
+              longitude={lngLat[0]}
+              closeButton={false}
+              onClose={() => togglePopup(false)}
+              anchor="top"
+            >
+              <div css={popupStyle}>
+                <h1>{site?.municipal} site {site?.site_oid}</h1>
+                <p>Address: </p>
+                <p>Quantity of Parcels: {parseToString(parseFloat(site?.["Number of Parcels on Site"]))}</p>
+                <p>Build Area: {parseCommas(parseToString(parseFloat(site?.buildarea_sf)))} sq. ft.</p>
+                <p>Overall Score: {parseDouble(parseFloat(site?.["Overall Score"]))}/5</p> 
+                {/* needed [ " " ] for fields with spaces */}
+              </div>
+            </Popup>
+          )
+          : !showPopup 
+        }
+
         {/* any municipality not highlighted is given a transparent overlay */}
         <Source id="Municipalities" type="vector" url="mapbox://ihill.763lks2o">
           <Layer
@@ -215,7 +220,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             }}
           />
         </Source>
-        
         {/* source layer targeting the FILL of sites, filtering based on Top Category */}
         <Source id="Sites_polygons" type="vector" url="mapbox://ihill.5ofxrajx">
           <Layer
@@ -253,7 +257,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             }}
           /> 
         </Source>
-
         {/* circles using Sites_mp_clean_points_csv */}
         <Source id="Sites" type="vector" url="mapbox://ihill.ckseu5a9h3gry28pa20itgrq7-8tgwx">
           <Layer
@@ -301,7 +304,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             }}
           />
         </Source>
-
         {/* source layer targeting the OUTLINES of sites on hover */}
         <Source id="Sites_highlight" type="vector" url="mapbox://ihill.5ofxrajx">
           <Layer
@@ -332,7 +334,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             }}
           /> 
         </Source>
-        
         <div css={navigationStyle}>
           <NavigationControl />
         </div>

@@ -131,7 +131,7 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch, highlightedSites }) =
       >
         {/* conditional color: checks if site_oid is in highlightedSites and renders accordingly i.e. saved sites from other munis */}
         {/* previously color={highlighted ? themeColors.gold : themeColors.fontGray} */}
-        <PushPinSimple size={20} weight="fill" color={highlightedSites.includes(parseInt(node.site_oid)) ? themeColors.gold : themeColors.fontGray} />
+        <PushPinSimple size={25} weight="fill" color={highlightedSites.includes(parseInt(node.site_oid)) ? themeColors.gold : themeColors.fontGray} />
       </button>
       <p css={titleStyle}>{node.municipal} site {node.site_oid}</p>
       <ul css={detailListStyle}>
