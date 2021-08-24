@@ -180,7 +180,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
           placeholder="Search for a municipality"
         />
         {/* showPopup evaluates to true only if the Popup municipal matches selectedMuni */}
-        {site.municipal === selectedMuni ? 
+        {site?.municipal === selectedMuni ? 
           showPopup && (
             <Popup
               latitude={lngLat[1]}
@@ -297,7 +297,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
               highlightedSites.length > 0 ? [
                 'match',
                 ['get', 'site_oid'],
-                [`${highlightedSites}`], 1, 
+                [`${highlightedSites}`], 1, // not looking into array for site_oid matches 
                 0
               ]
               : 0
