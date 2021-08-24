@@ -120,7 +120,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
         mapStyle="mapbox://styles/ihill/cknj7cvb513e317rxm4a8i9ah"
         scrollZoom={true}
         onLoad={() => {
-          console.log('localStorage', localStorage);
           let randomMuni = () => {
               let index = Math.floor(Math.random() * municipalities.length);
               return municipalities[index];
@@ -191,7 +190,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             <div css={popupStyle}>
               <h1>{site?.municipal} site {site?.site_oid}</h1>
               <p>Address: </p>
-              <p>Tax Revenue Differential: ${parseCommas(parseToString(parseFloat(site?.["Site Tax Revenue Change"])))}</p>
               <p>Quantity of Parcels: {parseToString(parseFloat(site?.["Number of Parcels on Site"]))}</p>
               <p>Build Area: {parseCommas(parseToString(parseFloat(site?.buildarea_sf)))} sq. ft.</p>
               <p>Overall Score: {parseDouble(parseFloat(site?.["Overall Score"]))}/5</p> 
@@ -256,28 +254,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
           /> 
         </Source>
 
-        {/* source layer targeting the OUTLINES of sites on hover */}
-        <Source id="Sites_highlight" type="vector" url="mapbox://ihill.5ofxrajx">
-          <Layer
-            type="line"
-            id="Sites (highlight)"
-            source="Sites_highlight"
-            source-layer="Sites_mp_clean_mapbox_layer-71n0va"
-            paint={{
-              'line-width': 5,
-              'line-color': `${themeColors.gold}`,
-              'line-opacity': highlightedSites.length > 0 ? [
-                'match',
-                ['get', 'site_oid'],
-                highlightedSites,
-                1,
-                0
-              ]
-              : 0
-            }}
-          /> 
-        </Source>
-
         {/* circles using Sites_mp_clean_points_csv */}
         <Source id="Sites" type="vector" url="mapbox://ihill.ckseu5a9h3gry28pa20itgrq7-8tgwx">
           <Layer
@@ -324,6 +300,37 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
               : 0
             }}
           />
+        </Source>
+
+        {/* source layer targeting the OUTLINES of sites on hover */}
+        <Source id="Sites_highlight" type="vector" url="mapbox://ihill.5ofxrajx">
+          <Layer
+            type="line"
+            id="Sites (highlight)"
+            source="Sites_highlight"
+            source-layer="Sites_mp_clean_mapbox_layer-71n0va"
+            paint={{
+              'line-width': 
+              [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                6, //zoom
+                12, //width
+                14, //zoom
+                6, //width
+              ],
+              'line-color': `${themeColors.gold}`,
+              'line-opacity': highlightedSites.length > 0 ? [
+                'match',
+                ['get', 'site_oid'],
+                highlightedSites,
+                1,
+                0
+              ]
+              : 0
+            }}
+          /> 
         </Source>
         
         <div css={navigationStyle}>

@@ -18,18 +18,19 @@ const themeColors = {
   fontLightGray: '#757575',
   black: '#000000',
   warmGray: '#E9E9E9',
-  warmGrayTransparent: '#f7f7f7f5',
+  // warmGrayTransparent: '#f7f7f7f5',
+  warmGrayTransparent: '#fbfdff',
   gold: 'gold',
   // quintile1: 'darkslateblue',
   // quintile2: 'cornflowerblue',
   // quintile3: 'cadetblue',
   // quintile4: 'darksalmon',
   // quintile5: 'pink'
-  quintile1: '#00008F',
-  quintile2: '#3C69E7',
-  quintile3: '#8DD9CC',
-  quintile4: '#D8BFD8',
-  quintile5: 'peachpuff'
+  quintile1: 'peachpuff',
+  quintile2: '#C39DC3',
+  quintile3: '#47C2AD',
+  quintile4: '#3766E6',
+  quintile5: '#00008F'
 };
 
 const marginStyle = css`
@@ -60,7 +61,7 @@ const aboutPageStyle = css`
       top: 12px;
 
       font-size: 18px;
-      transition: 0.3s ease-in-out;
+      transition: 0.2s ease-in-out;
     }
   }
 
@@ -68,7 +69,7 @@ const aboutPageStyle = css`
     text-decoration: none;
     color: ${themeColors.winterSky};
     &:hover {
-      color: ${themeColors.clearWater}; 
+      color: ${themeColors.sky}; 
     }
   }
 

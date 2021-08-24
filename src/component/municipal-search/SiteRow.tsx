@@ -91,6 +91,7 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch, highlightedSites }) =
     }
       onMouseEnter={(e) => {
         if (!highlighted) {
+          console.log('onMouseEnter: ', highlightedSites);
           toggleHightlight(!highlighted);
           dispatch({ type: 'addSite', toggledSite: +node.site_oid });
         }
@@ -98,6 +99,7 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch, highlightedSites }) =
 
       onMouseLeave={(e) => {
         if (highlighted && !starred) {
+          console.log('onMouseLeave: ', highlightedSites);
           toggleHightlight(!highlighted);
           dispatch({ type: 'addSite', toggledSite: +node.site_oid });
         }
@@ -118,6 +120,7 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch, highlightedSites }) =
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           } else if (highlighted && !starred) {
             toggleStarred(true);
+            console.log('onClick: ', highlightedSites);
             // dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           } else if (!highlighted && !starred) {
             toggleStarred(true);
@@ -126,7 +129,9 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch, highlightedSites }) =
           }
         }}
       >
-        <PushPinSimple size={20} weight="fill" color={highlighted ? themeColors.gold : themeColors.fontGray} />
+        {/* conditional color: checks if site_oid is in highlightedSites and renders accordingly i.e. saved sites from other munis */}
+        {/* previously color={highlighted ? themeColors.gold : themeColors.fontGray} */}
+        <PushPinSimple size={20} weight="fill" color={highlightedSites.includes(parseInt(node.site_oid)) ? themeColors.gold : themeColors.fontGray} />
       </button>
       <p css={titleStyle}>{node.municipal} site {node.site_oid}</p>
       <ul css={detailListStyle}>

@@ -53,18 +53,6 @@ const AboutPage: React.FC = () => {
             <h3>Travel Choices</h3>
             <p>This dataset is meant to be inclusive of building developments only (for example, street improvements would not be included). There’s no minimum size requirement for projects, but we ask that you only add projects that would be considered “impactful” to a community.</p>
             <p>Still unsure if you should add it? Here are some general guidelines:</p>
- 
-            {/*<h3>Housing projects</h3>
-            <ul>
-              <li>Rural/suburban communities: = 10 units</li>
-              <li>Urban communities: = 20 units</li>
-            </ul>
-
-            <h3>Commercial projects</h3>
-            <ul>
-              <li>Rural/suburban communities: = 20,000 sqft</li>
-              <li>Urban communities: = 50,000 sqft</li>
-            </ul> */}
 
             <h1>Disclaimer</h1>
             <p>
