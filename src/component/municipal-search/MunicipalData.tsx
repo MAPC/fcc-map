@@ -76,7 +76,7 @@ const ulStyle = css`
 function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined> ): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     data.sort((a, b) => 
-      b.Overall_Score - a.Overall_Score
+      b.Quintile_Category - a.Quintile_Category
     );
     // console.log("data.sort'ed by overall score: ", data);
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
