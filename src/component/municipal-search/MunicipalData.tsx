@@ -60,7 +60,7 @@ const ulStyle = css`
   margin: 0 2vw 4vh;
 `;
 
-// working og SiteRow filtering function 
+// working original SiteRow filter 
 // function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined> ): Array<JSX.Element>|undefined {
 //   if (selectedMuni) {
 //     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
@@ -76,6 +76,7 @@ const ulStyle = css`
 function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined> ): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     data.sort((a, b) => 
+      // choose sort-by attribute here
       b.Quintile_Category - a.Quintile_Category
     );
     // console.log("data.sort'ed by overall score: ", data);
