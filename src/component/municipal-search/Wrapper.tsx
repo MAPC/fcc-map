@@ -44,7 +44,6 @@ const Wrapper: React.FC = () => {
   const containerRef = useRef<HTMLInputElement>(null);
   return (
     <StaticQuery
-      // new Sites_mp_clean.csv query
       query={graphql`
         {
           allSitesMpCleanCsv {
@@ -80,12 +79,12 @@ const Wrapper: React.FC = () => {
             dispatch={dispatch}
           />
           <SearchMap
-            data={data.allSitesMpCleanCsv.nodes} //passing down data from csv
+            data={data.allSitesMpCleanCsv.nodes}
             selectedMuni={selectedMuni}
             setMuni={setMuni}
             containerRef={containerRef}
             highlightedSites={state.highlightedSites}
-            dispatch={dispatch} //need later to filterData for MunicipalRow
+            dispatch={dispatch}
           />
         </div>
       )}

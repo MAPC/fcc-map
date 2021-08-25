@@ -106,13 +106,6 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch, highlightedSites }) =
       }}
     > 
       <button css={buttonStyle} 
-        // trying to use state to render button. onload or "on dispatch"
-        // onLoad={() => {
-        //   if (highlightedSites && highlightedSites === node.site_oid) {
-            // dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-        //     toggleStarred(true);
-        //   }
-        // }}
         onClick={() => {
           if (highlighted && starred) {
             toggleStarred(false);

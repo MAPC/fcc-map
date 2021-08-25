@@ -60,8 +60,25 @@ const ulStyle = css`
   margin: 0 2vw 4vh;
 `;
 
+// working og SiteRow filtering function 
+// function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined> ): Array<JSX.Element>|undefined {
+//   if (selectedMuni) {
+//     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
+//       if (node.municipal === selectedMuni) {
+//         list.push(<SiteRow node={node} key={node.site_oid} dispatch={dispatch} highlightedSites={highlightedSites} />);
+//       }
+//       return list;
+//     }, []);
+//   }
+//   return undefined;
+// }
+
 function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined> ): Array<JSX.Element>|undefined {
   if (selectedMuni) {
+    data.sort((a, b) => 
+      b.Overall_Score - a.Overall_Score
+    );
+    // console.log("data.sort'ed by overall score: ", data);
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
       if (node.municipal === selectedMuni) {
         list.push(<SiteRow node={node} key={node.site_oid} dispatch={dispatch} highlightedSites={highlightedSites} />);

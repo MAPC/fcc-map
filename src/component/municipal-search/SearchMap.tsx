@@ -288,19 +288,21 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 8,
                 3,
                 12,
-                7,
-              ],
-              'circle-opacity': 1,
-              'circle-stroke-color': `${themeColors.gold}`,
-              'circle-stroke-width': 5,
-              'circle-stroke-opacity':
-              highlightedSites.length > 0 ? [
-                'match',
-                ['get', 'site_oid'],
-                [`${highlightedSites}`], 1, // not looking into array for site_oid matches 
-                0
+                6
               ]
-              : 0
+              // removing circle stroke
+              // ,
+              // 'circle-opacity': 1,
+              // 'circle-stroke-color': `${themeColors.gold}`,
+              // 'circle-stroke-width': 5,
+              // 'circle-stroke-opacity':
+              // highlightedSites.length > 0 ? [
+              //   'match',
+              //   ['get', 'site_oid'],
+              //   [`${highlightedSites}`], 1, // not looking into array for site_oid matches 
+              //   0
+              // ]
+              // : 0
             }}
           />
         </Source>
@@ -312,15 +314,15 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             source="Sites_highlight"
             source-layer="Sites_mp_clean_mapbox_layer-71n0va"
             paint={{
-              'line-width': 
+              'line-width':
               [
                 'interpolate',
                 ['linear'],
                 ['zoom'],
-                6, //zoom
-                12, //width
-                14, //zoom
-                6, //width
+                8, //zoom
+                15, //width
+                16, //zoom
+                5, //width
               ],
               'line-color': `${themeColors.gold}`,
               'line-opacity': highlightedSites.length > 0 ? [
