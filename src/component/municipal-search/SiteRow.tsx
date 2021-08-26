@@ -1,6 +1,6 @@
 /** @jsx jsx */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { jsx, css } from '@emotion/react';
 import { themeColors, fonts } from '../../utils/theme';
 import { CsvData } from './MunicipalData';
@@ -76,37 +76,56 @@ function parseDouble(input: number): string {
 const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch, highlightedSites }) => {
   const [highlighted, toggleHightlight] = useState<boolean>(false);
   const [starred, toggleStarred] = useState<boolean>(false);
+
+  useEffect(() => {
+    // if on render highlightedSites array includes this SiteRow card's site_oid,
+    // then initialize highlighted and starred to true
+    // else, useState(false)
+    // need to call it only once, on ComponentDidMount
+    const checkHighlightedSites = () => {
+      if (highlightedSites.includes(parseInt(node.site_oid))) {
+        toggleHightlight(true)
+        toggleStarred(true)
+      } else {
+        toggleHightlight(false)
+        toggleStarred(false)
+      }
+      console.log('highlightedSites: ', highlightedSites, 'highlighted: ', highlighted, 'starred: ', starred);
+    }
+    checkHighlightedSites();
+  }, [])
+
   return (
     <li key={node.site_oid} 
-    css={
-      [
-        liStyle,
-        node.Quintile_Category === '1' ? quintile1 : 
-        node.Quintile_Category === '2' ? quintile2 : 
-        node.Quintile_Category ===  '3' ? quintile3 : 
-        node.Quintile_Category ===  '4' ? quintile4 : 
-        node.Quintile_Category ===  '5' ? quintile5 : 
-        ''
-      ]
-    }
-      onMouseEnter={(e) => {
-        if (!highlighted) {
-          console.log('onMouseEnter: ', highlightedSites);
-          toggleHightlight(!highlighted);
-          dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+        css={
+          [
+            liStyle,
+            node.Quintile_Category ===  '5' ? quintile5 : 
+            node.Quintile_Category ===  '4' ? quintile4 : 
+            node.Quintile_Category ===  '3' ? quintile3 : 
+            node.Quintile_Category === '2' ? quintile2 : 
+            node.Quintile_Category === '1' ? quintile1 :
+            ''
+          ]
         }
-      }}
+        onMouseEnter={(e) => {
+          if (!highlighted) {
+            console.log('onMouseEnter: ', highlightedSites);
+            toggleHightlight(!highlighted);
+            dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+          }
+        }}
 
-      onMouseLeave={(e) => {
-        if (highlighted && !starred) {
-          console.log('onMouseLeave: ', highlightedSites);
-          toggleHightlight(!highlighted);
-          dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-        }
-      }}
+        onMouseLeave={(e) => {
+          if (highlighted && !starred) {
+            console.log('onMouseLeave: ', highlightedSites);
+            toggleHightlight(!highlighted);
+            dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+          }
+        }}
     > 
       <button css={buttonStyle} 
-        onClick={() => {
+         onClick={() => {
           if (highlighted && starred) {
             toggleStarred(false);
             toggleHightlight(false);
@@ -122,9 +141,7 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch, highlightedSites }) =
           }
         }}
       >
-        {/* conditional color: checks if site_oid is in highlightedSites and renders accordingly i.e. saved sites from other munis */}
-        {/* previously color={highlighted ? themeColors.gold : themeColors.fontGray} */}
-        <PushPinSimple size={25} weight="fill" color={highlightedSites.includes(parseInt(node.site_oid)) ? themeColors.gold : themeColors.fontGray} />
+        <PushPinSimple size={25} weight="fill" color={highlighted ? themeColors.gold : themeColors.fontGray} />
       </button>
       <p css={titleStyle}>{node.municipal} site {node.site_oid}</p>
       <ul css={detailListStyle}>

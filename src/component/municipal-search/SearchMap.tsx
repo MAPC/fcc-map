@@ -122,7 +122,11 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
         onLoad={() => {
           let randomMuni = () => {
               let index = Math.floor(Math.random() * municipalities.length);
-              return municipalities[index];
+              if (municipalities[index] !== 'Carlisle' || municipalities[index] !== 'Manchester-by-the-Sea') {
+                return municipalities[index];
+              } else {
+                return municipalities[0]; // defaults to Acton
+              }
             };            
             setMuni(randomMuni);
             setViewport({

@@ -20,17 +20,12 @@ const themeColors = {
   warmGray: '#E9E9E9',
   // warmGrayTransparent: '#f7f7f7f5',
   warmGrayTransparent: '#fbfdff',
-  gold: 'gold',
-  // quintile1: 'darkslateblue',
-  // quintile2: 'cornflowerblue',
-  // quintile3: 'cadetblue',
-  // quintile4: 'darksalmon',
-  // quintile5: 'pink'
-  quintile1: 'peachpuff',
-  quintile2: '#C39DC3',
-  quintile3: '#47C2AD',
-  quintile4: '#3766E6',
-  quintile5: '#00008F'
+  gold: '#ffc800',
+  quintile1: '#e39374',
+  quintile2: '#c98bc9',
+  quintile3: '#3ec9b7',
+  quintile4: '#5445ff',
+  quintile5: '#00006e'
 };
 
 const marginStyle = css`

@@ -75,7 +75,7 @@ const ulStyle = css`
 
 function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined> ): Array<JSX.Element>|undefined {
   if (selectedMuni) {
-    data.sort((a, b) => 
+    data.sort((a: any, b: any) => 
       // choose sort-by attribute here
       b.Quintile_Category - a.Quintile_Category
     );
