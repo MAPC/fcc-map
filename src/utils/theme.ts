@@ -37,6 +37,8 @@ const marginStyle = css`
 const aboutPageStyle = css`
   width: 100vw;
   height: 100vh;
+  padding: 0;
+  margin: 0;
   position: absolute;
   font-family: ${fonts.calibre};
 

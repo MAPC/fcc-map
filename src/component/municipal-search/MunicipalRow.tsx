@@ -3,12 +3,14 @@
 import React from 'react';
 import { jsx, css } from '@emotion/react';
 import { themeColors, fonts } from '../../utils/theme';
-import { CsvData } from './MunicipalData';
+import { CsvData } from './MunicipalData'; 
+import Chart from './Chart';
 
 interface MunicipalRowProps {
   data: Array<CsvData>,
   node: Array<CsvData>,
-  selectedMuni: string|undefined
+  selectedMuni: string|undefined,
+  highlightedSites: Array<number|undefined>
 }
 
 const muniRowStyle = css`
@@ -75,19 +77,25 @@ function parseCommas(string: any) {
 }
 
 // rendering MunicipalRow, imported into SearchMap
-const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, node, selectedMuni }) => {
+const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, node, selectedMuni, highlightedSites }) => {
   const quantitySites : number = getTax(data, selectedMuni)[0];
   const differential : number = getTax(data, selectedMuni)[1]; 
   const averageDiff : number = getTax(data, selectedMuni)[2];
   return (
     <div css={muniRowStyle}>
-      <p css={titleStyle}>{selectedMuni}</p>
+      <p css={titleStyle}>Suitability Analysis of Identified Sites:<br/>{selectedMuni}</p>
       <ul css={detailListStyle}>
         <li>Tax Revenue Differential: ${parseCommas(parseToString(differential))}</li>
         <li>Average Tax Revenue Differential Per Site: ${parseCommas(parseToString(averageDiff))}</li>
         {/* <li>Average Tax Revenue Differential Per Site: ${parseCommas(parseToString(parseFloat(node.Municipal_Avg_Tax_Increase)))}</li> */}
         <li>Quantity of Sites: {quantitySites}</li>
       </ul>
+      {/* <Chart
+        data={data}
+        node={node}
+        selectedMuni={selectedMuni}
+        highlightedSites={highlightedSites}
+      /> */}
     </div>
   )
 };

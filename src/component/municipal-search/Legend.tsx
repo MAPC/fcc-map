@@ -97,11 +97,11 @@ const Legend: React.FC = () => {
         <p css={titleStyle}>Quintiles</p>
         <p>By Overall Score</p>
         <ul css={detailListStyle}>
-          <li css={liStyle}><span css={circleStyle1}>&#183;</span>First<br/>4.05 - 4.99</li>
-          <li css={liStyle}><span css={circleStyle2}>&#183;</span>Second<br/>3.79 - 4.05</li>
-          <li css={liStyle}><span css={circleStyle3}>&#183;</span>Third<br/>3.57 - 3.79</li>
-          <li css={liStyle}><span css={circleStyle4}>&#183;</span>Fourth<br/>3.34 - 3.57</li>
-          <li css={liStyle}><span css={circleStyle5}>&#183;</span>Fifth<br/>2.41 - 3.34</li>
+          <li css={liStyle}><span css={circleStyle1}>&#183;</span>First<br/>3.25 - 3.96</li>
+          <li css={liStyle}><span css={circleStyle2}>&#183;</span>Second<br/>3.05 - 3.25</li>
+          <li css={liStyle}><span css={circleStyle3}>&#183;</span>Third<br/>2.88 - 3.05</li>
+          <li css={liStyle}><span css={circleStyle4}>&#183;</span>Fourth<br/>2.67 - 2.88</li>
+          <li css={liStyle}><span css={circleStyle5}>&#183;</span>Fifth<br/>1.84 - 2.67</li>
         </ul>
         <Link css={linkStyle} to="/about">
           <Info size={20} css={iconStyle} />

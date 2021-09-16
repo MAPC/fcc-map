@@ -6,6 +6,7 @@ import SiteRow from './SiteRow';
 import MunicipalRow from './MunicipalRow';
 import Legend from './Legend'
 import { themeColors, fonts } from '../../utils/theme';
+import { List } from 'phosphor-react';
 
 export type CsvData = {
   Quintile_Category: string,
@@ -13,7 +14,7 @@ export type CsvData = {
   municipal: string,
   site_oid: string,
   Growth_Potential_Score: string,
-  Healthy_Communtiies_Score: string,
+  Healthy_Communities_Score: string,
   Healthy_Watersheds_Score: string,
   Travel_Choices_Score: string,
   Overall_Score: string,
@@ -22,7 +23,11 @@ export type CsvData = {
   Tax_Revenue__after_retrofit_: string,
   Tax_Revenue__before_retrofit_: string,
   Municipal_Avg_Tax_Increase: string,
-  Municipal_Total_Tax_Increase: string
+  Municipal_Total_Tax_Increase: string,
+  municipal_rank: string,
+  regional_rank: string,
+  parcel_addr: string,
+  parcel_addrl: string
 }
 
 interface MunicipalDataProps {
@@ -60,19 +65,6 @@ const ulStyle = css`
   margin: 0 2vw 4vh;
 `;
 
-// working original SiteRow filter 
-// function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined> ): Array<JSX.Element>|undefined {
-//   if (selectedMuni) {
-//     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
-//       if (node.municipal === selectedMuni) {
-//         list.push(<SiteRow node={node} key={node.site_oid} dispatch={dispatch} highlightedSites={highlightedSites} />);
-//       }
-//       return list;
-//     }, []);
-//   }
-//   return undefined;
-// }
-
 function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined> ): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     data.sort((a: any, b: any) => 
@@ -82,7 +74,7 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
     // console.log("data.sort'ed by overall score: ", data);
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
       if (node.municipal === selectedMuni) {
-        list.push(<SiteRow node={node} key={node.site_oid} dispatch={dispatch} highlightedSites={highlightedSites} />);
+        list.push(<SiteRow data={data} node={node} key={node.site_oid} dispatch={dispatch} selectedMuni={selectedMuni} highlightedSites={highlightedSites} />);
       }
       return list;
     }, []);
@@ -90,9 +82,9 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
   return undefined;
 }
 
-function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMuni: string|undefined) {
+function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMuni: string|undefined, highlightedSites: Array<number|undefined> ) {
   if (selectedMuni) {
-    return <MunicipalRow data={data} node={node} selectedMuni={selectedMuni} />;
+    return <MunicipalRow data={data} node={node} selectedMuni={selectedMuni} highlightedSites={highlightedSites} />;
   }
   return undefined;
 }
@@ -100,7 +92,7 @@ function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMu
 const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, highlightedSites, dispatch }) => (
   <div css={wrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
-    {selectedMuni ? showMunicipalRow(data, node, selectedMuni) : ''} {/* renders one MunicipalRow on municipality selection */}
+    {selectedMuni ? showMunicipalRow(data, node, selectedMuni, highlightedSites) : ''} {/* renders one MunicipalRow on municipality selection */}
     <Legend />
     <ul css={ulStyle}>
       {selectedMuni ? filterData(data, selectedMuni, dispatch, highlightedSites) : ''}
@@ -109,4 +101,3 @@ const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node,
 );
 
 export default MunicipalData;
-export { filterData };

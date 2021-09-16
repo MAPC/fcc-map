@@ -38,6 +38,7 @@ const Layout: React.FC = ({ children }) => (
       html {
         font-size: 10px;
         height: 100%;
+        margin: 0;
       }
 
       body {

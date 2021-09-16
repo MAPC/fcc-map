@@ -37,14 +37,19 @@ const inputStyle = css`
 
 const popupStyle = css`
   padding: 0.8rem;
-  > h1 {
+  h1 {
     color: ${themeColors.indigo};
     font-family: ${fonts.calibre};
     font-size: 1.8rem;
     font-weight: 600;
     margin: 0 0 1rem 0;
+    text-transform: lowercase;
   }
-  > p {
+  h1:first-letter,
+  h1:first-line {
+    text-transform: capitalize;
+  }
+  p {
     margin: 0;
     color: ${themeColors.fontGray};
     font-size: 16px;
@@ -96,6 +101,12 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
     });
   }, []);
 
+  const bold = css`
+    font-weight: 600;
+    padding-right: 2px;
+    color: black;
+  `;
+
   function parseDouble(input: number): string {
     return input.toFixed(2);
   }
@@ -106,6 +117,21 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
 
   function parseCommas(string: any) {
     return string.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  function ordinalSuffix(i: number): string {
+    var j = i % 10,
+        k = i % 100;
+    if (j == 1 && k != 11) {
+        return i + "st";
+    }
+    if (j == 2 && k != 12) {
+        return i + "nd";
+    }
+    if (j == 3 && k != 13) {
+        return i + "rd";
+    }
+    return i + "th";
   }
 
   return (
@@ -150,10 +176,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
           }
         }}
         onHover={(e) => {          
-          if (e.features && e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_points_csv')) {
+          if (e.features && e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02')) {
             setLngLat(e.lngLat);
             togglePopup(true);
-            setSite(e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_points_csv').properties);
+            setSite(e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties);
           } else {
             togglePopup(false);
           }
@@ -194,12 +220,13 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
               anchor="top"
             >
               <div css={popupStyle}>
+                <h1>{site?.parcel_addr}</h1>
                 <h1>{site?.municipal} site {site?.site_oid}</h1>
-                <p>Address: </p>
+                <p><span css={bold}>{parseDouble(+site?.["Overall Score"])}</span>/4 Overall Score</p> 
+                <p><span css={bold}>{ordinalSuffix(+site?.municipal_rank)}</span> in {site?.muni}</p>
+                <p><span css={bold}>{ordinalSuffix(+site?.regional_rank)}</span> in the Region</p>
                 <p>Quantity of Parcels: {parseToString(parseFloat(site?.["Number of Parcels on Site"]))}</p>
                 <p>Build Area: {parseCommas(parseToString(parseFloat(site?.buildarea_sf)))} sq. ft.</p>
-                <p>Overall Score: {parseDouble(parseFloat(site?.["Overall Score"]))}/5</p> 
-                {/* needed [ " " ] for fields with spaces */}
               </div>
             </Popup>
           )

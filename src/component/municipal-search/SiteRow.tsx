@@ -7,8 +7,10 @@ import { CsvData } from './MunicipalData';
 import { PushPinSimple } from 'phosphor-react';
 
 interface SiteRowProps {
+  data: Array<CsvData>,
   node: CsvData,
   dispatch: React.Dispatch<unknown>,
+  selectedMuni: string|undefined,
   highlightedSites: Array<number|undefined>
 }
 
@@ -44,6 +46,11 @@ const titleStyle = css`
   font-size: 2rem;
   font-weight: 600;
   margin: 0 0 1rem 0;
+  text-transform: lowercase;
+  :first-letter,
+  :first-line {
+    text-transform: capitalize;
+  }
 `;
 
 const buttonStyle = css`
@@ -73,24 +80,38 @@ function parseDouble(input: number): string {
   return input.toFixed(2);
 }
 
-const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch, highlightedSites }) => {
+function ordinalSuffix(i: number): string {
+  var j = i % 10,
+      k = i % 100;
+  if (j == 1 && k != 11) {
+      return i + "st";
+  }
+  if (j == 2 && k != 12) {
+      return i + "nd";
+  }
+  if (j == 3 && k != 13) {
+      return i + "rd";
+  }
+  return i + "th";
+}
+
+const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, selectedMuni, highlightedSites }) => {
   const [highlighted, toggleHightlight] = useState<boolean>(false);
   const [starred, toggleStarred] = useState<boolean>(false);
-
+  
   useEffect(() => {
     // if on render highlightedSites array includes this SiteRow card's site_oid,
     // then initialize highlighted and starred to true
     // else, useState(false)
     // need to call it only once, on ComponentDidMount
     const checkHighlightedSites = () => {
-      if (highlightedSites.includes(parseInt(node.site_oid))) {
+      if (highlightedSites.includes(+node.site_oid)) {
         toggleHightlight(true)
         toggleStarred(true)
       } else {
         toggleHightlight(false)
         toggleStarred(false)
       }
-      console.log('highlightedSites: ', highlightedSites, 'highlighted: ', highlighted, 'starred: ', starred);
     }
     checkHighlightedSites();
   }, [])
@@ -110,7 +131,6 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch, highlightedSites }) =
         }
         onMouseEnter={(e) => {
           if (!highlighted) {
-            console.log('onMouseEnter: ', highlightedSites);
             toggleHightlight(!highlighted);
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           }
@@ -118,7 +138,6 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch, highlightedSites }) =
 
         onMouseLeave={(e) => {
           if (highlighted && !starred) {
-            console.log('onMouseLeave: ', highlightedSites);
             toggleHightlight(!highlighted);
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           }
@@ -132,7 +151,6 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch, highlightedSites }) =
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           } else if (highlighted && !starred) {
             toggleStarred(true);
-            console.log('onClick: ', highlightedSites);
             // dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           } else if (!highlighted && !starred) {
             toggleStarred(true);
@@ -143,13 +161,17 @@ const SiteRow: React.FC<SiteRowProps> = ({ node, dispatch, highlightedSites }) =
       >
         <PushPinSimple size={25} weight="fill" color={highlighted ? themeColors.gold : themeColors.fontGray} />
       </button>
-      <p css={titleStyle}>{node.municipal} site {node.site_oid}</p>
+      <h1 css={titleStyle}>{node.parcel_addr}</h1>
+      <h1 css={titleStyle}>{node.municipal} site {node.site_oid}</h1>
       <ul css={detailListStyle}>
         <li><span css={bold}>{parseDouble(+node.Growth_Potential_Score)}</span>/1 <span css={scoreType}>Growth Potential Score</span></li>
-        <li><span css={bold}>{parseDouble(+node.Healthy_Communtiies_Score)}</span>/1 <span css={scoreType}>Healthy Communities Score</span></li>
+        <li><span css={bold}>{parseDouble(+node.Healthy_Communities_Score)}</span>/1 <span css={scoreType}>Healthy Communities Score</span></li>
         <li><span css={bold}>{parseDouble(+node.Healthy_Watersheds_Score)}</span>/1 <span css={scoreType}>Healthy Watersheds Score</span></li>
-        <li><span css={bold}>{parseDouble(+node.Travel_Choices_Score)}</span>/2 <span css={scoreType}>Travel Choices Score</span></li>
-        <li><span css={bold}>{parseDouble(+node.Overall_Score)}</span>/5 <span css={scoreType}>Overall Score</span></li>
+        <li><span css={bold}>{parseDouble(+node.Travel_Choices_Score)}</span>/1 <span css={scoreType}>Travel Choices Score</span></li>
+        <li><span css={bold}>{parseDouble(+node.Overall_Score)}</span>/4 <span css={scoreType}>Overall Score</span></li>
+        <br/>
+        <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span> in Municipality</li>
+        <li><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3037 in the Region</li>
       </ul>
     </li>
   )

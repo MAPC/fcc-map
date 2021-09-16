@@ -46,23 +46,27 @@ const Wrapper: React.FC = () => {
     <StaticQuery
       query={graphql`
         {
-          allSitesMpCleanCsv {
+          allSitesMpClean20210902Csv {
             nodes {
               municipal
               site_oid
               Quintile_Category
               Top_Category
               Growth_Potential_Score
-              Healthy_Communtiies_Score
+              Healthy_Communities_Score
               Healthy_Watersheds_Score
               Travel_Choices_Score
               Overall_Score
               Number_of_Parcels_on_Site
-              Tax_Revenue__after_retrofit_
               Tax_Revenue__before_retrofit_
+              Tax_Revenue__after_retrofit_
               Site_Tax_Revenue_Change
               Municipal_Avg_Tax_Increase
               Municipal_Total_Tax_Increase
+              municipal_rank
+              regional_rank
+              parcel_addr
+              parcel_addrl
             }
           }
         }
@@ -71,15 +75,15 @@ const Wrapper: React.FC = () => {
       render={(data) => (
         <div css={wrapperStyle}>
           <MunicipalData
-            data={data.allSitesMpCleanCsv.nodes}
+            data={data.allSitesMpClean20210902Csv.nodes}
             selectedMuni={selectedMuni}
-            node={data.allSitesMpCleanCsv.nodes}
+            node={data.allSitesMpClean20210902Csv.nodes}
             containerRef={containerRef}
             highlightedSites={state.highlightedSites} //passing to SiteRow
             dispatch={dispatch}
           />
           <SearchMap
-            data={data.allSitesMpCleanCsv.nodes}
+            data={data.allSitesMpClean20210902Csv.nodes}
             selectedMuni={selectedMuni}
             setMuni={setMuni}
             containerRef={containerRef}

@@ -17,6 +17,6 @@ jobs:
       - uses: enriikke/gatsby-gh-pages-action@v2
         with:
           # access-token: ${{ secrets.ACCESS_TOKEN }}
-          access-token: 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
+          access-token: ${{ GH_ACCESS_TOKEN }}
           deploy-branch: gh-pages
           gatsby-args: --prefix-paths
