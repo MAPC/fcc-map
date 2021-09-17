@@ -177,15 +177,17 @@ const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, selectedMuni, h
         <PushPinSimple size={25} weight="fill" color={highlighted ? themeColors.gold : themeColors.fontGray} />
       </button>
       <h1 css={titleStyle}>{node.parcel_addr}</h1>
-      <h1 css={titleStyle}>{node.municipal} site {node.site_oid}</h1>
+      <h3>{node.municipal} site {node.site_oid}</h3>
       <ul css={detailListStyle}>
         <li><span css={bold}>{parseDouble(+node.Growth_Potential_Score)}</span>/1 <span css={scoreType}>Growth Potential Score</span></li>
         <li><span css={bold}>{parseDouble(+node.Healthy_Communities_Score)}</span>/1 <span css={scoreType}>Healthy Communities Score</span></li>
         <li><span css={bold}>{parseDouble(+node.Healthy_Watersheds_Score)}</span>/1 <span css={scoreType}>Healthy Watersheds Score</span></li>
         <li><span css={bold}>{parseDouble(+node.Travel_Choices_Score)}</span>/1 <span css={scoreType}>Travel Choices Score</span></li>
         <li><span css={bold}>{parseDouble(+node.Overall_Score)}</span>/4 <span css={scoreType}>Overall Score</span></li>
-        <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{countSites(data, selectedMuni)} <span css={scoreType}>Rank by Municipality</span></li>
-        <li><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3037 <span css={scoreType}>Rank by Region</span></li>
+        {/* <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{countSites(data, selectedMuni)} <span css={scoreType}>Rank by Municipality</span></li> */}
+        <br />
+        <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span> in Municipality</li>
+        <li><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3037 in the Region</li>
       </ul>
     </li>
   )

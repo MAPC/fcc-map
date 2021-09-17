@@ -221,8 +221,8 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             >
               <div css={popupStyle}>
                 <h1>{site?.parcel_addr}</h1>
-                <h1>{site?.municipal} site {site?.site_oid}</h1>
-                <p><span css={bold}>{parseDouble(+site?.["Overall Score"])}</span>/4 Overall Score</p> 
+                <h3>{site?.municipal} site {site?.site_oid}</h3>
+                <p><span css={bold}>{parseDouble(+site?.["Overall Score"])}</span> Overall Score</p> 
                 <p><span css={bold}>{ordinalSuffix(+site?.municipal_rank)}</span> in {site?.muni}</p>
                 <p><span css={bold}>{ordinalSuffix(+site?.regional_rank)}</span> in the Region</p>
                 <p>Quantity of Parcels: {parseToString(parseFloat(site?.["Number of Parcels on Site"]))}</p>
