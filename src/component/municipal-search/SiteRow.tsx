@@ -11,7 +11,8 @@ interface SiteRowProps {
   node: CsvData,
   dispatch: React.Dispatch<unknown>,
   selectedMuni: string|undefined,
-  highlightedSites: Array<number|undefined>
+  highlightedSites: Array<number|undefined>,
+  sitesCount: number|undefined
 }
 
 const liStyle = css`
@@ -75,6 +76,20 @@ const bold = css`
 const scoreType = css`
   margin-left: 1.2em;
 `;
+
+// function countSites(data: Array<CsvData>, selectedMuni: string|undefined): number {
+//   let arrSites: Array<any> = [];
+//   data.reduce((arrSites: Array<any>, node: CsvData) => {
+//     if (node.municipal === selectedMuni) {
+//       console.log("inside if statement: ", node);
+//       arrSites.push(node.site_oid);
+//     }
+//     console.log("inside data.reduce, arrSites: ", arrSites);
+//     return arrSites;
+//   })
+//   console.log("after data.reduce, arrSites: ", arrSites);
+//   return arrSites.length;
+// }
 
 function parseDouble(input: number): string {
   return input.toFixed(2);
@@ -169,9 +184,8 @@ const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, selectedMuni, h
         <li><span css={bold}>{parseDouble(+node.Healthy_Watersheds_Score)}</span>/1 <span css={scoreType}>Healthy Watersheds Score</span></li>
         <li><span css={bold}>{parseDouble(+node.Travel_Choices_Score)}</span>/1 <span css={scoreType}>Travel Choices Score</span></li>
         <li><span css={bold}>{parseDouble(+node.Overall_Score)}</span>/4 <span css={scoreType}>Overall Score</span></li>
-        <br/>
-        <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span> in Municipality</li>
-        <li><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3037 in the Region</li>
+        <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{countSites(data, selectedMuni)} <span css={scoreType}>Rank by Municipality</span></li>
+        <li><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3037 <span css={scoreType}>Rank by Region</span></li>
       </ul>
     </li>
   )

@@ -36,6 +36,7 @@ interface MunicipalDataProps {
   node: Array<CsvData>,
   containerRef: React.RefObject<HTMLInputElement>,
   highlightedSites: Array<number|undefined>, //passing to SiteRow
+  sitesCount: number|undefined,
   dispatch: React.Dispatch<unknown>
 }
 
@@ -65,7 +66,7 @@ const ulStyle = css`
   margin: 0 2vw 4vh;
 `;
 
-function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined> ): Array<JSX.Element>|undefined {
+function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined>, sitesCount: number|undefined ): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     data.sort((a: any, b: any) => 
       // choose sort-by attribute here
@@ -74,7 +75,7 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
     // console.log("data.sort'ed by overall score: ", data);
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
       if (node.municipal === selectedMuni) {
-        list.push(<SiteRow data={data} node={node} key={node.site_oid} dispatch={dispatch} selectedMuni={selectedMuni} highlightedSites={highlightedSites} />);
+        list.push(<SiteRow data={data} node={node} key={node.site_oid} dispatch={dispatch} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={sitesCount} />);
       }
       return list;
     }, []);
@@ -82,20 +83,20 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
   return undefined;
 }
 
-function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMuni: string|undefined, highlightedSites: Array<number|undefined> ) {
+function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMuni: string|undefined, highlightedSites: Array<number|undefined>, sitesCount: number|undefined ) {
   if (selectedMuni) {
-    return <MunicipalRow data={data} node={node} selectedMuni={selectedMuni} highlightedSites={highlightedSites} />;
+    return <MunicipalRow data={data} node={node} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={sitesCount}/>;
   }
   return undefined;
 }
 
-const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, highlightedSites, dispatch }) => (
+const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, highlightedSites, sitesCount, dispatch }) => (
   <div css={wrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
-    {selectedMuni ? showMunicipalRow(data, node, selectedMuni, highlightedSites) : ''} {/* renders one MunicipalRow on municipality selection */}
+    {selectedMuni ? showMunicipalRow(data, node, selectedMuni, highlightedSites, sitesCount) : ''} {/* renders one MunicipalRow on municipality selection */}
     <Legend />
     <ul css={ulStyle}>
-      {selectedMuni ? filterData(data, selectedMuni, dispatch, highlightedSites) : ''}
+      {selectedMuni ? filterData(data, selectedMuni, dispatch, highlightedSites, sitesCount) : ''}
     </ul>
   </div>
 );

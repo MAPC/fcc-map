@@ -10,7 +10,8 @@ interface MunicipalRowProps {
   data: Array<CsvData>,
   node: Array<CsvData>,
   selectedMuni: string|undefined,
-  highlightedSites: Array<number|undefined>
+  highlightedSites: Array<number|undefined>,
+  sitesCount: number|undefined
 }
 
 const muniRowStyle = css`

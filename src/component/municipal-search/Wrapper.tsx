@@ -41,6 +41,7 @@ function reducer(state: MunicipalSearch, action: any) {
 const Wrapper: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [selectedMuni, setMuni] = useState<string|undefined>();
+  const [sitesCount, setSitesCount] = useState<number|undefined>(0);
   const containerRef = useRef<HTMLInputElement>(null);
   return (
     <StaticQuery
@@ -77,6 +78,7 @@ const Wrapper: React.FC = () => {
           <MunicipalData
             data={data.allSitesMpClean20210902Csv.nodes}
             selectedMuni={selectedMuni}
+            sitesCount={sitesCount}
             node={data.allSitesMpClean20210902Csv.nodes}
             containerRef={containerRef}
             highlightedSites={state.highlightedSites} //passing to SiteRow
