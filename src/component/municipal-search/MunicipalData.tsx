@@ -72,7 +72,7 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
       // choose sort-by attribute here
       b.Quintile_Category - a.Quintile_Category
     );
-    // console.log("data.sort'ed by overall score: ", data);
+    sitesCount = data.filter(d => d.municipal == selectedMuni).length;
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
       if (node.municipal === selectedMuni) {
         list.push(<SiteRow data={data} node={node} key={node.site_oid} dispatch={dispatch} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={sitesCount} />);
@@ -85,7 +85,7 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
 
 function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMuni: string|undefined, highlightedSites: Array<number|undefined>, sitesCount: number|undefined ) {
   if (selectedMuni) {
-    return <MunicipalRow data={data} node={node} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={sitesCount}/>;
+    return <MunicipalRow data={data} node={node} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={filterData.length}/>;
   }
   return undefined;
 }
