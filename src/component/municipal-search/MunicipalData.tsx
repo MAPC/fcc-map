@@ -94,7 +94,7 @@ const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node,
   <div css={wrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
     {selectedMuni ? showMunicipalRow(data, node, selectedMuni, highlightedSites, sitesCount) : ''} {/* renders one MunicipalRow on municipality selection */}
-    <Legend />
+    {/* <Legend /> */}
     <ul css={ulStyle}>
       {selectedMuni ? filterData(data, selectedMuni, dispatch, highlightedSites, sitesCount) : ''}
     </ul>

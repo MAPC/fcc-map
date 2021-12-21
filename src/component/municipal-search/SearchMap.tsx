@@ -308,9 +308,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                   '3', `${themeColors.quintile3}`,
                   '4', `${themeColors.quintile4}`,
                   '5', `${themeColors.quintile5}`,
-                  'hsla(0, 0%, 0%, 0)'
+                  'hsla(0, 0%, 0%, 0)' //no color
                 ],
-                'hsla(0, 0%, 0%, 0)' //no color
+                // 'hsla(0, 0%, 0%, 0)' //no color
+                `${themeColors.fontLightGray}`
               ], 
               'circle-radius': [
                 'interpolate',

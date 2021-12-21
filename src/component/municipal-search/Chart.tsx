@@ -67,34 +67,69 @@ const Chart: React.FC<ChartProps> = ({ data, node, selectedMuni, highlightedSite
 
 
 
-    var d3Data: Array<any> = [];
-    d3Data = [...data]
-        // .filter(site => site.municipal === selectedMuni)
-        .sort((a: any, b: any) => 
-        // choose sort-by attribute here
-        b.Overall_Score - a.Overall_Score
-        );
+    // var d3Data: Array<any> = [];
+    // d3Data = [...data]
+    //     // .filter(site => site.municipal === selectedMuni)
+    //     .sort((a: any, b: any) => 
+    //     // choose sort-by attribute here
+    //     b.Overall_Score - a.Overall_Score
+    //     );
 
-    console.log('d3Data', d3Data);
+    // console.log('d3Data', d3Data);
 
-    // now render the data into div.chart
-    var y = d3.scaleLinear()
-    .domain([0, d3.max(d3Data, d => d.Overall_Score)])
-    .range([0, 100]);
+    // var div = d3.select(".chart").append("div")
+    //     .attr("class", "tooltip-donut")
+    //     .style("opacity", 1)
+    //     .style("background-color", "yellow")
+    //     .style("width", 50)
+    //     .style("height", 50)
+    //     .style("position", "absolute")
+    //     .style("z-index", 10);
 
-    var x = d3.scaleBand()
-    .domain(d3.range(d3Data.length))
-    .range([0, 450])
+    // // render the data into div.chart
+    // var y = d3.scaleLinear()
+    //     .domain([0, d3.max(d3Data, d => d.Overall_Score)])
+    //     .range([0, 100]);
 
-    d3.select(".chart")
-        .selectAll("div")
-            .data(d3Data) //binding data
-        .enter().append("div") //entering the data, looping through each elem of array
-            .style("height", function(d) { return (+d.Overall_Score)*10 + "px"; })
-            .style("background-color", function(d) {if (highlightedSites.includes(d.site_oid)) {return "pink";} else {return "blue";}})
-            .style("width", function(d, i) { return x(i) + "px"; });
-            // .text(function(d) { return d; });
+    // var x = d3.scaleBand()
+    //     .domain(d3.range(d3Data.length))
+    //     .range([0, 450])
 
+    // d3.select(".chart")
+    //     .selectAll("div")
+    //         .data(d3Data) // binding data
+    //     .enter().append("div") // entering the data, looping through each elem of array
+    //         .style("height", function(d) { return (+d.Overall_Score)*10 + "px"; })
+    //         .style("background-color", function(d) {
+    //             if (selectedMuni.includes(d.municipal)) {
+    //                 // console.log("pink", d);
+    //                 return "pink";
+    //             } else {
+    //                 // console.log("blue", d);
+    //                 return "blue";
+    //             }
+    //         })
+    //         .style("width", function(d, i) { return x(i) + "px"; })
+    //         .on("mouseover", function(d, i) {
+    //             d3.select(this).style("border", function(d, i) { return "2px solid white"; })
+    //             .text(d);
+    //             div.style("opacity", 1)
+    //             div.html(d.value)
+    //         })
+    //         .on("mouseout", function(d, i) {
+    //             d3.select(this).style("border", function(d, i) { return "none"; })
+    //         })
+            // .on("mouseout", function (d, i) {
+            //     d3.select(this).style("background-color", function(d, i) {
+            //         if (selectedMuni.includes(d.municipal)) {
+            //             // console.log("pink", d);
+            //             return "pink";
+            //         } else {
+            //             // console.log("blue", d);
+            //             return "blue";
+            //         }
+            //     })
+            // })   
 
     return (
         <div>
