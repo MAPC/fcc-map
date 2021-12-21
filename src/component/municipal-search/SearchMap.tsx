@@ -252,12 +252,12 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
           />
         </Source>
         {/* source layer targeting the FILL of sites, filtering based on Top Category */}
-        <Source id="Sites_polygons" type="vector" url="mapbox://ihill.5ofxrajx">
+        <Source id="Sites_polygons" type="vector" url="mapbox://ihill.1j69jnm9">
           <Layer
             type="fill"
             id="Sites (fill)"
             source="Sites_polygons"
-            source-layer="Sites_mp_clean_mapbox_layer-71n0va"
+            source-layer="Sites_mp_clean_2021_09_02_map-1w31xc"
             paint={{
               'fill-opacity':
               [
@@ -288,13 +288,13 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             }}
           /> 
         </Source>
-        {/* circles using Sites_mp_clean_points_csv */}
-        <Source id="Sites" type="vector" url="mapbox://ihill.ckseu5a9h3gry28pa20itgrq7-8tgwx">
+        {/* new sites point data after removed sites */}
+        <Source id="Sites" type="vector" url="mapbox://ihill.cktlrfx4o6l1h20plhuvo3t1k-3n3x2">
           <Layer
             type="circle"
             id="Sites (circles)"
             source="Sites"
-            source-layer="Sites_mp_clean_points_csv"
+            source-layer="Sites_mp_clean_2021_09_02"
             paint={{
               'circle-color': [
                 'match',
@@ -322,19 +322,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
                 12,
                 6
               ]
-              // removing circle stroke
-              // ,
-              // 'circle-opacity': 1,
-              // 'circle-stroke-color': `${themeColors.gold}`,
-              // 'circle-stroke-width': 5,
-              // 'circle-stroke-opacity':
-              // highlightedSites.length > 0 ? [
-              //   'match',
-              //   ['get', 'site_oid'],
-              //   [`${highlightedSites}`], 1, // not looking into array for site_oid matches 
-              //   0
-              // ]
-              // : 0
             }}
           />
         </Source>
