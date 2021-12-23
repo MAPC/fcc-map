@@ -19,6 +19,13 @@ const liStyle = css`
   background: ${themeColors.warmGrayTransparent};
   margin: .5rem 0;
   padding: 1.5rem 2rem;
+  h2 {
+    text-transform: lowercase;
+  }
+  h2:first-letter,
+  h2:first-line {
+    text-transform: capitalize;
+  }
 `;
 
 const quintile1 = css`
@@ -39,19 +46,6 @@ border-right: 10px solid ${themeColors.quintile4};
 
 const quintile5 = css`
 border-right: 10px solid ${themeColors.quintile5};
-`;
-
-const titleStyle = css`
-  color: ${themeColors.indigo};
-  font-family: ${fonts.calibre};
-  font-size: 2rem;
-  font-weight: 600;
-  margin: 0 0 1rem 0;
-  text-transform: lowercase;
-  :first-letter,
-  :first-line {
-    text-transform: capitalize;
-  }
 `;
 
 const buttonStyle = css`
@@ -76,20 +70,6 @@ const bold = css`
 const scoreType = css`
   margin-left: 1.2em;
 `;
-
-// function countSites(data: Array<CsvData>, selectedMuni: string|undefined): number {
-//   let arrSites: Array<any> = [];
-//   data.reduce((arrSites: Array<any>, node: CsvData) => {
-//     if (node.municipal === selectedMuni) {
-//       console.log("inside if statement: ", node);
-//       arrSites.push(node.site_oid);
-//     }
-//     console.log("inside data.reduce, arrSites: ", arrSites);
-//     return arrSites;
-//   })
-//   console.log("after data.reduce, arrSites: ", arrSites);
-//   return arrSites.length;
-// }
 
 function parseDouble(input: number): string {
   return input.toFixed(2);
@@ -150,7 +130,6 @@ const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, sel
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           }
         }}
-
         onMouseLeave={(e) => {
           if (highlighted && !starred) {
             toggleHightlight(!highlighted);
@@ -176,17 +155,17 @@ const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, sel
       >
         <PushPinSimple size={25} weight="fill" color={highlighted ? themeColors.gold : themeColors.fontGray} />
       </button>
-      <h1 css={titleStyle}>{node.parcel_addr}</h1>
-      <h3>{node.municipal} site {node.site_oid}</h3>
+      <h2>{node.parcel_addr}</h2>
+      <h1>{node.municipal} | Site {node.site_oid}</h1>
       <ul css={detailListStyle}>
-        <li><span css={bold}>{parseDouble(+node.Growth_Potential_Score)}</span>/1 <span css={scoreType}>Growth Potential Score</span></li>
+        {/* <li><span css={bold}>{parseDouble(+node.Growth_Potential_Score)}</span>/1 <span css={scoreType}>Growth Potential Score</span></li>
         <li><span css={bold}>{parseDouble(+node.Healthy_Communities_Score)}</span>/1 <span css={scoreType}>Healthy Communities Score</span></li>
         <li><span css={bold}>{parseDouble(+node.Healthy_Watersheds_Score)}</span>/1 <span css={scoreType}>Healthy Watersheds Score</span></li>
-        <li><span css={bold}>{parseDouble(+node.Travel_Choices_Score)}</span>/1 <span css={scoreType}>Travel Choices Score</span></li>
-        <li><span css={bold}>{parseDouble(+node.Overall_Score)}</span>/4 <span css={scoreType}>Overall Score</span></li>
+        <li><span css={bold}>{parseDouble(+node.Travel_Choices_Score)}</span>/1 <span css={scoreType}>Travel Choices Score</span></li> */}
+        {/* <li><span css={bold}>{parseDouble(+node.Overall_Score)}</span>/4 <span css={scoreType}>Overall Score</span></li> */}
         <br />
-        <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{sitesCount} in {node.municipal}</li>
-        <li><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3037 in the Region</li>
+        {/* <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{sitesCount} in {node.municipal}</li>
+        <li><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3037 in the Region</li> */}
       </ul>
     </li>
   )

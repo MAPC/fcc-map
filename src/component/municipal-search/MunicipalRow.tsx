@@ -15,13 +15,11 @@ interface MunicipalRowProps {
 }
 
 const muniRowStyle = css`
-  width: 45rem;
   background: ${themeColors.warmGrayTransparent};
-  margin: 4vh 2vw;
+  margin: .5rem 0;
+  max-width: 45rem;
   padding: 1.5rem 2rem;
-  position: absolute;
   z-index: 1;
-  right: 0;
 `;
 
 const titleStyle = css`
@@ -78,13 +76,14 @@ function parseCommas(string: any) {
 }
 
 // rendering MunicipalRow, imported into SearchMap
-const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, node, selectedMuni, highlightedSites }) => {
+const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, node, selectedMuni, highlightedSites, sitesCount }) => {
   const quantitySites : number = getTax(data, selectedMuni)[0];
   const differential : number = getTax(data, selectedMuni)[1]; 
   const averageDiff : number = getTax(data, selectedMuni)[2];
   return (
     <div css={muniRowStyle}>
-      <p css={titleStyle}>Suitability Analysis of Identified Sites:<br/>{selectedMuni}</p>
+      <h2>Suitability Analysis of Identified Sites:</h2>
+      <h1>{selectedMuni}</h1>
       <ul css={detailListStyle}>
         <li>Tax Revenue Differential: ${parseCommas(parseToString(differential))}</li>
         <li>Average Tax Revenue Differential Per Site: ${parseCommas(parseToString(averageDiff))}</li>

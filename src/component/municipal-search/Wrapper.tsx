@@ -8,13 +8,11 @@ import MunicipalData from './MunicipalData';
 import SearchMap from './SearchMap';
 
 const wrapperStyle = css`
-  width: 100vw;
-  height: 100vh;
   background: ${themeColors.gossamer};
-  // display: flex;
-  // flex-direction: row;
-  // justify-content: space-between;
-  // padding: 3.5vh 5vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
 `;
 
 type MunicipalSearch = {
@@ -29,7 +27,7 @@ function reducer(state: MunicipalSearch, action: any) {
   switch(action.type) {
     case 'addSite':
       if (state.highlightedSites.find(site => site === action.toggledSite)) {
-        console.log('wrapper - reducer - highlightedSites', state.highlightedSites);
+        // console.log('wrapper - reducer - highlightedSites', state.highlightedSites);
         return {...state, highlightedSites: state.highlightedSites.filter(item => item !== action.toggledSite)}
       }
       return {...state, highlightedSites: [...state.highlightedSites, action.toggledSite]};
@@ -42,6 +40,7 @@ const Wrapper: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [selectedMuni, setMuni] = useState<string|undefined>();
   const [sitesCount, setSitesCount] = useState<number|undefined>(0);
+  const [site, setSite] = useState<any>();
   const containerRef = useRef<HTMLInputElement>(null);
   return (
     <StaticQuery
@@ -79,6 +78,8 @@ const Wrapper: React.FC = () => {
             data={data.allSitesMpClean20210902Csv.nodes}
             selectedMuni={selectedMuni}
             sitesCount={sitesCount}
+            setSitesCount={setSitesCount}
+            site={site}
             node={data.allSitesMpClean20210902Csv.nodes}
             containerRef={containerRef}
             highlightedSites={state.highlightedSites} //passing to SiteRow
@@ -88,6 +89,8 @@ const Wrapper: React.FC = () => {
             data={data.allSitesMpClean20210902Csv.nodes}
             selectedMuni={selectedMuni}
             setMuni={setMuni}
+            site={site}
+            setSite={setSite}
             containerRef={containerRef}
             highlightedSites={state.highlightedSites}
             dispatch={dispatch}
