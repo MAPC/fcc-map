@@ -3,6 +3,7 @@
 import React from 'react';
 import { jsx, css } from '@emotion/react';
 import SiteRow from './SiteRow';
+import ExpandedSiteRow from './ExpandedSiteRow';
 import MunicipalRow from './MunicipalRow';
 import Legend from './Legend'
 import { themeColors, fonts } from '../../utils/theme';
@@ -37,42 +38,54 @@ interface MunicipalDataProps {
   containerRef: React.RefObject<HTMLInputElement>,
   highlightedSites: Array<number|undefined>, //passing to SiteRow
   sitesCount: number|undefined,
-  dispatch: React.Dispatch<unknown>
+  setSitesCount: React.Dispatch<React.SetStateAction<any>>,
+  dispatch: React.Dispatch<unknown>,
+  site: any //lifted from SearchMap to Wrapper, passed down to MuniData
 }
 
 const SearchBarStyle = css`
   .mapboxgl-ctrl-geocoder {
+    margin: .5rem 0;
     max-width: 45rem;
-    width: 45rem;
-    margin: 4vh 2vw 2vh;
+    width: 100%;
     z-index: 5;
   }
 `;
 
-const wrapperStyle = css`
+const dataWrapperStyle = css`
   display: flex;
   flex-direction: column;
+  height: 96vh;
+  max-width: 45rem;
+  padding: 2vh;
   width: 45rem;
 `;
 
 const ulStyle = css`
   padding-left: 0;
   list-style: none;
-  max-height: 86vh;
-  width: 45rem;
+  margin: .5rem 0;
+  max-width: 45rem;
   overflow-y: scroll;
-  padding-right: 1rem;
+  width: 45rem;
   z-index: 1;
-  margin: 0 2vw 4vh;
 `;
 
-function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined>, sitesCount: number|undefined ): Array<JSX.Element>|undefined {
+//testing if state is passed
+function checkSite(site: any) {
+  if (site) {
+    console.log("site in MunicipalData", site);
+  }
+}
+
+function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined>, sitesCount: number|undefined, setSitesCount: React.Dispatch<React.SetStateAction<any>>): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     data.sort((a: any, b: any) => 
       // choose sort-by attribute here
       b.Quintile_Category - a.Quintile_Category
     );
-    sitesCount = data.filter(d => d.municipal == selectedMuni).length;
+    let count = data.filter(d => d.municipal == selectedMuni).length;
+    setSitesCount(count);
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
       if (node.municipal === selectedMuni) {
         list.push(<SiteRow data={data} node={node} key={node.site_oid} dispatch={dispatch} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={sitesCount} />);
@@ -83,20 +96,29 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
   return undefined;
 }
 
-function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMuni: string|undefined, highlightedSites: Array<number|undefined>, sitesCount: number|undefined ) {
+function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMuni: string|undefined, highlightedSites: Array<number|undefined> ) {
   if (selectedMuni) {
     return <MunicipalRow data={data} node={node} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={filterData.length}/>;
   }
   return undefined;
 }
 
-const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, highlightedSites, sitesCount, dispatch }) => (
-  <div css={wrapperStyle}>
+function showExpanded(data: Array<CsvData>, node: Array<CsvData>, selectedMuni: string|undefined, highlightedSites: Array<number|undefined>, site: any, dispatch:  React.Dispatch<unknown>, sitesCount: number|undefined ) {
+  if (site) {
+    return <ExpandedSiteRow data={data} node={node} key={site.site_oid} selectedMuni={selectedMuni} highlightedSites={highlightedSites} site={site} dispatch={dispatch} sitesCount={sitesCount} />
+  }
+  return undefined;
+}
+
+const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, highlightedSites, sitesCount, setSitesCount, site, dispatch }) => (
+  <div css={dataWrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
-    {selectedMuni ? showMunicipalRow(data, node, selectedMuni, highlightedSites, sitesCount) : ''} {/* renders one MunicipalRow on municipality selection */}
-    <Legend />
+    {selectedMuni ? showMunicipalRow(data, node, selectedMuni, highlightedSites ) : ''} {/* renders one MunicipalRow on municipality selection */}
+    {site ? checkSite(site) : ''}
+    {/* <Legend /> */}
     <ul css={ulStyle}>
-      {selectedMuni ? filterData(data, selectedMuni, dispatch, highlightedSites, sitesCount) : ''}
+      {site ? showExpanded(data, node, selectedMuni, highlightedSites, site, dispatch, sitesCount) : '' }
+      {selectedMuni ? filterData(data, selectedMuni, dispatch, highlightedSites, sitesCount, setSitesCount) : ''}
     </ul>
   </div>
 );
