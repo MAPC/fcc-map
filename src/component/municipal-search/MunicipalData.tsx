@@ -71,13 +71,6 @@ const ulStyle = css`
   z-index: 1;
 `;
 
-//testing if state is passed
-function checkSite(site: any) {
-  if (site) {
-    console.log("site in MunicipalData", site);
-  }
-}
-
 function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined>, sitesCount: number|undefined, setSitesCount: React.Dispatch<React.SetStateAction<any>>): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     data.sort((a: any, b: any) => 
@@ -103,18 +96,17 @@ function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMu
   return undefined;
 }
 
-function showExpanded(data: Array<CsvData>, node: Array<CsvData>, selectedMuni: string|undefined, highlightedSites: Array<number|undefined>, site: any, dispatch:  React.Dispatch<unknown>, sitesCount: number|undefined ) {
+function showExpanded(data: Array<CsvData>, node: Array<CsvData>, selectedMuni: string|undefined, highlightedSites: Array<number|undefined>, site: any, dispatch: React.Dispatch<unknown>, sitesCount: number|undefined ) {
   if (site) {
     return <ExpandedSiteRow data={data} node={node} key={site.site_oid} selectedMuni={selectedMuni} highlightedSites={highlightedSites} site={site} dispatch={dispatch} sitesCount={sitesCount} />
-  }
-  return undefined;
+  } 
+  return (null); // does not render component if site evaluates false
 }
 
 const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, highlightedSites, sitesCount, setSitesCount, site, dispatch }) => (
   <div css={dataWrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
     {selectedMuni ? showMunicipalRow(data, node, selectedMuni, highlightedSites ) : ''} {/* renders one MunicipalRow on municipality selection */}
-    {site ? checkSite(site) : ''}
     {/* <Legend /> */}
     <ul css={ulStyle}>
       {site ? showExpanded(data, node, selectedMuni, highlightedSites, site, dispatch, sitesCount) : '' }

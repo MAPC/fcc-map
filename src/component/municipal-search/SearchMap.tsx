@@ -60,7 +60,7 @@ function handleClick(e: Array<mapboxgl.EventData>): string {
   return '';
 }
 
-const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, dispatch, setMuni, site, setSite, containerRef, highlightedSites }) => {
+const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, setMuni, site, setSite, containerRef, highlightedSites }) => {
   const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
   useEffect(() => {
@@ -144,9 +144,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, dispatch, setMun
           let randomMuni = () => {
               let index = Math.floor(Math.random() * municipalities.length);
               if (municipalities[index] !== 'Carlisle' || municipalities[index] !== 'Manchester-by-the-Sea') {
+                setSite(false);
                 return municipalities[index];
               } else {
-                return municipalities[0]; // defaults to Acton
+                return municipalities[0]; 
               }
             };            
             setMuni(randomMuni);
@@ -158,6 +159,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, dispatch, setMun
         onClick={(e) => {
           if (e.features.find((row) => row.sourceLayer === 'MAPC_borders-0im3ea')) {
             setMuni(handleClick(e.features));
+            setSite(false);
             setViewport({
               ...viewport,
               longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 12, transitionDuration: 1500
