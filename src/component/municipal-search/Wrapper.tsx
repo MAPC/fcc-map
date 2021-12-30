@@ -47,25 +47,49 @@ const Wrapper: React.FC = () => {
         {
           allSitesMpClean20210902Csv {
             nodes {
-              municipal
-              site_oid
-              Quintile_Category
-              Top_Category
+              AREA_parce
+              Buildable_Area__sf_
+              Estimated_Capacity__all_residential_
+              Estimated_Capacity__some_commercial_
               Growth_Potential_Score
               Healthy_Communities_Score
               Healthy_Watersheds_Score
-              Travel_Choices_Score
-              Overall_Score
-              Number_of_Parcels_on_Site
-              Tax_Revenue__before_retrofit_
-              Tax_Revenue__after_retrofit_
-              Site_Tax_Revenue_Change
+              Impervious_surface__sf_
               Municipal_Avg_Tax_Increase
               Municipal_Total_Tax_Increase
+              Number_of_Parcels_on_Site
+              Open_Space
+              Overall_Score
+              Parcel_IDs
+              Quintile_Category
+              Site_Tax_Revenue_Change
+              Submarket
+              Tax_Revenue__after_retrofit_
+              Tax_Revenue__before_retrofit_
+              Top_Category
+              Travel_Choices_Score
+              area_acres
+              bldg_value
+              bldlnd_rat
+              buildarea_ac
+              buildarea_sf
+              commtype
+              county
+              disttosewerft
+              muni
+              municipal
               municipal_rank
-              regional_rank
               parcel_addr
               parcel_addrl
+              regional_rank
+              site_oid
+              sitearea_sf
+              station
+              subregion
+              subtype
+              total_valu
+              walkscore
+              wetland100_p
             }
           }
         }
@@ -79,6 +103,7 @@ const Wrapper: React.FC = () => {
             sitesCount={sitesCount}
             setSitesCount={setSitesCount}
             selectedSite={selectedSite}
+            setSite={setSite}
             node={data.allSitesMpClean20210902Csv.nodes}
             containerRef={containerRef}
             highlightedSites={state.highlightedSites} //passing to SiteRow

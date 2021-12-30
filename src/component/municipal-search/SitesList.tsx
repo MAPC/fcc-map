@@ -10,24 +10,35 @@ import SiteRow from './SiteRow';
 interface SitesListProps {
   data: Array<CsvData>,
   dispatch: React.Dispatch<unknown>,
-  selectedMuni: string|undefined,
   highlightedSites: Array<number|undefined>,
   sitesCount: number|undefined,
-  setSitesCount: React.Dispatch<React.SetStateAction<any>>,
-  selectedSite: any
+  selectedMuni: string|undefined,
+  selectedSite: any,
+  setSite: React.Dispatch<React.SetStateAction<any>>,
+  setSitesCount: React.Dispatch<React.SetStateAction<any>>
 }
 
 const ulStyle = css`
-  padding-left: 0;
   list-style: none;
   margin: .5rem 0;
   max-width: 45rem;
   overflow-y: scroll;
+  padding-left: 0;
   width: 45rem;
   z-index: 1;
 `;
 
-function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined>, sitesCount: number|undefined, setSitesCount: React.Dispatch<React.SetStateAction<any>>, selectedSite: any ): Array<JSX.Element>|undefined {
+function filterData(
+    data: Array<CsvData>, 
+    dispatch: React.Dispatch<unknown>, 
+    highlightedSites: Array<number|undefined>, 
+    selectedMuni: string|undefined, 
+    selectedSite: any, 
+    setSite: React.Dispatch<React.SetStateAction<any>>, 
+    setSitesCount: React.Dispatch<React.SetStateAction<any>>, 
+    sitesCount: number|undefined 
+  ): Array<JSX.Element>|undefined 
+{
   if (selectedMuni) {
     data.sort((a: any, b: any) => 
       // choose sort-by attribute here
@@ -37,7 +48,17 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
     setSitesCount(count);
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
       if (node.municipal === selectedMuni) {
-        list.push(<SiteRow data={data} node={node} key={node.site_oid} dispatch={dispatch} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={sitesCount} selectedSite={selectedSite} />);
+        list.push(<SiteRow 
+          data={data} 
+          dispatch={dispatch} 
+          highlightedSites={highlightedSites} 
+          key={node.site_oid} 
+          node={node} 
+          selectedMuni={selectedMuni} 
+          selectedSite={selectedSite} 
+          setSite={setSite} 
+          sitesCount={sitesCount} 
+        />);
       }
       return list;
     }, []);
@@ -45,23 +66,40 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
   return undefined;
 }
 
-const SitesList: React.FC<SitesListProps> = ({ data, dispatch, sitesCount, setSitesCount, selectedMuni, highlightedSites, selectedSite }) => {
-
+const SitesList: React.FC<SitesListProps> = ({ 
+  data, 
+  dispatch, 
+  highlightedSites, 
+  selectedMuni, 
+  selectedSite,
+  setSite, 
+  setSitesCount,
+  sitesCount
+}) => {
   const executeScroll = () => {
-      console.log("selectedSite", selectedSite.site_oid);
-      if (selectedMuni && selectedSite && selectedSite.municipal === selectedMuni) {
-          const siteIntoView = document.getElementById(selectedSite.site_oid);
-          console.log("executeScroll executing");
-          siteIntoView.scrollIntoView({behavior: "smooth"});
-      } else {
-          return null;
-      }
+    console.log("selectedSite", selectedSite.site_oid);
+    if (selectedMuni && selectedSite && selectedSite.municipal === selectedMuni) {
+        const siteIntoView = document.getElementById(selectedSite.site_oid);
+        console.log("executeScroll executing");
+        siteIntoView.scrollIntoView({behavior: "smooth"});
+    } else {
+        return null;
+    }
   }
-  
   return (
     <ul css={ulStyle}>
       {selectedSite ? executeScroll() : ''}
-      {selectedMuni ? filterData(data, selectedMuni, dispatch, highlightedSites, sitesCount, setSitesCount, selectedSite) : ''}
+      {selectedMuni ? filterData(
+        data, 
+        dispatch, 
+        highlightedSites, 
+        selectedMuni, 
+        selectedSite, 
+        setSite,
+        setSitesCount, 
+        sitesCount
+        ) : ''
+      }
     </ul>
   )
 };

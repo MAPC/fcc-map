@@ -2,16 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { jsx, css } from '@emotion/react';
-import { themeColors, fonts } from '../../utils/theme';
 import { CsvData } from './MunicipalData';
-import { PushPinSimple } from 'phosphor-react';
 
 interface ExpandedSiteRowProps {
   data: Array<CsvData>,
-  // node: Array<CsvData>,
-  selectedMuni: string|undefined,
   highlightedSites: Array<number|undefined>,
+  node: CsvData,
+  selectedMuni: string|undefined,
   selectedSite: any,
+  setSite: React.Dispatch<React.SetStateAction<any>>,
   sitesCount: number|undefined
 }
 
@@ -55,29 +54,45 @@ function ordinalSuffix(i: number): string {
     return i + "th";
 }
 
-const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({ data, selectedMuni, highlightedSites, selectedSite, sitesCount }) => {
+const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
+  data, 
+  highlightedSites, 
+  node,
+  selectedMuni,
+  selectedSite,
+  setSite,
+  sitesCount
+}) => {
 
   return (
-    <div>
+    <div key={node.site_oid}>
       <h3>Current Conditions</h3>
-      <p><span css={bold}>{parseDouble(+selectedSite.area_acres)}</span><span css={scoreType}>Unconstrained land area</span></p>
-      <p><span css={bold}>{parseDouble(+selectedSite.bldlnd_rat)}</span><span css={scoreType}>Current floor area ratio</span></p>
-      <p><span css={bold}>{parseDouble(+selectedSite.total_valu)}</span><span css={scoreType}>Current building land/value ratio</span></p>
+      <p><span css={bold}>{parseDouble(+node.area_acres)}</span><span css={scoreType}>Unconstrained land area</span></p>
+      <p><span css={bold}>{parseDouble(+node.bldlnd_rat)}</span><span css={scoreType}>Current floor area ratio</span></p>
+      <p><span css={bold}>{parseDouble(+node.total_valu)}</span><span css={scoreType}>Current building land/value ratio</span></p>
       <p><span css={bold}>{}</span><span css={scoreType}>Year built</span></p>
       <p><span css={bold}>{}</span><span css={scoreType}>Land use code descriptors</span></p>
-      <p><span css={bold}>{selectedSite.station}</span><span css={scoreType}>Associated transit station area</span></p>
-      <p><span css={bold}>{parseDouble(+selectedSite.disttosewerft)}</span><span css={scoreType}>Distance to sewer</span></p>
+      <p><span css={bold}>{node.station}</span><span css={scoreType}>Associated transit station area</span></p>
+      <p><span css={bold}>{parseDouble(+node.disttosewerft)}</span><span css={scoreType}>Distance to sewer</span></p>
       <h3>Redevelopment Suitability and Potential</h3>
-      <p><span css={bold}>{(selectedSite["Growth Potential Score"])}</span>/1 <span css={scoreType}>Growth Potential Score</span></p>
-      <p><span css={bold}>{(selectedSite["Healthy Communities Score"])}</span>/1 <span css={scoreType}>Healthy Communities Score</span></p>
-      <p><span css={bold}>{(selectedSite["Healthy Watersheds Score"])}</span>/1 <span css={scoreType}>Healthy Watersheds Score</span></p>
-      <p><span css={bold}>{(selectedSite["Travel Choices Score"])}</span>/1 <span css={scoreType}>Travel Choices Score</span></p>
-      <p><span css={bold}>{parseDouble((+selectedSite["Overall Score"]) / 4)}</span>/1 <span css={scoreType}>Overall Score</span></p>
-      <p><span css={bold}>{parseDouble(+selectedSite["Estimated Capacity (all residential)"])}</span> <span css={scoreType}>Estimated Capacity (all residential)</span></p>
-      <p><span css={bold}>{parseDouble(+selectedSite["Estimated Capacity (some commercial)"])}</span> <span css={scoreType}>Estimated Capacity (some commercial)</span></p>
-      <p><span css={bold}>${parseCommas(parseDouble(+selectedSite["Site Tax Revenue Change"]))}</span> <span css={scoreType}>Estimated Tax Revenue Change</span></p>
-      <li><span css={bold}>{ordinalSuffix(+selectedSite.municipal_rank)}</span>/{sitesCount} in {selectedSite.municipal}</li>
-      <li><span css={bold}>{ordinalSuffix(+selectedSite.regional_rank)}</span>/3037 in the Region</li>
+      <p><span css={bold}>{(node.Growth_Potential_Score)}</span>/1 <span css={scoreType}>Growth Potential Score</span></p>
+      <p><span css={bold}>{(node.Healthy_Communities_Score)}</span>/1 <span css={scoreType}>Healthy Communities Score</span></p>
+      <p><span css={bold}>{(node.Healthy_Watersheds_Score)}</span>/1 <span css={scoreType}>Healthy Watersheds Score</span></p>
+      <p><span css={bold}>{(node.Travel_Choices_Score)}</span>/1 <span css={scoreType}>Travel Choices Score</span></p>
+      <p><span css={bold}>{parseDouble(+node.Overall_Score / 4)}</span>/1 <span css={scoreType}>Overall Score</span></p>
+      <p><span css={bold}>{node.Estimated_Capacity__all_residential_}</span> <span css={scoreType}>Estimated Capacity (all residential)</span></p>
+      <p><span css={bold}>{node.Estimated_Capacity__some_commercial_}</span> <span css={scoreType}>Estimated Capacity (some commercial)</span></p>
+      <p><span css={bold}>${parseCommas(parseDouble(+node.Site_Tax_Revenue_Change))}</span> <span css={scoreType}>Estimated Tax Revenue Change</span></p>
+      <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{sitesCount} in {selectedSite.municipal}</li>
+      <li><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3037 in the Region</li>
+      <h3
+        onClick={() => {
+          setSite(false);
+        }}  
+        style={{cursor: "pointer"}}
+      >
+        Show Less
+      </h3>
     </div>
   )
 };

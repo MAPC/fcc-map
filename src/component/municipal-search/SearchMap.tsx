@@ -106,14 +106,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
     return input.toFixed(2);
   }
 
-  function parseToString(input: number): string {
-    return input.toFixed(0);
-  }
-
-  function parseCommas(string: any) {
-    return string.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-
   function ordinalSuffix(i: number): string {
     var j = i % 10,
         k = i % 100;

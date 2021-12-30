@@ -11,25 +11,49 @@ import { themeColors, fonts } from '../../utils/theme';
 import { List } from 'phosphor-react';
 
 export type CsvData = {
-  Quintile_Category: string,
-  Top_Category: string,
-  municipal: string,
-  site_oid: string,
+  AREA_parce: string,
+  Buildable_Area__sf_: string,
+  Estimated_Capacity__all_residential_: string,
+  Estimated_Capacity__some_commercial_: string,
   Growth_Potential_Score: string,
   Healthy_Communities_Score: string,
   Healthy_Watersheds_Score: string,
-  Travel_Choices_Score: string,
-  Overall_Score: string,
-  Number_of_Parcels_on_Site: string,
-  Site_Tax_Revenue_Change: string,
-  Tax_Revenue__after_retrofit_: string,
-  Tax_Revenue__before_retrofit_: string,
+  Impervious_surface__sf_: string,
   Municipal_Avg_Tax_Increase: string,
   Municipal_Total_Tax_Increase: string,
+  Number_of_Parcels_on_Site: string,
+  Open_Space: string,
+  Overall_Score: string,
+  Parcel_IDs: string,
+  Quintile_Category: string,
+  Site_Tax_Revenue_Change: string,
+  Submarket: string,
+  Tax_Revenue__after_retrofit_: string,
+  Tax_Revenue__before_retrofit_: string,
+  Top_Category: string,
+  Travel_Choices_Score: string,
+  area_acres: string,
+  bldg_value: string,
+  bldlnd_rat: string,
+  buildarea_ac: string,
+  buildarea_sf: string,
+  commtype: string,
+  county: string,
+  disttosewerft: string,
+  muni: string,
+  municipal: string,
   municipal_rank: string,
-  regional_rank: string,
   parcel_addr: string,
-  parcel_addrl: string
+  parcel_addrl: string,
+  regional_rank: string,
+  site_oid: string,
+  sitearea_sf: string,
+  station: string,
+  subregion: string,
+  subtype: string,
+  total_valu: string,
+  walkscore: string,
+  wetland100_p: string
 }
 
 interface MunicipalDataProps {
@@ -41,7 +65,8 @@ interface MunicipalDataProps {
   sitesCount: number|undefined,
   setSitesCount: React.Dispatch<React.SetStateAction<any>>,
   dispatch: React.Dispatch<unknown>,
-  selectedSite: any //lifted from SearchMap to Wrapper, passed down to MuniData
+  selectedSite: any, //lifted from SearchMap to Wrapper, passed down to MuniData
+  setSite: React.Dispatch<React.SetStateAction<any>>
 }
 
 const SearchBarStyle = css`
@@ -91,7 +116,7 @@ const ulStyle = css`
 //   return undefined;
 // }
 
-function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined>, sitesCount: number|undefined, setSitesCount: React.Dispatch<React.SetStateAction<any>>, selectedSite: any): Array<JSX.Element>|undefined {
+function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined>, sitesCount: number|undefined, setSitesCount: React.Dispatch<React.SetStateAction<any>>, selectedSite: any, setSite: React.Dispatch<React.SetStateAction<any>> ): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     data.sort((a: any, b: any) => 
       // choose sort-by attribute here
@@ -101,7 +126,7 @@ function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispat
     setSitesCount(count);
     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
       if (node.municipal === selectedMuni) {
-        list.push(<SiteRow data={data} node={node} key={node.site_oid} dispatch={dispatch} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={sitesCount} selectedSite={selectedSite} />);
+        list.push(<SiteRow data={data} node={node} key={node.site_oid} dispatch={dispatch} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={sitesCount} selectedSite={selectedSite} setSite={setSite} />);
       }
       return list;
     }, []);
@@ -116,12 +141,12 @@ function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMu
   return undefined;
 }
 
-const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, highlightedSites, sitesCount, setSitesCount, selectedSite, dispatch }) => (
+const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, highlightedSites, sitesCount, setSitesCount, selectedSite, setSite, dispatch }) => (
   <div css={dataWrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
     {selectedMuni ? showMunicipalRow(data, node, selectedMuni, highlightedSites ) : ''} 
     {/* <Legend /> */}
-    <SitesList data={data} selectedMuni={selectedMuni} dispatch={dispatch} highlightedSites={highlightedSites} sitesCount={sitesCount} selectedSite={selectedSite} setSitesCount={setSitesCount} />
+    <SitesList data={data} selectedMuni={selectedMuni} dispatch={dispatch} highlightedSites={highlightedSites} sitesCount={sitesCount} selectedSite={selectedSite} setSite={setSite} setSitesCount={setSitesCount} />
   </div>
 );
 

@@ -9,12 +9,13 @@ import ExpandedSiteRow from './ExpandedSiteRow';
 
 interface SiteRowProps {
   data: Array<CsvData>,
-  node: CsvData,
   dispatch: React.Dispatch<unknown>,
-  selectedMuni: string|undefined,
   highlightedSites: Array<number|undefined>,
-  sitesCount: number|undefined,
+  node: CsvData,
+  selectedMuni: string|undefined,
   selectedSite: any,
+  setSite: React.Dispatch<React.SetStateAction<any>>,
+  sitesCount: number|undefined
 }
 
 const liStyle = css`
@@ -51,26 +52,10 @@ border-right: 10px solid ${themeColors.quintile5};
 `;
 
 const buttonStyle = css`
+  cursor: pointer;
   background: none;
   border: none;
   float: right;
-  cursor: pointer;
-`;
-
-const detailListStyle = css`
-  padding-left: 0;
-  list-style: none;
-  color: ${themeColors.fontGray}
-`;
-
-const bold = css`
-  font-weight: 600;
-  padding-right: 2px;
-  color: black;
-`;
-
-const scoreType = css`
-  margin-left: 1.2em;
 `;
 
 function parseDouble(input: number): string {
@@ -92,7 +77,16 @@ function ordinalSuffix(i: number): string {
   return i + "th";
 }
 
-const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, selectedMuni, highlightedSites, selectedSite }) => {
+const SiteRow: React.FC<SiteRowProps> = ({ 
+  data, 
+  dispatch, 
+  highlightedSites,
+  node, 
+  selectedMuni,  
+  selectedSite, 
+  setSite,
+  sitesCount
+}) => {
   const [highlighted, toggleHightlight] = useState<boolean>(false);
   const [starred, toggleStarred] = useState<boolean>(false);
   
@@ -113,9 +107,27 @@ const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, sel
     checkHighlightedSites();
   }, [])
 
-  function showExpanded(data: Array<CsvData>, selectedMuni: string|undefined, highlightedSites: Array<number|undefined>, selectedSite: any, sitesCount: number|undefined ) {
+  function showExpanded(
+      data: Array<CsvData>, 
+      highlightedSites: Array<number|undefined>,
+      node: CsvData,
+      selectedMuni: string|undefined, 
+      selectedSite: any, 
+      setSite: React.Dispatch<React.SetStateAction<any>>,
+      sitesCount: number|undefined 
+    ) 
+  {
     if (selectedSite) {
-      return <ExpandedSiteRow data={data} key={selectedSite.site_oid} selectedMuni={selectedMuni} highlightedSites={highlightedSites} selectedSite={selectedSite} sitesCount={sitesCount} />
+      return <ExpandedSiteRow 
+        data={data} 
+        highlightedSites={highlightedSites} 
+        node={node}
+        // key={selectedSite.site_oid} 
+        selectedMuni={selectedMuni} 
+        selectedSite={selectedSite}
+        setSite={setSite} 
+        sitesCount={sitesCount} 
+      />
     } 
     return (null); // does not render component if site evaluates false
   }
@@ -134,21 +146,33 @@ const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, sel
             ''
           ]
         }
-        onMouseEnter={(e) => {
+        // onMouseEnter={() => {
+        //   if (!highlighted) {
+        //     toggleHightlight(!highlighted);
+        //     dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+        //   }
+        // }}
+        // onMouseLeave={() => {
+        //   if (highlighted && !starred) {
+        //     toggleHightlight(!highlighted);
+        //     dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+        //   }
+        // }}
+    > 
+      <button css={buttonStyle} 
+        onMouseEnter={() => {
           if (!highlighted) {
             toggleHightlight(!highlighted);
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           }
         }}
-        onMouseLeave={(e) => {
+        onMouseLeave={() => {
           if (highlighted && !starred) {
             toggleHightlight(!highlighted);
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           }
         }}
-    > 
-      <button css={buttonStyle} 
-         onClick={() => {
+        onClick={() => {
           if (highlighted && starred) {
             toggleStarred(false);
             toggleHightlight(false);
@@ -164,9 +188,21 @@ const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, sel
       >
         <PushPinSimple size={25} weight="fill" color={highlighted ? themeColors.gold : themeColors.fontGray} />
       </button>
-      <h2>{node.parcel_addr}</h2>
-      <h1>{node.municipal} | Site {node.site_oid}</h1>
-      {selectedSite.site_oid === node.site_oid ? showExpanded(data, selectedMuni, highlightedSites, selectedSite, sitesCount) : ''}
+      <div         
+        onClick={(e) => {
+          setSite(node);
+          // if (selectedSite === node) {
+          //   setSite(false);
+          // } else {
+          //   setSite(node);
+          // }
+        }}
+        style={{ cursor: `pointer`}}
+      >
+        <h2>{node.parcel_addr}</h2>
+        <h1>{node.municipal} | Site {node.site_oid}</h1>
+      </div>
+      {selectedSite.site_oid === node.site_oid ? showExpanded(data, highlightedSites, node, selectedMuni, selectedSite, setSite, sitesCount) : ''}
     </li>
   )
 };
