@@ -5,6 +5,7 @@ import { jsx, css } from '@emotion/react';
 import { themeColors, fonts } from '../../utils/theme';
 import { CsvData } from './MunicipalData';
 import { PushPinSimple } from 'phosphor-react';
+import ExpandedSiteRow from './ExpandedSiteRow';
 
 interface SiteRowProps {
   data: Array<CsvData>,
@@ -12,7 +13,8 @@ interface SiteRowProps {
   dispatch: React.Dispatch<unknown>,
   selectedMuni: string|undefined,
   highlightedSites: Array<number|undefined>,
-  sitesCount: number|undefined
+  sitesCount: number|undefined,
+  selectedSite: any,
 }
 
 const liStyle = css`
@@ -90,7 +92,7 @@ function ordinalSuffix(i: number): string {
   return i + "th";
 }
 
-const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, selectedMuni, highlightedSites }) => {
+const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, selectedMuni, highlightedSites, selectedSite }) => {
   const [highlighted, toggleHightlight] = useState<boolean>(false);
   const [starred, toggleStarred] = useState<boolean>(false);
   
@@ -111,8 +113,16 @@ const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, sel
     checkHighlightedSites();
   }, [])
 
+  function showExpanded(data: Array<CsvData>, selectedMuni: string|undefined, highlightedSites: Array<number|undefined>, selectedSite: any, sitesCount: number|undefined ) {
+    if (selectedSite) {
+      return <ExpandedSiteRow data={data} key={selectedSite.site_oid} selectedMuni={selectedMuni} highlightedSites={highlightedSites} selectedSite={selectedSite} sitesCount={sitesCount} />
+    } 
+    return (null); // does not render component if site evaluates false
+  }
+
   return (
     <li key={node.site_oid} 
+        id={node.site_oid}
         css={
           [
             liStyle,
@@ -145,7 +155,6 @@ const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, sel
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           } else if (highlighted && !starred) {
             toggleStarred(true);
-            // dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           } else if (!highlighted && !starred) {
             toggleStarred(true);
             toggleHightlight(true);
@@ -157,16 +166,7 @@ const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, sel
       </button>
       <h2>{node.parcel_addr}</h2>
       <h1>{node.municipal} | Site {node.site_oid}</h1>
-      <ul css={detailListStyle}>
-        {/* <li><span css={bold}>{parseDouble(+node.Growth_Potential_Score)}</span>/1 <span css={scoreType}>Growth Potential Score</span></li>
-        <li><span css={bold}>{parseDouble(+node.Healthy_Communities_Score)}</span>/1 <span css={scoreType}>Healthy Communities Score</span></li>
-        <li><span css={bold}>{parseDouble(+node.Healthy_Watersheds_Score)}</span>/1 <span css={scoreType}>Healthy Watersheds Score</span></li>
-        <li><span css={bold}>{parseDouble(+node.Travel_Choices_Score)}</span>/1 <span css={scoreType}>Travel Choices Score</span></li> */}
-        {/* <li><span css={bold}>{parseDouble(+node.Overall_Score)}</span>/4 <span css={scoreType}>Overall Score</span></li> */}
-        <br />
-        {/* <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{sitesCount} in {node.municipal}</li>
-        <li><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3037 in the Region</li> */}
-      </ul>
+      {selectedSite.site_oid === node.site_oid ? showExpanded(data, selectedMuni, highlightedSites, selectedSite, sitesCount) : ''}
     </li>
   )
 };

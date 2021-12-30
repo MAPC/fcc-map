@@ -27,7 +27,6 @@ function reducer(state: MunicipalSearch, action: any) {
   switch(action.type) {
     case 'addSite':
       if (state.highlightedSites.find(site => site === action.toggledSite)) {
-        // console.log('wrapper - reducer - highlightedSites', state.highlightedSites);
         return {...state, highlightedSites: state.highlightedSites.filter(item => item !== action.toggledSite)}
       }
       return {...state, highlightedSites: [...state.highlightedSites, action.toggledSite]};
@@ -40,7 +39,7 @@ const Wrapper: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [selectedMuni, setMuni] = useState<string|undefined>();
   const [sitesCount, setSitesCount] = useState<number|undefined>(0);
-  const [site, setSite] = useState<any>();
+  const [selectedSite, setSite] = useState<any>();
   const containerRef = useRef<HTMLInputElement>(null);
   return (
     <StaticQuery
@@ -79,7 +78,7 @@ const Wrapper: React.FC = () => {
             selectedMuni={selectedMuni}
             sitesCount={sitesCount}
             setSitesCount={setSitesCount}
-            site={site}
+            selectedSite={selectedSite}
             node={data.allSitesMpClean20210902Csv.nodes}
             containerRef={containerRef}
             highlightedSites={state.highlightedSites} //passing to SiteRow
@@ -89,7 +88,7 @@ const Wrapper: React.FC = () => {
             data={data.allSitesMpClean20210902Csv.nodes}
             selectedMuni={selectedMuni}
             setMuni={setMuni}
-            site={site}
+            selectedSite={selectedSite}
             setSite={setSite}
             containerRef={containerRef}
             highlightedSites={state.highlightedSites}

@@ -16,7 +16,7 @@ interface MunicipalMapProps {
   dispatch: React.Dispatch<unknown>,
   selectedMuni: string|undefined,
   setMuni: React.Dispatch<React.SetStateAction<string|undefined>>,
-  site: any,
+  selectedSite: any,
   setSite: React.Dispatch<React.SetStateAction<any>>,
   containerRef: React.RefObject<HTMLInputElement>,
   highlightedSites: Array<number|number>
@@ -60,7 +60,7 @@ function handleClick(e: Array<mapboxgl.EventData>): string {
   return '';
 }
 
-const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, setMuni, site, setSite, containerRef, highlightedSites }) => {
+const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, setMuni, selectedSite, setSite, containerRef, highlightedSites }) => {
   const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
   useEffect(() => {
@@ -234,7 +234,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
                 <h2>{popupSite?.parcel_addr}</h2>
                 <h1>{popupSite?.municipal} | Site {popupSite?.site_oid}</h1>
                 <p><span css={bold}>{parseDouble(+popupSite?.["Overall Score"]/4)}</span>/1 Overall Score</p> 
-                <p><span css={bold}>{ordinalSuffix(+popupSite?.municipal_rank)}</span> in {site?.muni}</p>
+                <p><span css={bold}>{ordinalSuffix(+popupSite?.municipal_rank)}</span> in {selectedSite?.muni}</p>
                 <p><span css={bold}>{ordinalSuffix(+popupSite?.regional_rank)}</span> in the Region</p>
                 {/* <p>Quantity of Parcels: {parseToString(parseFloat(popupSite?.["Number of Parcels on Site"]))}</p>
                 <p>Build Area: {parseCommas(parseToString(parseFloat(popupSite?.buildarea_sf)))} sq. ft.</p> */}
