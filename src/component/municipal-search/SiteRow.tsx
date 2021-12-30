@@ -109,6 +109,7 @@ const SiteRow: React.FC<SiteRowProps> = ({
 
   function showExpanded(
       data: Array<CsvData>, 
+      dispatch: React.Dispatch<unknown>,
       highlightedSites: Array<number|undefined>,
       node: CsvData,
       selectedMuni: string|undefined, 
@@ -120,6 +121,7 @@ const SiteRow: React.FC<SiteRowProps> = ({
     if (selectedSite) {
       return <ExpandedSiteRow 
         data={data} 
+        dispatch={dispatch}
         highlightedSites={highlightedSites} 
         node={node}
         // key={selectedSite.site_oid} 
@@ -159,7 +161,7 @@ const SiteRow: React.FC<SiteRowProps> = ({
         //   }
         // }}
     > 
-      <button css={buttonStyle} 
+      {/* <button css={buttonStyle} 
         onMouseEnter={() => {
           if (!highlighted) {
             toggleHightlight(!highlighted);
@@ -187,22 +189,22 @@ const SiteRow: React.FC<SiteRowProps> = ({
         }}
       >
         <PushPinSimple size={25} weight="fill" color={highlighted ? themeColors.gold : themeColors.fontGray} />
-      </button>
+      </button> */}
       <div         
         onClick={(e) => {
-          setSite(node);
-          // if (selectedSite === node) {
-          //   setSite(false);
-          // } else {
-          //   setSite(node);
-          // }
+          // setSite(node);
+          if (selectedSite === node) {
+            setSite(false);
+          } else {
+            setSite(node);
+          }
         }}
         style={{ cursor: `pointer`}}
       >
         <h2>{node.parcel_addr}</h2>
         <h1>{node.municipal} | Site {node.site_oid}</h1>
       </div>
-      {selectedSite.site_oid === node.site_oid ? showExpanded(data, highlightedSites, node, selectedMuni, selectedSite, setSite, sitesCount) : ''}
+      {selectedSite.site_oid === node.site_oid ? showExpanded(data, dispatch, highlightedSites, node, selectedMuni, selectedSite, setSite, sitesCount) : ''}
     </li>
   )
 };

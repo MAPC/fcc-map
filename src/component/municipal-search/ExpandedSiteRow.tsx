@@ -3,9 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { jsx, css } from '@emotion/react';
 import { CsvData } from './MunicipalData';
+import { PushPinSimple } from 'phosphor-react';
+import { themeColors, fonts } from '../../utils/theme';
 
 interface ExpandedSiteRowProps {
   data: Array<CsvData>,
+  dispatch: React.Dispatch<unknown>,
   highlightedSites: Array<number|undefined>,
   node: CsvData,
   selectedMuni: string|undefined,
@@ -13,6 +16,13 @@ interface ExpandedSiteRowProps {
   setSite: React.Dispatch<React.SetStateAction<any>>,
   sitesCount: number|undefined
 }
+
+const buttonStyle = css`
+  cursor: pointer;
+  background: none;
+  border: none;
+  float: right;
+`;
 
 const bold = css`
   font-weight: 600;
@@ -56,6 +66,7 @@ function ordinalSuffix(i: number): string {
 
 const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
   data, 
+  dispatch,
   highlightedSites, 
   node,
   selectedMuni,
@@ -64,8 +75,57 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
   sitesCount
 }) => {
 
+  const [highlighted, toggleHightlight] = useState<boolean>(false);
+  const [starred, toggleStarred] = useState<boolean>(false);
+
+  useEffect(() => {
+    // if on render highlightedSites array includes this SiteRow card's site_oid,
+    // then initialize highlighted and starred to true
+    // else, useState(false)
+    // need to call it only once, on ComponentDidMount
+    const checkHighlightedSites = () => {
+      if (highlightedSites.includes(+node.site_oid)) {
+        toggleHightlight(true)
+        toggleStarred(true)
+      } else {
+        toggleHightlight(false)
+        toggleStarred(false)
+      }
+    }
+    checkHighlightedSites();
+  }, [])
+
   return (
     <div key={node.site_oid}>
+      <button css={buttonStyle} 
+        onMouseEnter={() => {
+          if (!highlighted) {
+            toggleHightlight(!highlighted);
+            dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+          }
+        }}
+        onMouseLeave={() => {
+          if (highlighted && !starred) {
+            toggleHightlight(!highlighted);
+            dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+          }
+        }}
+        onClick={() => {
+          if (highlighted && starred) {
+            toggleStarred(false);
+            toggleHightlight(false);
+            dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+          } else if (highlighted && !starred) {
+            toggleStarred(true);
+          } else if (!highlighted && !starred) {
+            toggleStarred(true);
+            toggleHightlight(true);
+            dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+          }
+        }}
+      >
+        <PushPinSimple size={25} weight="fill" color={highlighted ? themeColors.gold : themeColors.fontGray} />
+      </button>
       <h3>Current Conditions</h3>
       <p><span css={bold}>{parseDouble(+node.area_acres)}</span><span css={scoreType}>Unconstrained land area</span></p>
       <p><span css={bold}>{parseDouble(+node.bldlnd_rat)}</span><span css={scoreType}>Current floor area ratio</span></p>
@@ -83,7 +143,7 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
       <p><span css={bold}>{node.Estimated_Capacity__all_residential_}</span> <span css={scoreType}>Estimated Capacity (all residential)</span></p>
       <p><span css={bold}>{node.Estimated_Capacity__some_commercial_}</span> <span css={scoreType}>Estimated Capacity (some commercial)</span></p>
       <p><span css={bold}>${parseCommas(parseDouble(+node.Site_Tax_Revenue_Change))}</span> <span css={scoreType}>Estimated Tax Revenue Change</span></p>
-      <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{sitesCount} in {selectedSite.municipal}</li>
+      <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{sitesCount} in {node.municipal}</li>
       <li><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3037 in the Region</li>
       <h3
         onClick={() => {
