@@ -14,8 +14,8 @@ interface SitesListProps {
   sitesCount: number|undefined,
   selectedMuni: string|undefined,
   selectedSite: any,
-  setSite: React.Dispatch<React.SetStateAction<any>>,
-  setSitesCount: React.Dispatch<React.SetStateAction<any>>
+  setSite: React.SetStateAction<any>,
+  setSitesCount: React.SetStateAction<any>
 }
 
 const ulStyle = css`
@@ -34,8 +34,8 @@ function filterData(
     highlightedSites: Array<number|undefined>, 
     selectedMuni: string|undefined, 
     selectedSite: any, 
-    setSite: React.Dispatch<React.SetStateAction<any>>, 
-    setSitesCount: React.Dispatch<React.SetStateAction<any>>, 
+    setSite: React.SetStateAction<any>, 
+    setSitesCount: React.SetStateAction<any>, 
     sitesCount: number|undefined 
   ): Array<JSX.Element>|undefined 
 {
@@ -60,10 +60,58 @@ function filterData(
           sitesCount={sitesCount} 
         />);
       }
+      // const siteIntoView:any = document.getElementById(list[0]site_oid);
+      // // console.log("executeScroll executing");
+      // siteIntoView.scrollIntoView({behavior: "smooth", AlignTop});
+      // console.log("list 0.key:", list[0]);
+      
       return list;
     }, []);
   }
   return undefined;
+}
+
+// original
+// function executeScroll(
+//     data: Array<CsvData>, 
+//     dispatch: React.Dispatch<unknown>, 
+//     highlightedSites: Array<number|undefined>, 
+//     selectedMuni: string|undefined, 
+//     selectedSite: any, 
+//     setSite: React.SetStateAction<any>, 
+//     setSitesCount: React.SetStateAction<any>, 
+//     sitesCount: number|undefined 
+//   ): any|undefined 
+// {
+//   console.log("selectedSite", selectedSite.site_oid);
+//   if (selectedMuni && selectedSite && selectedSite.municipal === selectedMuni) {
+//       const siteIntoView:any = document.getElementById(selectedSite.site_oid);
+//       console.log("executeScroll executing");
+//       siteIntoView.scrollIntoView({behavior: "smooth"});
+//   } else {
+//       return null;
+//   }
+// }
+
+function executeScroll(
+    data: Array<CsvData>, 
+    dispatch: React.Dispatch<unknown>, 
+    highlightedSites: Array<number|undefined>, 
+    selectedMuni: string|undefined, 
+    selectedSite: any, 
+    setSite: React.SetStateAction<any>, 
+    setSitesCount: React.SetStateAction<any>, 
+    sitesCount: number|undefined 
+  ): any|undefined 
+{
+  // console.log("selectedSite", selectedSite.site_oid);
+  if (selectedMuni && selectedSite.municipal === selectedMuni) {
+      const siteIntoView:any = document.getElementById(selectedSite.site_oid);
+      // console.log("executeScroll executing");
+      siteIntoView.scrollIntoView({behavior: "smooth", AlignTop});
+  } else {
+      return null;
+  }
 }
 
 const SitesList: React.FC<SitesListProps> = ({ 
@@ -76,19 +124,33 @@ const SitesList: React.FC<SitesListProps> = ({
   setSitesCount,
   sitesCount
 }) => {
-  const executeScroll = () => {
-    console.log("selectedSite", selectedSite.site_oid);
-    if (selectedMuni && selectedSite && selectedSite.municipal === selectedMuni) {
-        const siteIntoView = document.getElementById(selectedSite.site_oid);
-        console.log("executeScroll executing");
-        siteIntoView.scrollIntoView({behavior: "smooth"});
-    } else {
-        return null;
-    }
-  }
+
+  // const executeScroll = () => {
+  //   console.log("selectedSite", selectedSite.site_oid);
+  //   if (selectedMuni && selectedSite && selectedSite.municipal === selectedMuni) {
+  //       const siteIntoView = document.getElementById(selectedSite.site_oid);
+  //       console.log("executeScroll executing");
+  //       siteIntoView.scrollIntoView({behavior: "smooth"});
+  //   } else {
+  //       return null;
+  //   }
+  // }
+
+  useEffect(() => {
+    executeScroll(
+      data, 
+      dispatch, 
+      highlightedSites, 
+      selectedMuni, 
+      selectedSite, 
+      setSite,
+      setSitesCount, 
+      sitesCount
+    );
+  }, [selectedSite])
+
   return (
     <ul css={ulStyle}>
-      {selectedSite ? executeScroll() : ''}
       {selectedMuni ? filterData(
         data, 
         dispatch, 

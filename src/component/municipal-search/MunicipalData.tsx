@@ -63,10 +63,10 @@ interface MunicipalDataProps {
   containerRef: React.RefObject<HTMLInputElement>,
   highlightedSites: Array<number|undefined>, //passing to SiteRow
   sitesCount: number|undefined,
-  setSitesCount: React.Dispatch<React.SetStateAction<any>>,
+  setSitesCount: React.SetStateAction<any>,
   dispatch: React.Dispatch<unknown>,
   selectedSite: any, //lifted from SearchMap to Wrapper, passed down to MuniData
-  setSite: React.Dispatch<React.SetStateAction<any>>
+  setSite: React.SetStateAction<any>
 }
 
 const SearchBarStyle = css`
@@ -116,7 +116,7 @@ const ulStyle = css`
 //   return undefined;
 // }
 
-function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined>, sitesCount: number|undefined, setSitesCount: React.Dispatch<React.SetStateAction<any>>, selectedSite: any, setSite: React.Dispatch<React.SetStateAction<any>> ): Array<JSX.Element>|undefined {
+function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined>, sitesCount: number|undefined, setSitesCount: React.SetStateAction<any>, selectedSite: any, setSite: React.SetStateAction<any> ): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     data.sort((a: any, b: any) => 
       // choose sort-by attribute here

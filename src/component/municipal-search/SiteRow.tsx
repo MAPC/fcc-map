@@ -14,7 +14,7 @@ interface SiteRowProps {
   node: CsvData,
   selectedMuni: string|undefined,
   selectedSite: any,
-  setSite: React.Dispatch<React.SetStateAction<any>>,
+  setSite: React.SetStateAction<any>,
   sitesCount: number|undefined
 }
 
@@ -114,7 +114,7 @@ const SiteRow: React.FC<SiteRowProps> = ({
       node: CsvData,
       selectedMuni: string|undefined, 
       selectedSite: any, 
-      setSite: React.Dispatch<React.SetStateAction<any>>,
+      setSite: React.SetStateAction<any>,
       sitesCount: number|undefined 
     ) 
   {
@@ -124,7 +124,6 @@ const SiteRow: React.FC<SiteRowProps> = ({
         dispatch={dispatch}
         highlightedSites={highlightedSites} 
         node={node}
-        // key={selectedSite.site_oid} 
         selectedMuni={selectedMuni} 
         selectedSite={selectedSite}
         setSite={setSite} 
@@ -148,20 +147,6 @@ const SiteRow: React.FC<SiteRowProps> = ({
             ''
           ]
         }
-        // onMouseEnter={() => {
-        //   if (!highlighted) {
-        //     toggleHightlight(!highlighted);
-        //     dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-        //   }
-        // }}
-        // onMouseLeave={() => {
-        //   if (highlighted && !starred) {
-        //     toggleHightlight(!highlighted);
-        //     dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-        //   }
-        // }}
-    > 
-      {/* <button css={buttonStyle} 
         onMouseEnter={() => {
           if (!highlighted) {
             toggleHightlight(!highlighted);
@@ -174,6 +159,20 @@ const SiteRow: React.FC<SiteRowProps> = ({
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           }
         }}
+    > 
+      <button css={buttonStyle} 
+        // onMouseEnter={() => {
+        //   if (!highlighted) {
+        //     toggleHightlight(!highlighted);
+        //     dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+        //   }
+        // }}
+        // onMouseLeave={() => {
+        //   if (highlighted && !starred) {
+        //     toggleHightlight(!highlighted);
+        //     dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+        //   }
+        // }}
         onClick={() => {
           if (highlighted && starred) {
             toggleStarred(false);
@@ -189,10 +188,9 @@ const SiteRow: React.FC<SiteRowProps> = ({
         }}
       >
         <PushPinSimple size={25} weight="fill" color={highlighted ? themeColors.gold : themeColors.fontGray} />
-      </button> */}
+      </button>
       <div         
         onClick={(e) => {
-          // setSite(node);
           if (selectedSite === node) {
             setSite(false);
           } else {

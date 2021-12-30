@@ -13,16 +13,9 @@ interface ExpandedSiteRowProps {
   node: CsvData,
   selectedMuni: string|undefined,
   selectedSite: any,
-  setSite: React.Dispatch<React.SetStateAction<any>>,
+  setSite: React.SetStateAction<any>,
   sitesCount: number|undefined
 }
-
-const buttonStyle = css`
-  cursor: pointer;
-  background: none;
-  border: none;
-  float: right;
-`;
 
 const bold = css`
   font-weight: 600;
@@ -75,57 +68,8 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
   sitesCount
 }) => {
 
-  const [highlighted, toggleHightlight] = useState<boolean>(false);
-  const [starred, toggleStarred] = useState<boolean>(false);
-
-  useEffect(() => {
-    // if on render highlightedSites array includes this SiteRow card's site_oid,
-    // then initialize highlighted and starred to true
-    // else, useState(false)
-    // need to call it only once, on ComponentDidMount
-    const checkHighlightedSites = () => {
-      if (highlightedSites.includes(+node.site_oid)) {
-        toggleHightlight(true)
-        toggleStarred(true)
-      } else {
-        toggleHightlight(false)
-        toggleStarred(false)
-      }
-    }
-    checkHighlightedSites();
-  }, [])
-
   return (
     <div key={node.site_oid}>
-      <button css={buttonStyle} 
-        onMouseEnter={() => {
-          if (!highlighted) {
-            toggleHightlight(!highlighted);
-            dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-          }
-        }}
-        onMouseLeave={() => {
-          if (highlighted && !starred) {
-            toggleHightlight(!highlighted);
-            dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-          }
-        }}
-        onClick={() => {
-          if (highlighted && starred) {
-            toggleStarred(false);
-            toggleHightlight(false);
-            dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-          } else if (highlighted && !starred) {
-            toggleStarred(true);
-          } else if (!highlighted && !starred) {
-            toggleStarred(true);
-            toggleHightlight(true);
-            dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-          }
-        }}
-      >
-        <PushPinSimple size={25} weight="fill" color={highlighted ? themeColors.gold : themeColors.fontGray} />
-      </button>
       <h3>Current Conditions</h3>
       <p><span css={bold}>{parseDouble(+node.area_acres)}</span><span css={scoreType}>Unconstrained land area</span></p>
       <p><span css={bold}>{parseDouble(+node.bldlnd_rat)}</span><span css={scoreType}>Current floor area ratio</span></p>
