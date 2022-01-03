@@ -191,7 +191,7 @@ const SiteRow: React.FC<SiteRowProps> = ({
       </button>
       <div         
         onClick={(e) => {
-          if (selectedSite === node) {
+          if (selectedSite) {
             setSite(false);
           } else {
             setSite(node);

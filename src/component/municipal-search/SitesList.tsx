@@ -64,7 +64,6 @@ function filterData(
       // // console.log("executeScroll executing");
       // siteIntoView.scrollIntoView({behavior: "smooth", AlignTop});
       // console.log("list 0.key:", list[0]);
-      
       return list;
     }, []);
   }
@@ -94,23 +93,24 @@ function filterData(
 // }
 
 function executeScroll(
-    data: Array<CsvData>, 
-    dispatch: React.Dispatch<unknown>, 
-    highlightedSites: Array<number|undefined>, 
     selectedMuni: string|undefined, 
-    selectedSite: any, 
-    setSite: React.SetStateAction<any>, 
-    setSitesCount: React.SetStateAction<any>, 
-    sitesCount: number|undefined 
+    selectedSite: any
   ): any|undefined 
 {
-  // console.log("selectedSite", selectedSite.site_oid);
   if (selectedMuni && selectedSite.municipal === selectedMuni) {
       const siteIntoView:any = document.getElementById(selectedSite.site_oid);
-      // console.log("executeScroll executing");
       siteIntoView.scrollIntoView({behavior: "smooth", AlignTop});
   } else {
       return null;
+  }
+}
+
+function scrollToTop(selectedMuni: string|undefined) {
+  if (selectedMuni) {
+  const sitesList:any = document.getElementById("sites-list");
+  sitesList.scrollTop = 0;
+  } else {
+    return undefined;
   }
 }
 
@@ -138,19 +138,17 @@ const SitesList: React.FC<SitesListProps> = ({
 
   useEffect(() => {
     executeScroll(
-      data, 
-      dispatch, 
-      highlightedSites, 
       selectedMuni, 
-      selectedSite, 
-      setSite,
-      setSitesCount, 
-      sitesCount
+      selectedSite
     );
   }, [selectedSite])
 
+  useEffect(() => {
+    scrollToTop(selectedMuni);
+  }, [selectedMuni])
+
   return (
-    <ul css={ulStyle}>
+    <ul css={ulStyle} id="sites-list">
       {selectedMuni ? filterData(
         data, 
         dispatch, 

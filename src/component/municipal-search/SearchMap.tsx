@@ -164,7 +164,16 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             })
           }
           if (e.features && e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02')) {
+            
             setSite(e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties);
+            console.log("selectedSite:", selectedSite);
+            
+            setViewport({
+              ...viewport,
+              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 16, transitionDuration: 1000
+            })
+          }
+          if (e.features && e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02_map-1w31xc')) {
             setViewport({
               ...viewport,
               longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 16, transitionDuration: 1000
@@ -173,13 +182,11 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
         }}
         onHover={(e) => {          
           if (e.features && e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02')) {
-            
             // dispatch({ 
             //   type: 'addSite', 
             //   toggledSite: +e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties.site_oid 
             // });
-            // console.log("e.features.find site_oid", e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties.site_oid);
-            
+            // console.log("onHover", e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties.site_oid);
             setLngLat(e.lngLat);
             togglePopup(true);
             setPopupSite(e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties);
@@ -187,6 +194,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             togglePopup(false);
           }
         }}
+
       >
         <Geocoder
           css={inputStyle}
