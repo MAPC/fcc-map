@@ -16,7 +16,7 @@ interface MunicipalMapProps {
   dispatch: React.Dispatch<unknown>,
   selectedMuni: string|undefined,
   setMuni: React.Dispatch<React.SetStateAction<string|undefined>>,
-  site: any,
+  selectedSite: any,
   setSite: React.Dispatch<React.SetStateAction<any>>,
   containerRef: React.RefObject<HTMLInputElement>,
   highlightedSites: Array<number|number>
@@ -60,7 +60,7 @@ function handleClick(e: Array<mapboxgl.EventData>): string {
   return '';
 }
 
-const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, setMuni, site, setSite, containerRef, highlightedSites }) => {
+const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, setMuni, selectedSite, setSite, containerRef, highlightedSites }) => {
   const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
   useEffect(() => {
@@ -104,14 +104,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
 
   function parseDouble(input: number): string {
     return input.toFixed(2);
-  }
-
-  function parseToString(input: number): string {
-    return input.toFixed(0);
-  }
-
-  function parseCommas(string: any) {
-    return string.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   function ordinalSuffix(i: number): string {
@@ -172,7 +164,16 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             })
           }
           if (e.features && e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02')) {
+            
             setSite(e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties);
+            console.log("selectedSite:", selectedSite);
+            
+            setViewport({
+              ...viewport,
+              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 16, transitionDuration: 1000
+            })
+          }
+          if (e.features && e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02_map-1w31xc')) {
             setViewport({
               ...viewport,
               longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 16, transitionDuration: 1000
@@ -181,13 +182,11 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
         }}
         onHover={(e) => {          
           if (e.features && e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02')) {
-            
             // dispatch({ 
             //   type: 'addSite', 
             //   toggledSite: +e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties.site_oid 
             // });
-            // console.log("e.features.find site_oid", e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties.site_oid);
-            
+            // console.log("onHover", e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties.site_oid);
             setLngLat(e.lngLat);
             togglePopup(true);
             setPopupSite(e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties);
@@ -195,6 +194,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             togglePopup(false);
           }
         }}
+
       >
         <Geocoder
           css={inputStyle}
@@ -234,7 +234,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
                 <h2>{popupSite?.parcel_addr}</h2>
                 <h1>{popupSite?.municipal} | Site {popupSite?.site_oid}</h1>
                 <p><span css={bold}>{parseDouble(+popupSite?.["Overall Score"]/4)}</span>/1 Overall Score</p> 
-                <p><span css={bold}>{ordinalSuffix(+popupSite?.municipal_rank)}</span> in {site?.muni}</p>
+                <p><span css={bold}>{ordinalSuffix(+popupSite?.municipal_rank)}</span> in {selectedSite?.muni}</p>
                 <p><span css={bold}>{ordinalSuffix(+popupSite?.regional_rank)}</span> in the Region</p>
                 {/* <p>Quantity of Parcels: {parseToString(parseFloat(popupSite?.["Number of Parcels on Site"]))}</p>
                 <p>Build Area: {parseCommas(parseToString(parseFloat(popupSite?.buildarea_sf)))} sq. ft.</p> */}

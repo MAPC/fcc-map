@@ -2,60 +2,20 @@
 
 import React, { useState, useEffect } from 'react';
 import { jsx, css } from '@emotion/react';
-import { themeColors, fonts } from '../../utils/theme';
 import { CsvData } from './MunicipalData';
 import { PushPinSimple } from 'phosphor-react';
+import { themeColors, fonts } from '../../utils/theme';
 
 interface ExpandedSiteRowProps {
   data: Array<CsvData>,
-  node: Array<CsvData>,
-  selectedMuni: string|undefined,
-  highlightedSites: Array<number|undefined>,
-  site: any,
   dispatch: React.Dispatch<unknown>,
+  highlightedSites: Array<number|undefined>,
+  node: CsvData,
+  selectedMuni: string|undefined,
+  selectedSite: any,
+  setSite: React.SetStateAction<any>,
   sitesCount: number|undefined
 }
-
-const expandedStyle = css`
-  background: ${themeColors.white};
-  max-width: 45rem;
-  padding: 1.5rem 2rem;
-  z-index: 1;
-  h2 {
-    text-transform: lowercase;
-  }
-  h2:first-letter,
-  h2:first-line {
-    text-transform: capitalize;
-  }
-`;
-
-const quintile1 = css`
-border-right: 10px solid ${themeColors.quintile1};
-`;
-
-const quintile2 = css`
-border-right: 10px solid ${themeColors.quintile2};
-`;
-
-const quintile3 = css`
-border-right: 10px solid ${themeColors.quintile3};
-`;
-
-const quintile4 = css`
-border-right: 10px solid ${themeColors.quintile4};
-`;
-
-const quintile5 = css`
-border-right: 10px solid ${themeColors.quintile5};
-`;
-
-const buttonStyle = css`
-  background: none;
-  border: none;
-  float: right;
-  cursor: pointer;
-`;
 
 const bold = css`
   font-weight: 600;
@@ -65,12 +25,6 @@ const bold = css`
 
 const scoreType = css`
   margin-left: 1.2em;
-`;
-
-const detailListStyle = css`
-  padding-left: 0;
-  list-style: none;
-  color: black;
 `;
 
 // no decimal places
@@ -103,100 +57,46 @@ function ordinalSuffix(i: number): string {
     return i + "th";
 }
 
-// function filterNode(node: any, site: any) {
-//     node.map((elem) => {
-//         if (elem.site_oid === site.site_oid)
-//         console.log("elem inside filterNode: ", elem);
-//         return elem;
-//     })
-// }
-
-// rendering MunicipalRow, imported into SearchMap
-const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({ data, node, selectedMuni, highlightedSites, site, dispatch, sitesCount }) => {
-    const [highlighted, toggleHightlight] = useState<boolean>(false);
-    const [starred, toggleStarred] = useState<boolean>(false);
-    
-    useEffect(() => {
-      // if on render highlightedSites array includes this SiteRow card's site_oid,
-      // then initialize highlighted and starred to true
-      // else, useState(false)
-      // need to call it only once, on ComponentDidMount
-      const checkHighlightedSites = () => {
-        if (highlightedSites.includes(+site.site_oid)) {
-          toggleHightlight(true)
-          toggleStarred(true)
-        } else {
-          toggleHightlight(false)
-          toggleStarred(false)
-        }
-      }
-      checkHighlightedSites();
-    }, [])
+const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
+  data, 
+  dispatch,
+  highlightedSites, 
+  node,
+  selectedMuni,
+  selectedSite,
+  setSite,
+  sitesCount
+}) => {
 
   return (
-    <div
-      css={
-        [
-          expandedStyle,
-          site["Quintile Category"] ===  '5' ? quintile5 : 
-          site["Quintile Category"] ===  '4' ? quintile4 : 
-          site["Quintile Category"] ===  '3' ? quintile3 : 
-          site["Quintile Category"] === '2' ? quintile2 : 
-          site["Quintile Category"] === '1' ? quintile1 :
-          ''
-        ]
-      }
-      onMouseEnter={(e) => {
-        if (!highlighted) {
-          toggleHightlight(!highlighted);
-          dispatch({ type: 'addSite', toggledSite: +site["site_oid"] });
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (highlighted && !starred) {
-          toggleHightlight(!highlighted);
-          dispatch({ type: 'addSite', toggledSite: +site["site_oid"] });
-        }
-      }}
-    >
-      <button css={buttonStyle} 
-         onClick={() => {
-          if (highlighted && starred) {
-            toggleStarred(false);
-            toggleHightlight(false);
-            dispatch({ type: 'addSite', toggledSite: +site.site_oid });
-          } else if (highlighted && !starred) {
-            toggleStarred(true);
-          } else if (!highlighted && !starred) {
-            toggleStarred(true);
-            toggleHightlight(true);
-            dispatch({ type: 'addSite', toggledSite: +site.site_oid });
-          }
-        }}
-      >
-        <PushPinSimple size={25} weight="fill" color={highlighted ? themeColors.gold : themeColors.fontGray} />
-      </button>
-      <h2>{site.parcel_addr}</h2>
-      <h1>{site.municipal} | Site {site.site_oid}</h1>
+    <div key={node.site_oid}>
       <h3>Current Conditions</h3>
-      <p><span css={bold}>{}</span><span css={scoreType}>Unconstrained land area</span></p>
-      <p><span css={bold}>{}</span><span css={scoreType}>Current floor area ratio</span></p>
-      <p><span css={bold}>{}</span><span css={scoreType}>Current building land/value ratio</span></p>
+      <p><span css={bold}>{parseDouble(+node.area_acres)}</span><span css={scoreType}>Unconstrained land area</span></p>
+      <p><span css={bold}>{parseDouble(+node.bldlnd_rat)}</span><span css={scoreType}>Current floor area ratio</span></p>
+      <p><span css={bold}>{parseDouble(+node.total_valu)}</span><span css={scoreType}>Current building land/value ratio</span></p>
       <p><span css={bold}>{}</span><span css={scoreType}>Year built</span></p>
       <p><span css={bold}>{}</span><span css={scoreType}>Land use code descriptors</span></p>
-      <p><span css={bold}>{}</span><span css={scoreType}>Associated transit station area</span></p>
-      <p><span css={bold}>{site.disttosewerft}</span><span css={scoreType}>Distance to sewer</span></p>
+      <p><span css={bold}>{node.station}</span><span css={scoreType}>Associated transit station area</span></p>
+      <p><span css={bold}>{parseDouble(+node.disttosewerft)}</span><span css={scoreType}>Distance to sewer</span></p>
       <h3>Redevelopment Suitability and Potential</h3>
-      <p><span css={bold}>{(site["Growth Potential Score"])}</span>/1 <span css={scoreType}>Growth Potential Score</span></p>
-      <p><span css={bold}>{(site["Healthy Communities Score"])}</span>/1 <span css={scoreType}>Healthy Communities Score</span></p>
-      <p><span css={bold}>{(site["Healthy Watersheds Score"])}</span>/1 <span css={scoreType}>Healthy Watersheds Score</span></p>
-      <p><span css={bold}>{(site["Travel Choices Score"])}</span>/1 <span css={scoreType}>Travel Choices Score</span></p>
-      <p><span css={bold}>{parseDouble((+site["Overall Score"]) / 4)}</span>/1 <span css={scoreType}>Overall Score</span></p>
-      <p><span css={bold}>{parseDouble(+site["Estimated Capacity (all residential)"])}</span> <span css={scoreType}>Estimated Capacity (all residential)</span></p>
-      <p><span css={bold}>{parseDouble(+site["Estimated Capacity (some commercial)"])}</span> <span css={scoreType}>Estimated Capacity (some commercial)</span></p>
-      <p><span css={bold}>$ {parseCommas(parseDouble(+site["Site Tax Revenue Change"]))}</span> <span css={scoreType}>Estimated Tax Revenue Change</span></p>
-      <li><span css={bold}>{ordinalSuffix(+site.municipal_rank)}</span>/{sitesCount} in {site.municipal}</li>
-      <li><span css={bold}>{ordinalSuffix(+site.regional_rank)}</span>/3037 in the Region</li>
+      <p><span css={bold}>{(node.Growth_Potential_Score)}</span>/1 <span css={scoreType}>Growth Potential Score</span></p>
+      <p><span css={bold}>{(node.Healthy_Communities_Score)}</span>/1 <span css={scoreType}>Healthy Communities Score</span></p>
+      <p><span css={bold}>{(node.Healthy_Watersheds_Score)}</span>/1 <span css={scoreType}>Healthy Watersheds Score</span></p>
+      <p><span css={bold}>{(node.Travel_Choices_Score)}</span>/1 <span css={scoreType}>Travel Choices Score</span></p>
+      <p><span css={bold}>{parseDouble(+node.Overall_Score / 4)}</span>/1 <span css={scoreType}>Overall Score</span></p>
+      <p><span css={bold}>{node.Estimated_Capacity__all_residential_}</span> <span css={scoreType}>Estimated Capacity (all residential)</span></p>
+      <p><span css={bold}>{node.Estimated_Capacity__some_commercial_}</span> <span css={scoreType}>Estimated Capacity (some commercial)</span></p>
+      <p><span css={bold}>${parseCommas(parseDouble(+node.Site_Tax_Revenue_Change))}</span> <span css={scoreType}>Estimated Tax Revenue Change</span></p>
+      <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{sitesCount} in {node.municipal}</li>
+      <li><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3037 in the Region</li>
+      <h3
+        onClick={() => {
+          setSite(false);
+        }}  
+        style={{cursor: "pointer"}}
+      >
+        Show Less
+      </h3>
     </div>
   )
 };
