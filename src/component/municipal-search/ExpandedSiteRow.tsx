@@ -17,6 +17,20 @@ interface ExpandedSiteRowProps {
   sitesCount: number|undefined
 }
 
+const containerStyle = css`
+  display: flex;
+  flex-flow: row wrap;
+  h3 {
+    width: 100%;
+  }
+  p.value {
+    width: 30%;
+  }
+  p.field {
+    width: 70%;
+  }
+`;
+
 const bold = css`
   font-weight: 600;
   padding-right: 2px;
@@ -28,10 +42,6 @@ const collapseLink = css`
   :hover {
     color: ${themeColors.clearWater};
   }
-`;
-
-const scoreType = css`
-  margin-left: 1.2em;
 `;
 
 // no decimal places
@@ -64,6 +74,16 @@ function ordinalSuffix(i: number): string {
     return i + "th";
 }
 
+function getCapacityRange(units: number) {
+  if (units >= 150) {
+    return "> 150";
+  } else if (units > 50 && units < 150) {
+    return "50 - 150"; 
+  } else {
+    return "< 50";
+  }
+}
+
 const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
   data, 
   dispatch,
@@ -76,26 +96,43 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
 }) => {
 
   return (
-    <div key={node.site_oid}>
+    <div key={node.site_oid} css={containerStyle}>
       <h3>Current Conditions</h3>
-      <p><span css={bold}>{parseDouble(+node.area_acres)}</span><span css={scoreType}>Unconstrained land area</span></p>
-      <p><span css={bold}>{parseDouble(+node.bldlnd_rat)}</span><span css={scoreType}>Current floor area ratio</span></p>
-      <p><span css={bold}>{parseDouble(+node.total_valu)}</span><span css={scoreType}>Current building land/value ratio</span></p>
-      <p><span css={bold}>{}</span><span css={scoreType}>Year built</span></p>
-      <p><span css={bold}>{}</span><span css={scoreType}>Land use code descriptors</span></p>
-      <p><span css={bold}>{node.station}</span><span css={scoreType}>Associated transit station area</span></p>
-      <p><span css={bold}>{parseDouble(+node.disttosewerft)}</span><span css={scoreType}>Distance to sewer</span></p>
+      <p className="value"><span css={bold}>{parseCommas(parseDouble(+node.sitearea_sf))}</span> sq. ft.</p>
+      <p className="field">Unconstrained land area</p>
+      <p className="value"><span css={bold}></span></p>
+      <p className="field">Current floor area ratio</p>
+      <p className="value"><span css={bold}>{parseDouble(+node.bldlnd_rat)}</span></p>
+      <p className="field">Building to land value ratio</p>
+      <p className="value"><span css={bold}>{}</span></p>
+      <p className="field">Year built</p>
+      <p className="value"><span css={bold}>{}</span></p>
+      <p className="field">Land use code descriptors</p>
+      <p className="value"><span css={bold}>{node.station}</span></p>
+      <p className="field">Associated transit station</p>
+      <p className="value"><span css={bold}>{parseDouble(+node.disttosewerft)}</span> ft.</p>
+      <p className="field">Distance to nearest known sewer line</p>
       <h3>Redevelopment Suitability and Potential</h3>
-      <p><span css={bold}>{(node.Growth_Potential_Score)}</span>/1 <span css={scoreType}>Growth Potential Score</span></p>
-      <p><span css={bold}>{(node.Healthy_Communities_Score)}</span>/1 <span css={scoreType}>Healthy Communities Score</span></p>
-      <p><span css={bold}>{(node.Healthy_Watersheds_Score)}</span>/1 <span css={scoreType}>Healthy Watersheds Score</span></p>
-      <p><span css={bold}>{(node.Travel_Choices_Score)}</span>/1 <span css={scoreType}>Travel Choices Score</span></p>
-      <p><span css={bold}>{parseDouble(+node.Overall_Score / 4)}</span>/1 <span css={scoreType}>Overall Score</span></p>
-      <p><span css={bold}>{node.Estimated_Capacity__all_residential_}</span> <span css={scoreType}>Estimated Capacity (all residential)</span></p>
-      <p><span css={bold}>{node.Estimated_Capacity__some_commercial_}</span> <span css={scoreType}>Estimated Capacity (some commercial)</span></p>
-      <p><span css={bold}>${parseCommas(parseDouble(+node.Site_Tax_Revenue_Change))}</span> <span css={scoreType}>Estimated Tax Revenue Change</span></p>
-      <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{sitesCount} in {node.municipal}</li>
-      <li><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3037 in the Region</li>
+      <p className="value"><span css={bold}>{parseDouble(+node.Growth_Potential_Score)}</span>/1</p>
+      <p className="field">Growth Potential Score</p>
+      <p className="value"><span css={bold}>{parseDouble(+node.Healthy_Communities_Score)}</span>/1</p>
+      <p className="field">Healthy Communities Score</p>
+      <p className="value"><span css={bold}>{parseDouble(+node.Healthy_Watersheds_Score)}</span>/1</p>
+      <p className="field">Healthy Watersheds Score</p>
+      <p className="value"><span css={bold}>{parseDouble(+node.Travel_Choices_Score)}</span>/1</p>
+      <p className="field">Travel Choices Score</p>
+      <p className="value"><span css={bold}>{parseDouble(+node.Overall_Score / 4)}</span>/1</p>
+      <p className="field">Overall Score</p>
+      <p className="value"><span css={bold}>{getCapacityRange(+node.Estimated_Capacity__all_residential_)}</span> units</p>
+      <p className="field">Estimated Capacity (all residential)</p>
+      <p className="value"><span css={bold}>{getCapacityRange(+node.Estimated_Capacity__some_commercial_)}</span> units</p>
+      <p className="field">Estimated Capacity (some commercial)</p>
+      <p className="value"><span css={bold}>${parseCommas(parseDouble(+node.Site_Tax_Revenue_Change))}</span></p>
+      <p className="field">Estimated Tax Revenue Change</p>
+      <p className="value"><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{sitesCount}</p>
+      <p className="field">Rank in {node.municipal}</p>
+      <p className="value"><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3036</p>
+      <p className="field">Rank in the Region</p>
       <h3
         onClick={() => {
           setSite(false);
