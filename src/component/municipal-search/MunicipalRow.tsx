@@ -18,7 +18,7 @@ const muniRowStyle = css`
   background: ${themeColors.warmGrayTransparent};
   margin: .5rem 0;
   max-width: 45rem;
-  padding: 1.5rem 2rem;
+  padding: .5rem 2rem;
   z-index: 1;
 `;
 
