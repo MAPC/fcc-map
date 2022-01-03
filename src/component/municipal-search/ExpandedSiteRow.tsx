@@ -23,6 +23,13 @@ const bold = css`
   color: black;
 `;
 
+const collapseLink = css`
+  cursor: pointer;
+  :hover {
+    color: ${themeColors.clearWater};
+  }
+`;
+
 const scoreType = css`
   margin-left: 1.2em;
 `;
@@ -93,7 +100,7 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
         onClick={() => {
           setSite(false);
         }}  
-        style={{cursor: "pointer"}}
+        css={collapseLink}
       >
         Show Less
       </h3>

@@ -52,13 +52,13 @@ const Layout: React.FC = ({ children }) => (
         }
         h2 {
           color: ${themeColors.indigo};
-          font-size: 1.8rem;
+          font-size: 1.9rem;
         }
         h3 {
-          font-size: 1.6rem;
+          font-size: 1.7rem;
         }
         p, li {        
-          font-size: 1.4rem;
+          font-size: 1.5rem;
           margin: 0;
         }
       }
