@@ -14,37 +14,33 @@ interface MunicipalRowProps {
   sitesCount: number|undefined
 }
 
-const muniRowStyle = css`
+const containerStyle = css`
   background: ${themeColors.warmGrayTransparent};
+  display: flex;
+  flex-flow: row wrap;
   margin: .5rem 0;
   max-width: 45rem;
   padding: .5rem 2rem;
   z-index: 1;
+  h1, h2 {
+    width: 100%;
+  }
+  p.value {
+    width: 30%;
+  }
+  p.field {
+    width: 70%;
+  }
 `;
 
-const titleStyle = css`
-  color: ${themeColors.indigo};
-  font-family: ${fonts.calibre};
-  font-size: 2rem;
+const bold = css`
   font-weight: 600;
-  margin: 0 0 1rem 0;
-`;
-
-const buttonStyle = css`
-  background: none;
-  border: none;
-  float: right;
-  cursor: pointer;
-`;
-
-const detailListStyle = css`
-  padding-left: 0;
-  list-style: none;
+  padding-right: 2px;
   color: black;
 `;
 
 // iterating through sites' tax differentials and returning the number of sites and sum
-function getTax(data: Array<CsvData>, selectedMuni: string|undefined): Array<number> {
+function getMuniTax(data: Array<CsvData>, selectedMuni: string|undefined): Array<number> {
   let taxDifferentials: Array<number> = [];
   let sum: number = 0;
   let average: number = 0;
@@ -65,6 +61,43 @@ function getTax(data: Array<CsvData>, selectedMuni: string|undefined): Array<num
   return [taxDifferentials.length, sum, average];
 }
 
+function getMuniSiteArea(data: Array<CsvData>, selectedMuni: string|undefined): number {
+  let siteAreaArray: Array<number> = [];
+  let siteAreaSum: number = 0;
+  data.reduce((siteAreaArray: Array<number>, node: CsvData) => {
+    if (node.municipal === selectedMuni) {
+      siteAreaArray.push(+node.sitearea_sf);
+    }
+    return siteAreaArray
+  }, siteAreaArray);
+  if (siteAreaArray.length > 0) {
+    siteAreaSum = 0;
+    siteAreaArray.forEach(function(e) {
+      siteAreaSum = siteAreaSum + e;
+    });
+  }
+  return siteAreaSum;
+}
+
+function getMuniTransit(data: Array<CsvData>, selectedMuni: string|undefined): number {
+  let stationArray: Array<number> = [];
+  let stationSum: number = 0;
+  data.filter((e) => {
+    if (e.municipal === selectedMuni && e.station !== "") {
+      stationArray.push(+e.sitearea_sf)
+      stationSum++;
+    }
+    return stationSum;
+  }, stationSum);
+  if (stationArray.length > 0) {
+    let stationAreaSum = 0;
+    stationArray.forEach(function(e) {
+      stationAreaSum = stationAreaSum + e;
+    });
+  }
+  return stationSum;
+}
+
 // no decimal places
 function parseToString(input: number): string {
   return input.toFixed(0);
@@ -77,19 +110,27 @@ function parseCommas(string: any) {
 
 // rendering MunicipalRow, imported into SearchMap
 const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, node, selectedMuni, highlightedSites, sitesCount }) => {
-  const quantitySites : number = getTax(data, selectedMuni)[0];
-  const differential : number = getTax(data, selectedMuni)[1]; 
-  const averageDiff : number = getTax(data, selectedMuni)[2];
+  const quantitySites : number = getMuniTax(data, selectedMuni)[0];
+  const differential : number = getMuniTax(data, selectedMuni)[1]; 
+  const averageDiff : number = getMuniTax(data, selectedMuni)[2];
   return (
-    <div css={muniRowStyle}>
+    <div css={containerStyle}>
       <h2>Suitability Analysis of Identified Sites:</h2>
       <h1>{selectedMuni}</h1>
-      <ul css={detailListStyle}>
-        <li>Tax Revenue Differential: ${parseCommas(parseToString(differential))}</li>
-        <li>Average Tax Revenue Differential Per Site: ${parseCommas(parseToString(averageDiff))}</li>
-        {/* <li>Average Tax Revenue Differential Per Site: ${parseCommas(parseToString(parseFloat(node.Municipal_Avg_Tax_Increase)))}</li> */}
-        <li>Quantity of Sites: {quantitySites}</li>
-      </ul>
+      <p className="value"><span css={bold}>{quantitySites}</span></p>
+      <p className="field">Quantity of Sites</p>
+      <p className="value"><span css={bold}>{parseCommas(parseToString(getMuniSiteArea(data, selectedMuni)))} sq. ft.</span></p>
+      <p className="field">Total Area of Sites</p>
+      <p className="value"><span css={bold}>{getMuniTransit(data, selectedMuni)}</span></p>
+      <p className="field">Quantity of Sites within Transit Station Buffers</p>
+      <p className="value"><span css={bold}>{}</span></p>
+      <p className="field">Total Area of Sites within Transit Station Buffers</p>
+      <p className="value"><span css={bold}>${parseCommas(parseToString(differential))}</span></p>
+      <p className="field">Municipal Tax Revenue Differential</p>
+      <p className="value"><span css={bold}>${parseCommas(parseToString(averageDiff))}</span></p>
+      <p className="field">Average Site Tax Revenue Differential</p>
+      <p className="value"><span css={bold}>{}</span></p>
+      <p className="field">Quantity of Sites within 1mi of centralized sewer system</p>
       {/* <Chart
         data={data}
         node={node}
