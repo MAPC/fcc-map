@@ -21,7 +21,11 @@ interface SiteRowProps {
 const liStyle = css`
   background: ${themeColors.warmGrayTransparent};
   margin: .5rem 0;
-  padding: 1.5rem 2rem;
+  padding: .5rem 2rem;
+  .title-container:hover {
+    cursor: pointer;
+    h1, h2 {color: ${themeColors.clearWater};}
+  }
   h2 {
     text-transform: lowercase;
   }
@@ -52,10 +56,11 @@ border-right: 10px solid ${themeColors.quintile5};
 `;
 
 const buttonStyle = css`
-  cursor: pointer;
   background: none;
   border: none;
+  cursor: pointer;
   float: right;
+  padding: 1rem 0;
 `;
 
 function parseDouble(input: number): string {
@@ -197,7 +202,7 @@ const SiteRow: React.FC<SiteRowProps> = ({
             setSite(node);
           }
         }}
-        style={{ cursor: `pointer`}}
+        className="title-container"
       >
         <h2>{node.parcel_addr}</h2>
         <h1>{node.municipal} | Site {node.site_oid}</h1>
