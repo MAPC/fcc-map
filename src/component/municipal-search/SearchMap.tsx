@@ -16,6 +16,8 @@ interface MunicipalMapProps {
   dispatch: React.Dispatch<unknown>,
   selectedMuni: string|undefined,
   setMuni: React.Dispatch<React.SetStateAction<string|undefined>>,
+  selectedSite: any,
+  setSite: React.Dispatch<React.SetStateAction<any>>,
   containerRef: React.RefObject<HTMLInputElement>,
   highlightedSites: Array<number|number>
 }
@@ -36,23 +38,17 @@ const inputStyle = css`
 `;
 
 const popupStyle = css`
-  padding: 0.8rem;
+  padding: 0 0.4rem;
   h1 {
-    color: ${themeColors.indigo};
-    font-family: ${fonts.calibre};
     font-size: 1.8rem;
-    font-weight: 600;
-    margin: 0 0 1rem 0;
+  }
+  h2 {
+    font-size: 1.4rem;
     text-transform: lowercase;
   }
-  h1:first-letter,
-  h1:first-line {
+  h2:first-letter,
+  h2:first-line {
     text-transform: capitalize;
-  }
-  p {
-    margin: 0;
-    color: ${themeColors.fontGray};
-    font-size: 16px;
   }
 `;
 
@@ -61,11 +57,10 @@ function handleClick(e: Array<mapboxgl.EventData>): string {
   if (muniPolygon) {
     return muniPolygon.properties.municipal;
   }
-  
   return '';
 }
 
-const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, containerRef, highlightedSites }) => {
+const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, setMuni, selectedSite, setSite, containerRef, highlightedSites }) => {
   const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
   useEffect(() => {
@@ -87,7 +82,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
   });
   const [showPopup, togglePopup] = useState<boolean>(false);
   const [lngLat, setLngLat] = useState<any>();
-  const [site, setSite] = useState<any>();
+  const [popupSite, setPopupSite] = useState<any>();
 
   const handleViewportChange = useCallback(
     (viewport) => setViewport(viewport), [],
@@ -109,14 +104,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
 
   function parseDouble(input: number): string {
     return input.toFixed(2);
-  }
-
-  function parseToString(input: number): string {
-    return input.toFixed(0);
-  }
-
-  function parseCommas(string: any) {
-    return string.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   function ordinalSuffix(i: number): string {
@@ -149,9 +136,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
           let randomMuni = () => {
               let index = Math.floor(Math.random() * municipalities.length);
               if (municipalities[index] !== 'Carlisle' || municipalities[index] !== 'Manchester-by-the-Sea') {
+                setSite(false);
                 return municipalities[index];
               } else {
-                return municipalities[0]; // defaults to Acton
+                return municipalities[0]; 
               }
             };            
             setMuni(randomMuni);
@@ -161,11 +149,12 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
             })
         }}
         onClick={(e) => {
-          if (e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_mapbox_layer-71n0va')) {
+          if (e.features.find((row) => row.sourceLayer === 'MAPC_borders-0im3ea')) {
             setMuni(handleClick(e.features));
+            setSite(false);
             setViewport({
               ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 17, transitionDuration: 1500
+              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 12, transitionDuration: 1500
             })
           } else {
             setMuni(handleClick(e.features));
@@ -174,16 +163,38 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
               longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 12, transitionDuration: 1000
             })
           }
+          if (e.features && e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02')) {
+            
+            setSite(e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties);
+            console.log("selectedSite:", selectedSite);
+            
+            setViewport({
+              ...viewport,
+              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 16, transitionDuration: 1000
+            })
+          }
+          if (e.features && e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02_map-1w31xc')) {
+            setViewport({
+              ...viewport,
+              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 16, transitionDuration: 1000
+            })
+          }
         }}
         onHover={(e) => {          
           if (e.features && e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02')) {
+            // dispatch({ 
+            //   type: 'addSite', 
+            //   toggledSite: +e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties.site_oid 
+            // });
+            // console.log("onHover", e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties.site_oid);
             setLngLat(e.lngLat);
             togglePopup(true);
-            setSite(e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties);
+            setPopupSite(e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties);
           } else {
             togglePopup(false);
           }
         }}
+
       >
         <Geocoder
           css={inputStyle}
@@ -210,7 +221,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
           placeholder="Search for a municipality"
         />
         {/* showPopup evaluates to true only if the Popup municipal matches selectedMuni */}
-        {site?.municipal === selectedMuni ? 
+        {popupSite?.municipal === selectedMuni ? 
           showPopup && (
             <Popup
               latitude={lngLat[1]}
@@ -220,13 +231,13 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ selectedMuni, setMuni, contain
               anchor="top"
             >
               <div css={popupStyle}>
-                <h1>{site?.parcel_addr}</h1>
-                <h3>{site?.municipal} site {site?.site_oid}</h3>
-                <p><span css={bold}>{parseDouble(+site?.["Overall Score"])}</span> Overall Score</p> 
-                <p><span css={bold}>{ordinalSuffix(+site?.municipal_rank)}</span> in {site?.muni}</p>
-                <p><span css={bold}>{ordinalSuffix(+site?.regional_rank)}</span> in the Region</p>
-                <p>Quantity of Parcels: {parseToString(parseFloat(site?.["Number of Parcels on Site"]))}</p>
-                <p>Build Area: {parseCommas(parseToString(parseFloat(site?.buildarea_sf)))} sq. ft.</p>
+                <h2>{popupSite?.parcel_addr}</h2>
+                <h1>{popupSite?.municipal} | Site {popupSite?.site_oid}</h1>
+                <p><span css={bold}>{parseDouble(+popupSite?.["Overall Score"]/4)}</span>/1 Overall Score</p> 
+                <p><span css={bold}>{ordinalSuffix(+popupSite?.municipal_rank)}</span> in {selectedSite?.muni}</p>
+                <p><span css={bold}>{ordinalSuffix(+popupSite?.regional_rank)}</span> in the Region</p>
+                {/* <p>Quantity of Parcels: {parseToString(parseFloat(popupSite?.["Number of Parcels on Site"]))}</p>
+                <p>Build Area: {parseCommas(parseToString(parseFloat(popupSite?.buildarea_sf)))} sq. ft.</p> */}
               </div>
             </Popup>
           )

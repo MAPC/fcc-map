@@ -5,13 +5,16 @@ import { jsx, css } from '@emotion/react';
 import { themeColors, fonts } from '../../utils/theme';
 import { CsvData } from './MunicipalData';
 import { PushPinSimple } from 'phosphor-react';
+import ExpandedSiteRow from './ExpandedSiteRow';
 
 interface SiteRowProps {
   data: Array<CsvData>,
-  node: CsvData,
   dispatch: React.Dispatch<unknown>,
-  selectedMuni: string|undefined,
   highlightedSites: Array<number|undefined>,
+  node: CsvData,
+  selectedMuni: string|undefined,
+  selectedSite: any,
+  setSite: React.SetStateAction<any>,
   sitesCount: number|undefined
 }
 
@@ -19,6 +22,13 @@ const liStyle = css`
   background: ${themeColors.warmGrayTransparent};
   margin: .5rem 0;
   padding: 1.5rem 2rem;
+  h2 {
+    text-transform: lowercase;
+  }
+  h2:first-letter,
+  h2:first-line {
+    text-transform: capitalize;
+  }
 `;
 
 const quintile1 = css`
@@ -41,55 +51,12 @@ const quintile5 = css`
 border-right: 10px solid ${themeColors.quintile5};
 `;
 
-const titleStyle = css`
-  color: ${themeColors.indigo};
-  font-family: ${fonts.calibre};
-  font-size: 2rem;
-  font-weight: 600;
-  margin: 0 0 1rem 0;
-  text-transform: lowercase;
-  :first-letter,
-  :first-line {
-    text-transform: capitalize;
-  }
-`;
-
 const buttonStyle = css`
+  cursor: pointer;
   background: none;
   border: none;
   float: right;
-  cursor: pointer;
 `;
-
-const detailListStyle = css`
-  padding-left: 0;
-  list-style: none;
-  color: ${themeColors.fontGray}
-`;
-
-const bold = css`
-  font-weight: 600;
-  padding-right: 2px;
-  color: black;
-`;
-
-const scoreType = css`
-  margin-left: 1.2em;
-`;
-
-// function countSites(data: Array<CsvData>, selectedMuni: string|undefined): number {
-//   let arrSites: Array<any> = [];
-//   data.reduce((arrSites: Array<any>, node: CsvData) => {
-//     if (node.municipal === selectedMuni) {
-//       console.log("inside if statement: ", node);
-//       arrSites.push(node.site_oid);
-//     }
-//     console.log("inside data.reduce, arrSites: ", arrSites);
-//     return arrSites;
-//   })
-//   console.log("after data.reduce, arrSites: ", arrSites);
-//   return arrSites.length;
-// }
 
 function parseDouble(input: number): string {
   return input.toFixed(2);
@@ -110,7 +77,16 @@ function ordinalSuffix(i: number): string {
   return i + "th";
 }
 
-const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, selectedMuni, highlightedSites }) => {
+const SiteRow: React.FC<SiteRowProps> = ({ 
+  data, 
+  dispatch, 
+  highlightedSites,
+  node, 
+  selectedMuni,  
+  selectedSite, 
+  setSite,
+  sitesCount
+}) => {
   const [highlighted, toggleHightlight] = useState<boolean>(false);
   const [starred, toggleStarred] = useState<boolean>(false);
   
@@ -131,8 +107,35 @@ const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, sel
     checkHighlightedSites();
   }, [])
 
+  function showExpanded(
+      data: Array<CsvData>, 
+      dispatch: React.Dispatch<unknown>,
+      highlightedSites: Array<number|undefined>,
+      node: CsvData,
+      selectedMuni: string|undefined, 
+      selectedSite: any, 
+      setSite: React.SetStateAction<any>,
+      sitesCount: number|undefined 
+    ) 
+  {
+    if (selectedSite) {
+      return <ExpandedSiteRow 
+        data={data} 
+        dispatch={dispatch}
+        highlightedSites={highlightedSites} 
+        node={node}
+        selectedMuni={selectedMuni} 
+        selectedSite={selectedSite}
+        setSite={setSite} 
+        sitesCount={sitesCount} 
+      />
+    } 
+    return (null); // does not render component if site evaluates false
+  }
+
   return (
     <li key={node.site_oid} 
+        id={node.site_oid}
         css={
           [
             liStyle,
@@ -144,14 +147,13 @@ const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, sel
             ''
           ]
         }
-        onMouseEnter={(e) => {
+        onMouseEnter={() => {
           if (!highlighted) {
             toggleHightlight(!highlighted);
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           }
         }}
-
-        onMouseLeave={(e) => {
+        onMouseLeave={() => {
           if (highlighted && !starred) {
             toggleHightlight(!highlighted);
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
@@ -159,14 +161,25 @@ const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, sel
         }}
     > 
       <button css={buttonStyle} 
-         onClick={() => {
+        // onMouseEnter={() => {
+        //   if (!highlighted) {
+        //     toggleHightlight(!highlighted);
+        //     dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+        //   }
+        // }}
+        // onMouseLeave={() => {
+        //   if (highlighted && !starred) {
+        //     toggleHightlight(!highlighted);
+        //     dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+        //   }
+        // }}
+        onClick={() => {
           if (highlighted && starred) {
             toggleStarred(false);
             toggleHightlight(false);
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           } else if (highlighted && !starred) {
             toggleStarred(true);
-            // dispatch({ type: 'addSite', toggledSite: +node.site_oid });
           } else if (!highlighted && !starred) {
             toggleStarred(true);
             toggleHightlight(true);
@@ -176,18 +189,20 @@ const SiteRow: React.FC<SiteRowProps> = ({ data, node, dispatch, sitesCount, sel
       >
         <PushPinSimple size={25} weight="fill" color={highlighted ? themeColors.gold : themeColors.fontGray} />
       </button>
-      <h1 css={titleStyle}>{node.parcel_addr}</h1>
-      <h3>{node.municipal} site {node.site_oid}</h3>
-      <ul css={detailListStyle}>
-        <li><span css={bold}>{parseDouble(+node.Growth_Potential_Score)}</span>/1 <span css={scoreType}>Growth Potential Score</span></li>
-        <li><span css={bold}>{parseDouble(+node.Healthy_Communities_Score)}</span>/1 <span css={scoreType}>Healthy Communities Score</span></li>
-        <li><span css={bold}>{parseDouble(+node.Healthy_Watersheds_Score)}</span>/1 <span css={scoreType}>Healthy Watersheds Score</span></li>
-        <li><span css={bold}>{parseDouble(+node.Travel_Choices_Score)}</span>/1 <span css={scoreType}>Travel Choices Score</span></li>
-        <li><span css={bold}>{parseDouble(+node.Overall_Score)}</span>/4 <span css={scoreType}>Overall Score</span></li>
-        <br />
-        <li><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{sitesCount} in {node.municipal}</li>
-        <li><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3037 in the Region</li>
-      </ul>
+      <div         
+        onClick={(e) => {
+          if (selectedSite) {
+            setSite(false);
+          } else {
+            setSite(node);
+          }
+        }}
+        style={{ cursor: `pointer`}}
+      >
+        <h2>{node.parcel_addr}</h2>
+        <h1>{node.municipal} | Site {node.site_oid}</h1>
+      </div>
+      {selectedSite.site_oid === node.site_oid ? showExpanded(data, dispatch, highlightedSites, node, selectedMuni, selectedSite, setSite, sitesCount) : ''}
     </li>
   )
 };

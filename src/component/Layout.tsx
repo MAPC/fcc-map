@@ -44,10 +44,23 @@ const Layout: React.FC = ({ children }) => (
       body {
         color: ${themeColors.fontGray};
         font-family: ${fonts.swiftNeueLtPro};
-        font-size: 1.6rem;
         height: 100%;
-        line-height: 2.4rem;
         margin: 0;
+        h1 {
+          color: ${themeColors.indigo};
+          font-size: 3rem;
+        }
+        h2 {
+          color: ${themeColors.indigo};
+          font-size: 1.8rem;
+        }
+        h3 {
+          font-size: 1.6rem;
+        }
+        p, li {        
+          font-size: 1.4rem;
+          margin: 0;
+        }
       }
 
       #___gatsby, #gatsby-focus-wrapper {
