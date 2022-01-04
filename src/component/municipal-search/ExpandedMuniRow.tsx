@@ -4,12 +4,10 @@ import React, { useState } from 'react';
 import { jsx, css } from '@emotion/react';
 import { themeColors, fonts } from '../../utils/theme';
 import { CsvData } from './MunicipalData'; 
-import { PlusCircle, TextAlignJustify } from 'phosphor-react';
-import { MinusCircle } from 'phosphor-react';
 import Chart from './Chart';
-import ExpandedMuniRow from "./ExpandedMuniRow";
+import Legend from './Legend';
 
-interface MunicipalRowProps {
+interface ExpandedMuniRowProps {
   data: Array<CsvData>,
   node: Array<CsvData>,
   selectedMuni: string|undefined,
@@ -21,22 +19,28 @@ const containerStyle = css`
   background: ${themeColors.warmGrayTransparent};
   display: flex;
   flex-flow: row wrap;
-  margin: .5rem 0;
   max-width: 45rem;
-  padding: .5rem 2rem;
   z-index: 1;
   h1 {
     width: 100%;
   }
   h2 {
-    margin-bottom: 0;
+    margin-top: 2.5rem;
     width: 100%;
   }
+  h3 {
+    margin: 1rem 0;
+  }
   p.value {
-    width: 30%;
+    padding-right: 1%;
+    text-align: right;
+    width: 29%;
   }
   p.field {
     width: 70%;
+  }
+  .legend {
+    width: 100%;
   }
 `;
 
@@ -44,16 +48,6 @@ const bold = css`
   font-weight: 600;
   padding-right: 2px;
   color: black;
-`;
-
-const buttonStyle = css`
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-left: 37.5rem;
-  margin-top: 0.5rem;
-  padding: 1rem 0;
-  position: absolute;
 `;
 
 // iterating through sites' tax differentials and returning the number of sites and sum
@@ -125,34 +119,29 @@ function parseCommas(string: any) {
   return string.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, node, selectedMuni, highlightedSites, sitesCount }) => {
+// rendering MunicipalRow, imported into SearchMap
+const ExpandedMuniRow: React.FC<ExpandedMuniRowProps> = ({ data, node, selectedMuni, highlightedSites, sitesCount }) => {
   const quantitySites : number = getMuniTax(data, selectedMuni)[0];
   const differential : number = getMuniTax(data, selectedMuni)[1]; 
   const averageDiff : number = getMuniTax(data, selectedMuni)[2];
-  const [shown, toggleShow] = useState<boolean>(true);
-  const [isHovered, toggleHover] = useState<boolean>(false);
-
-  function handleMouseEnter() {
-    toggleHover(true);
-  };
-
-  function handleMouseLeave () {
-    toggleHover(false);
-  };
 
   return (
     <div css={containerStyle}>
-      <button css={buttonStyle} onClick={() => {toggleShow(!shown);}}>
-        {shown ? 
-          <MinusCircle size={25} weight="bold" color={isHovered ? themeColors.gold : themeColors.fontGray} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} /> : 
-          <PlusCircle size={25} weight="bold" color={isHovered ? themeColors.gold : themeColors.fontGray} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} /> 
-        }
-      </button>
-      <h2>Suitability Analysis of Identified Sites:</h2>
-      <h1>{selectedMuni}</h1>
-      {shown ? <ExpandedMuniRow  data={data} node={node} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={sitesCount} /> : ""}
+      <p className="value"><span css={bold}>{quantitySites}</span></p>
+      <p className="field">Sites</p>
+      <p className="value"><span css={bold}>{parseCommas(parseToString(getMuniSiteArea(data, selectedMuni)))} sq. ft.</span></p>
+      <p className="field">Total Area of Sites</p>
+      <p className="value"><span css={bold}>{getMuniTransit(data, selectedMuni)}</span></p>
+      <p className="field">Number of Sites within Transit Area</p>
+      <p className="value"><span css={bold}>${parseCommas(parseToString(differential))}</span></p>
+      <p className="field">in New Taxes</p>
+      <p className="value"><span css={bold}>${parseCommas(parseToString(averageDiff))}</span></p>
+      <p className="field">in New Taxes per Site</p>
+      <div className="legend">
+        <Legend />
+      </div>
     </div>
   )
 };
 
-export default MunicipalRow;
+export default ExpandedMuniRow;
