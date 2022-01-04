@@ -249,7 +249,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
                 <h2>{popupSite?.parcel_addr}</h2>
                 <h1>{popupSite?.municipal} | Site {popupSite?.site_oid}</h1>
                 <p><span css={bold}>{parseDouble(+popupSite?.["Overall Score"]/4)}</span>/1 Overall Score</p> 
-                <p><span css={bold}>{ordinalSuffix(+popupSite?.municipal_rank)}</span> in {selectedSite?.muni}</p>
+                <p><span css={bold}>{ordinalSuffix(+popupSite?.municipal_rank)}</span> in {popupSite?.municipal}</p>
                 <p><span css={bold}>{ordinalSuffix(+popupSite?.regional_rank)}</span> in the Region</p>
                 {/* <p>Quantity of Parcels: {parseToString(parseFloat(popupSite?.["Number of Parcels on Site"]))}</p>
                 <p>Build Area: {parseCommas(parseToString(parseFloat(popupSite?.buildarea_sf)))} sq. ft.</p> */}
