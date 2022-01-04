@@ -4,108 +4,46 @@ import React from 'react';
 import { jsx, css } from '@emotion/react';
 import { themeColors, fonts } from '../../utils/theme';
 import { Link } from 'gatsby';
-import { Info } from 'phosphor-react';
+import { Circle } from 'phosphor-react';
 
 const legendStyle = css`
-  width: auto;
   height: auto;
-  background: ${themeColors.warmGrayTransparent};
-  margin: 25vh 2vw;
-  padding: 1.5rem 2rem 1.8rem;
-  position: absolute;
-  z-index: 1;
-  right: 0;
-`;
-
-const titleStyle = css`
-  color: ${themeColors.indigo};
-  font-family: ${fonts.calibre};
-  font-size: 2rem;
-  font-weight: 600;
-  margin: 0 0 1rem 0;
-`;
-
-const detailListStyle = css`
-  padding-left: 0;
-  list-style: none;
-  color: ${themeColors.fontGray};
-`;
-
-const liStyle = css`
-  display: flex;
-`;
-
-const circleStyle1 = css`
-  display: inline-block;
-  font-size: 100px;
-  text-align: center;
-  margin-right: 1.2rem;
-  color: ${themeColors.quintile5};
-`;
-
-const circleStyle2 = css`
-  display: inline-block;
-  font-size: 100px;
-  text-align: center;
-  margin-right: 1.2rem;
-  color: ${themeColors.quintile4};
-`;
-
-const circleStyle3 = css`
-  display: inline-block;
-  font-size: 100px;
-  text-align: center;
-  margin-right: 1.2rem;
-  color: ${themeColors.quintile3};
-`;
-
-const circleStyle4 = css`
-  display: inline-block;
-  font-size: 100px;
-  text-align: center;
-  margin-right: 1.2rem;
-  color: ${themeColors.quintile2};
-`;
-
-const circleStyle5 = css`
-  display: inline-block;
-  font-size: 100px;
-  text-align: center;
-  margin-right: 1.2rem;
-  color: ${themeColors.quintile1};
-`;
-
-const linkStyle = css`
-  display: flex;
-  align-items: center;
-  font-family: ${fonts.calibre};
-  text-decoration: none;
-  color: ${themeColors.fontGray};
-  transition: 0.2s ease-in-out;
-  &:hover {
-    color: ${themeColors.sky};
+  p {
+    line-height: 2rem;
   }
 `;
 
-const iconStyle = css`
-  padding-right: 3px;
+const linkStyle = css`
+  align-items: center;
+  color: ${themeColors.indigo};
+  display: flex;
+  font-size: 1.9rem;
+  margin: 2.5rem 0 1rem;
+  text-decoration: none;
+  transition: 0.2s ease-in-out;
+  width: auto;
+  span:hover {
+    color: ${themeColors.sky};
+  }
 `;
 
 const Legend: React.FC = () => {
     return (
         <div css={legendStyle}>
-        <p css={titleStyle}>Quintiles</p>
-        <p>By Overall Score</p>
-        <ul css={detailListStyle}>
-          <li css={liStyle}><span css={circleStyle1}>&#183;</span>First<br/>3.25 - 3.96</li>
-          <li css={liStyle}><span css={circleStyle2}>&#183;</span>Second<br/>3.05 - 3.25</li>
-          <li css={liStyle}><span css={circleStyle3}>&#183;</span>Third<br/>2.88 - 3.05</li>
-          <li css={liStyle}><span css={circleStyle4}>&#183;</span>Fourth<br/>2.67 - 2.88</li>
-          <li css={liStyle}><span css={circleStyle5}>&#183;</span>Fifth<br/>1.84 - 2.67</li>
-        </ul>
+        <h2>Legend</h2>
+        <h3>Site Score</h3>
+          {/* <span css={circleStyle1}>&#183;</span><p>3.25 - 3.96</p>
+          <span css={circleStyle2}>&#183;</span><p>3.05 - 3.25</p>
+          <span css={circleStyle3}>&#183;</span><p>2.88 - 3.05</p>
+          <span css={circleStyle4}>&#183;</span><p>2.67 - 2.88</p>
+          <span css={circleStyle5}>&#183;</span><p>1.84 - 2.67</p> */}
+          <p><Circle size={14} weight="fill" color={themeColors.quintile5} /> Most Favorable</p>
+          <p><Circle size={14} weight="fill" color={themeColors.quintile4} /> Very Favorable</p>
+          <p><Circle size={14} weight="fill" color={themeColors.quintile3} /> Favorable</p>
+          <p><Circle size={14} weight="fill" color={themeColors.quintile2} /> Less Favorable</p>
+          <p><Circle size={14} weight="fill" color={themeColors.quintile1} /> Least Favorable</p>
         <Link css={linkStyle} to="/about">
-          <Info size={20} css={iconStyle} />
-          More Info
+          <span>Read the Report</span>
         </Link>
       </div>
     );

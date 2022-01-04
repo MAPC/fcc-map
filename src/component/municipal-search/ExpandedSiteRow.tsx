@@ -24,7 +24,9 @@ const containerStyle = css`
     width: 100%;
   }
   p.value {
-    width: 30%;
+    padding-right: 1%;
+    text-align: right;
+    width: 29%;
   }
   p.field {
     width: 70%;
