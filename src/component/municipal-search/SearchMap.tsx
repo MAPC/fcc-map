@@ -103,7 +103,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
   );
 
   const handleGeocoderViewportChange = useCallback((newViewport) => {
-    const geocoderDefaultOverrides = { transitionDuration: 1000, zoom: 12 };
+    const geocoderDefaultOverrides = { transitionDuration: 1000 };
     return handleViewportChange({
       ...newViewport,
       ...geocoderDefaultOverrides,
@@ -159,16 +159,17 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             setMuni(randomMuni);
             setViewport({
               ...viewport,
-              longitude: -71.211580, latitude: 42.338030, zoom: 9, transitionDuration: 1000
+              longitude: -71.211580, latitude: 42.338030, transitionDuration: 1000
             })
         }}
         onClick={(e) => {
           if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31")) {
             setSite(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31").properties);  
-            console.log("selectedSite point", selectedSite);
+            setMuni(handleClick(e.features));
+            // console.log("selectedSite point", selectedSite);
             setViewport({
               ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 16, transitionDuration: 1000
+              longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
             })
           }
           // else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31_tri-8ey9oh")) {            
@@ -184,14 +185,14 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             setSite(false);
             setViewport({
               ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 12, transitionDuration: 1500
+              longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1500
             })
           } else {
             setMuni(handleClick(e.features));
             setSite(false);
             setViewport({
               ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 12, transitionDuration: 1000
+              longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
             })
           }
         }}
@@ -248,7 +249,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
               <div css={popupStyle}>
                 <h2>{popupSite?.parcel_addr}</h2>
                 <h1>{popupSite?.municipal} | Site {popupSite?.site_oid}</h1>
-                <p><span css={bold}>{parseDouble(+popupSite?.["Overall Score"]/4)}</span>/1 Overall Score</p> 
+                <p><span css={bold}>{parseDouble(+popupSite?.["Overall Score"])}/4</span> Overall Score</p> 
                 <p><span css={bold}>{ordinalSuffix(+popupSite?.municipal_rank)}</span> in {popupSite?.municipal}</p>
                 <p><span css={bold}>{ordinalSuffix(+popupSite?.regional_rank)}</span> in the Region</p>
                 {/* <p>Quantity of Parcels: {parseToString(parseFloat(popupSite?.["Number of Parcels on Site"]))}</p>
