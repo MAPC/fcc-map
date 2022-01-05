@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { jsx, css } from '@emotion/react';
 import { CsvData } from './MunicipalData';
-import { PushPinSimple } from 'phosphor-react';
+import { AlignBottom, AlignTop, PushPinSimple } from 'phosphor-react';
 import { themeColors, fonts } from '../../utils/theme';
 
 interface ExpandedSiteRowProps {
@@ -86,6 +86,16 @@ function getCapacityRange(units: number) {
   }
 }
 
+function getStation(node: CsvData) {
+  if (node.station !== "") {
+    console.log("station avail", node.station);
+    return node.station;
+  } else {
+    console.log("station not avail", node.station);
+    return "-"
+  }
+}
+
 const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
   data, 
   dispatch,
@@ -100,8 +110,8 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
   return (
     <div key={node.site_oid} css={containerStyle}>
       <h3>Current Conditions</h3>
-      <p className="value"><span css={bold}>{parseCommas(parseDouble(+node.sitearea_sf))}</span> sq. ft.</p>
-      <p className="field">Unconstrained land area</p>
+      <p className="value"><span css={bold}>{parseCommas(parseDouble(+node.sitearea_sf))}</span></p>
+      <p className="field">Unconstrained land area (sq. ft.)</p>
       <p className="value"><span css={bold}></span></p>
       <p className="field">Current floor area ratio</p>
       <p className="value"><span css={bold}>{parseDouble(+node.bldlnd_rat)}</span></p>
@@ -110,10 +120,10 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
       <p className="field">Year built</p>
       <p className="value"><span css={bold}>{}</span></p>
       <p className="field">Land use code descriptors</p>
-      <p className="value"><span css={bold}>{node.station}</span></p>
+      <p className="value"><span css={bold}>{getStation(node)}</span></p>
       <p className="field">Associated transit station</p>
-      <p className="value"><span css={bold}>{parseDouble(+node.disttosewerft)}</span> ft.</p>
-      <p className="field">Distance to nearest known sewer line</p>
+      <p className="value"><span css={bold}>{parseDouble(+node.disttosewerft)}</span></p>
+      <p className="field">Distance to nearest sewer line (ft.)</p>
       <h3>Redevelopment Suitability and Potential</h3>
       <p className="value"><span css={bold}>{parseDouble(+node.Growth_Potential_Score)}</span>/1</p>
       <p className="field">Growth Potential Score</p>
@@ -126,17 +136,19 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
       <p className="value"><span css={bold}>{parseDouble(+node.Overall_Score / 4)}</span>/1</p>
       <p className="field">Overall Score</p>
       <p className="value"><span css={bold}>{getCapacityRange(+node.Estimated_Capacity__all_residential_)}</span> units</p>
-      <p className="field">Estimated Capacity (all residential)</p>
+      <p className="field">of Estimated Capacity (all residential)</p>
       <p className="value"><span css={bold}>{getCapacityRange(+node.Estimated_Capacity__some_commercial_)}</span> units</p>
-      <p className="field">Estimated Capacity (some commercial)</p>
+      <p className="field">of Estimated Capacity (some commercial)</p>
       <p className="value"><span css={bold}>${parseCommas(parseDouble(+node.Site_Tax_Revenue_Change))}</span></p>
-      <p className="field">Estimated Tax Revenue Change</p>
+      <p className="field">in New Taxes</p>
       <p className="value"><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{sitesCount}</p>
-      <p className="field">Rank in {node.municipal}</p>
+      <p className="field">in {node.municipal}</p>
       <p className="value"><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3036</p>
-      <p className="field">Rank in the Region</p>
+      <p className="field">in the Region</p>
       <h3
         onClick={() => {
+          const siteIntoView:any = document.getElementById(selectedSite.site_oid);
+          siteIntoView.scrollIntoView(AlignBottom);
           setSite(false);
         }}  
         css={collapseLink}

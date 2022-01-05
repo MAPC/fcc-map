@@ -16,29 +16,8 @@ interface ExpandedMuniRowProps {
 }
 
 const containerStyle = css`
-  background: ${themeColors.warmGrayTransparent};
   display: flex;
   flex-flow: row wrap;
-  max-width: 45rem;
-  z-index: 1;
-  h1 {
-    width: 100%;
-  }
-  h2 {
-    margin-top: 2.5rem;
-    width: 100%;
-  }
-  h3 {
-    margin: 1rem 0;
-  }
-  p.value {
-    padding-right: 1%;
-    text-align: right;
-    width: 29%;
-  }
-  p.field {
-    width: 70%;
-  }
   .legend {
     width: 100%;
   }
@@ -50,7 +29,6 @@ const bold = css`
   color: black;
 `;
 
-// iterating through sites' tax differentials and returning the number of sites and sum
 function getMuniTax(data: Array<CsvData>, selectedMuni: string|undefined): Array<number> {
   let taxDifferentials: Array<number> = [];
   let sum: number = 0;
@@ -119,7 +97,6 @@ function parseCommas(string: any) {
   return string.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-// rendering MunicipalRow, imported into SearchMap
 const ExpandedMuniRow: React.FC<ExpandedMuniRowProps> = ({ data, node, selectedMuni, highlightedSites, sitesCount }) => {
   const quantitySites : number = getMuniTax(data, selectedMuni)[0];
   const differential : number = getMuniTax(data, selectedMuni)[1]; 
@@ -134,7 +111,7 @@ const ExpandedMuniRow: React.FC<ExpandedMuniRowProps> = ({ data, node, selectedM
       <p className="value"><span css={bold}>{getMuniTransit(data, selectedMuni)}</span></p>
       <p className="field">Number of Sites within Transit Area</p>
       <p className="value"><span css={bold}>${parseCommas(parseToString(differential))}</span></p>
-      <p className="field">in New Taxes</p>
+      <p className="field">in New Taxes for Municipality</p>
       <p className="value"><span css={bold}>${parseCommas(parseToString(averageDiff))}</span></p>
       <p className="field">in New Taxes per Site</p>
       <div className="legend">
