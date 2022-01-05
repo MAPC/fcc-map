@@ -18,7 +18,7 @@ interface MunicipalRowProps {
 }
 
 const containerStyle = css`
-  background: ${themeColors.warmGrayTransparent};
+  background: ${themeColors.white};
   display: flex;
   flex-flow: row wrap;
   margin: .5rem 0;
@@ -33,17 +33,17 @@ const containerStyle = css`
     width: 100%;
   }
   p.value {
-    width: 30%;
+    padding-right: 1%;
+    text-align: right;
+    width: 29%;
   }
   p.field {
     width: 70%;
   }
-`;
-
-const bold = css`
-  font-weight: 600;
-  padding-right: 2px;
-  color: black;
+  .title-container:hover {
+    cursor: pointer;
+    h1, h2 {color: ${themeColors.clearWater};}
+  }
 `;
 
 const buttonStyle = css`
@@ -56,79 +56,7 @@ const buttonStyle = css`
   position: absolute;
 `;
 
-// iterating through sites' tax differentials and returning the number of sites and sum
-function getMuniTax(data: Array<CsvData>, selectedMuni: string|undefined): Array<number> {
-  let taxDifferentials: Array<number> = [];
-  let sum: number = 0;
-  let average: number = 0;
-  data.reduce((taxDifferentials: Array<number>, node: CsvData) => {
-    if (node.municipal === selectedMuni) {
-      taxDifferentials.push(parseFloat(node.Site_Tax_Revenue_Change));
-    }
-    return taxDifferentials;
-  }, taxDifferentials);  
-  if (taxDifferentials.length > 0) {
-    sum = 0;
-    average = 0;
-    taxDifferentials.forEach(function(e) {
-      sum = sum + e;
-    });
-    average = sum / taxDifferentials.length;
-  }
-  return [taxDifferentials.length, sum, average];
-}
-
-function getMuniSiteArea(data: Array<CsvData>, selectedMuni: string|undefined): number {
-  let siteAreaArray: Array<number> = [];
-  let siteAreaSum: number = 0;
-  data.reduce((siteAreaArray: Array<number>, node: CsvData) => {
-    if (node.municipal === selectedMuni) {
-      siteAreaArray.push(+node.sitearea_sf);
-    }
-    return siteAreaArray
-  }, siteAreaArray);
-  if (siteAreaArray.length > 0) {
-    siteAreaSum = 0;
-    siteAreaArray.forEach(function(e) {
-      siteAreaSum = siteAreaSum + e;
-    });
-  }
-  return siteAreaSum;
-}
-
-function getMuniTransit(data: Array<CsvData>, selectedMuni: string|undefined): number {
-  let stationArray: Array<number> = [];
-  let stationSum: number = 0;
-  data.filter((e) => {
-    if (e.municipal === selectedMuni && e.station !== "") {
-      stationArray.push(+e.sitearea_sf)
-      stationSum++;
-    }
-    return stationSum;
-  }, stationSum);
-  if (stationArray.length > 0) {
-    let stationAreaSum = 0;
-    stationArray.forEach(function(e) {
-      stationAreaSum = stationAreaSum + e;
-    });
-  }
-  return stationSum;
-}
-
-// no decimal places
-function parseToString(input: number): string {
-  return input.toFixed(0);
-}
-
-// commas
-function parseCommas(string: any) {
-  return string.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
 const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, node, selectedMuni, highlightedSites, sitesCount }) => {
-  const quantitySites : number = getMuniTax(data, selectedMuni)[0];
-  const differential : number = getMuniTax(data, selectedMuni)[1]; 
-  const averageDiff : number = getMuniTax(data, selectedMuni)[2];
   const [shown, toggleShow] = useState<boolean>(true);
   const [isHovered, toggleHover] = useState<boolean>(false);
 
@@ -148,8 +76,13 @@ const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, node, selectedMuni, h
           <PlusCircle size={25} weight="bold" color={isHovered ? themeColors.gold : themeColors.fontGray} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} /> 
         }
       </button>
-      <h2>Suitability Analysis of Identified Sites:</h2>
-      <h1>{selectedMuni}</h1>
+      <div
+        onClick={() => {toggleShow(!shown);}} 
+        className="title-container"
+      >
+        <h2>Suitability Analysis of Identified Sites:</h2>
+        <h1>{selectedMuni}</h1>
+      </div>
       {shown ? <ExpandedMuniRow  data={data} node={node} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={sitesCount} /> : ""}
     </div>
   )

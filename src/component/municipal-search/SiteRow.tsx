@@ -166,18 +166,6 @@ const SiteRow: React.FC<SiteRowProps> = ({
         }}
     > 
       <button css={buttonStyle} 
-        // onMouseEnter={() => {
-        //   if (!highlighted) {
-        //     toggleHightlight(!highlighted);
-        //     dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-        //   }
-        // }}
-        // onMouseLeave={() => {
-        //   if (highlighted && !starred) {
-        //     toggleHightlight(!highlighted);
-        //     dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-        //   }
-        // }}
         onClick={() => {
           if (highlighted && starred) {
             toggleStarred(false);
@@ -196,8 +184,10 @@ const SiteRow: React.FC<SiteRowProps> = ({
       </button>
       <div         
         onClick={(e) => {
-          if (selectedSite) {
+          if (selectedSite.site_oid === node.site_oid) {
             setSite(false);
+          } else if (selectedSite.site_oid !== node.site_oid) {
+            setSite(node);
           } else {
             setSite(node);
           }

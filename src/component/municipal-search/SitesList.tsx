@@ -60,37 +60,11 @@ function filterData(
           sitesCount={sitesCount} 
         />);
       }
-      // const siteIntoView:any = document.getElementById(list[0]site_oid);
-      // // console.log("executeScroll executing");
-      // siteIntoView.scrollIntoView({behavior: "smooth", AlignTop});
-      // console.log("list 0.key:", list[0]);
       return list;
     }, []);
   }
   return undefined;
 }
-
-// original
-// function executeScroll(
-//     data: Array<CsvData>, 
-//     dispatch: React.Dispatch<unknown>, 
-//     highlightedSites: Array<number|undefined>, 
-//     selectedMuni: string|undefined, 
-//     selectedSite: any, 
-//     setSite: React.SetStateAction<any>, 
-//     setSitesCount: React.SetStateAction<any>, 
-//     sitesCount: number|undefined 
-//   ): any|undefined 
-// {
-//   console.log("selectedSite", selectedSite.site_oid);
-//   if (selectedMuni && selectedSite && selectedSite.municipal === selectedMuni) {
-//       const siteIntoView:any = document.getElementById(selectedSite.site_oid);
-//       console.log("executeScroll executing");
-//       siteIntoView.scrollIntoView({behavior: "smooth"});
-//   } else {
-//       return null;
-//   }
-// }
 
 function executeScroll(
     selectedMuni: string|undefined, 
@@ -124,17 +98,6 @@ const SitesList: React.FC<SitesListProps> = ({
   setSitesCount,
   sitesCount
 }) => {
-
-  // const executeScroll = () => {
-  //   console.log("selectedSite", selectedSite.site_oid);
-  //   if (selectedMuni && selectedSite && selectedSite.municipal === selectedMuni) {
-  //       const siteIntoView = document.getElementById(selectedSite.site_oid);
-  //       console.log("executeScroll executing");
-  //       siteIntoView.scrollIntoView({behavior: "smooth"});
-  //   } else {
-  //       return null;
-  //   }
-  // }
 
   useEffect(() => {
     executeScroll(
