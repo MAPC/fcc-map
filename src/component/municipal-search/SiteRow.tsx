@@ -195,7 +195,7 @@ const SiteRow: React.FC<SiteRowProps> = ({
         className="title-container"
       >
         <h2>{node.parcel_addr}</h2>
-        <h1>{node.municipal} | Site {node.site_oid}</h1>
+        <h1>Site {node.site_oid}</h1>
       </div>
       {selectedSite.site_oid === node.site_oid ? showExpanded(data, dispatch, highlightedSites, node, selectedMuni, selectedSite, setSite, sitesCount) : ''}
     </li>

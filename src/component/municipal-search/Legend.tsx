@@ -20,7 +20,7 @@ const linkStyle = css`
   text-decoration: none;
   transition: 0.2s ease-in-out;
   width: auto;
-  span:hover {
+  :hover {
     color: ${themeColors.sky};
   }
 `;
