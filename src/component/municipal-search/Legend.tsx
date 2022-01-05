@@ -15,14 +15,12 @@ const legendStyle = css`
 
 const linkStyle = css`
   align-items: center;
-  color: ${themeColors.indigo};
   display: flex;
-  font-size: 1.9rem;
   margin: 2.5rem 0 1rem;
   text-decoration: none;
   transition: 0.2s ease-in-out;
   width: auto;
-  span:hover {
+  :hover {
     color: ${themeColors.sky};
   }
 `;
@@ -43,7 +41,7 @@ const Legend: React.FC = () => {
           <p><Circle size={14} weight="fill" color={themeColors.quintile2} /> Less Favorable</p>
           <p><Circle size={14} weight="fill" color={themeColors.quintile1} /> Least Favorable</p>
         <Link css={linkStyle} to="/about">
-          <span>Read the Report</span>
+          <p>Read the Report</p>
         </Link>
       </div>
     );

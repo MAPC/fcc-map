@@ -18,6 +18,10 @@ interface ExpandedMuniRowProps {
 const containerStyle = css`
   display: flex;
   flex-flow: row wrap;
+  h2 {
+    margin: .5rem 0 1.5rem;
+    width: 100%;
+  }
   .legend {
     width: 100%;
   }
@@ -104,16 +108,21 @@ const ExpandedMuniRow: React.FC<ExpandedMuniRowProps> = ({ data, node, selectedM
 
   return (
     <div css={containerStyle}>
+      <h2>Summary Statistics</h2>
       <p className="value"><span css={bold}>{quantitySites}</span></p>
       <p className="field">Sites</p>
-      <p className="value"><span css={bold}>{parseCommas(parseToString(getMuniSiteArea(data, selectedMuni)))} sq. ft.</span></p>
-      <p className="field">Total Area of Sites</p>
+      <p className="value"><span css={bold}>{parseCommas(parseToString(getMuniSiteArea(data, selectedMuni)))}</span></p>
+      <p className="field">Sites Area (sq. ft.)</p>
       <p className="value"><span css={bold}>{getMuniTransit(data, selectedMuni)}</span></p>
-      <p className="field">Number of Sites within Transit Area</p>
-      <p className="value"><span css={bold}>${parseCommas(parseToString(differential))}</span></p>
-      <p className="field">in New Taxes for Municipality</p>
+      <p className="field">Sites Near MBTA Transit</p>
+      {/* <p className="value"><span css={bold}>${parseCommas(parseToString(differential))}</span></p>
+      <p className="field">in New Taxes for Municipality</p> */}
       <p className="value"><span css={bold}>${parseCommas(parseToString(averageDiff))}</span></p>
-      <p className="field">in New Taxes per Site</p>
+      <p className="field">Average New Tax Revenue Per Site</p>
+      <p className="value"><span css={bold}>{}</span></p>
+      <p className="field">Potential Units, top 10% of sites</p>
+      <p className="value"><span css={bold}>{}</span></p>
+      <p className="field">Potential New Tax Revenue, top 10% of sites</p>
       <div className="legend">
         <Legend />
       </div>
