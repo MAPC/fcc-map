@@ -8,6 +8,7 @@ import { PlusCircle, TextAlignJustify } from 'phosphor-react';
 import { MinusCircle } from 'phosphor-react';
 import Chart from './Chart';
 import ExpandedMuniRow from "./ExpandedMuniRow";
+import Legend from "./Legend";
 
 interface MunicipalRowProps {
   data: Array<CsvData>,
@@ -23,12 +24,13 @@ const containerStyle = css`
   flex-flow: row wrap;
   margin: .5rem 0;
   max-width: 45rem;
-  padding: .5rem 2rem;
+  padding: 1.5rem 2rem .5rem;
   z-index: 1;
   h1 {
     width: 100%;
   }
   h2 {
+    margin-top: 0;
     margin-bottom: 0;
     width: 100%;
   }
@@ -42,7 +44,11 @@ const containerStyle = css`
   }
   .title-container:hover {
     cursor: pointer;
+    width: 100%;
     h1, h2 {color: ${themeColors.clearWater};}
+  }
+  .legend {
+    width: 100%;
   }
 `;
 
@@ -80,10 +86,13 @@ const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, node, selectedMuni, h
         onClick={() => {toggleShow(!shown);}} 
         className="title-container"
       >
-        <h2>Suitability Analysis of Identified Sites:</h2>
+        <h2>Potential Retrofit Sites in</h2>
         <h1>{selectedMuni}</h1>
       </div>
       {shown ? <ExpandedMuniRow  data={data} node={node} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={sitesCount} /> : ""}
+      <div className="legend">
+        <Legend />
+      </div>
     </div>
   )
 };
