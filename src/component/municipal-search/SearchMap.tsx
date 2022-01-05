@@ -14,7 +14,7 @@ interface MunicipalMapProps {
   data: Array<CsvData>,
   dispatch: React.Dispatch<unknown>,
   selectedMuni: string|undefined,
-  setMuni: React.Dispatch<React.SetStateAction<string|undefined>>,
+  setMuni: React.SetStateAction<string|undefined>,
   selectedSite: any,
   setSite: React.Dispatch<React.SetStateAction<any>>,
   containerRef: React.RefObject<HTMLInputElement>,
@@ -147,15 +147,21 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
         mapStyle="mapbox://styles/ihill/cknj7cvb513e317rxm4a8i9ah"
         scrollZoom={true}
         onLoad={() => {
-          let randomMuni = () => {
-              let index = Math.floor(Math.random() * municipalities.length);
-              if (municipalities[index] !== 'Carlisle' || municipalities[index] !== 'Manchester-by-the-Sea') {
-                setSite(false);
-                return municipalities[index];
-              } else {
-                return municipalities[0]; 
-              }
-            };            
+          // let randomMuni = () => {
+          //     let index = Math.floor(Math.random() * municipalities.length);
+          //     if (municipalities[index] !== 'Carlisle' || municipalities[index] !== 'Manchester-by-the-Sea') {
+          //       setSite(false);
+          //       return municipalities[index];
+          //     } else {
+          //       return municipalities[0]; 
+          //     }
+          //   };            
+          //   setMuni(randomMuni);
+          //   setViewport({
+          //     ...viewport,
+          //     longitude: -71.211580, latitude: 42.338030, transitionDuration: 1000
+          //   })
+            let randomMuni = undefined;
             setMuni(randomMuni);
             setViewport({
               ...viewport,
@@ -180,14 +186,15 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
           //     longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 16, transitionDuration: 1000
           //   })
           // }
-          else if (e.features.find((row) => row.sourceLayer === 'MAPC_borders-0im3ea')) {
-            setMuni(handleClick(e.features));
-            setSite(false);
-            setViewport({
-              ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1500
-            })
-          } else {
+          // else if (e.features.find((row) => row.sourceLayer === 'MAPC_borders-0im3ea')) {
+          //   setMuni(handleClick(e.features));
+          //   setSite(false);
+          //   setViewport({
+          //     ...viewport,
+          //     longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1500
+          //   })
+          // } 
+          else {
             setMuni(handleClick(e.features));
             setSite(false);
             setViewport({
@@ -273,7 +280,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
                 ['get', 'municipal'],
                 [`${selectedMuni}`],
                 'hsla(0, 0%, 0%, 0)', // if selectedMuni, no overlay
-                'hsla(0, 0%, 0%, 0.2)'
+                'hsla(0, 0%, 0%, 0)'
               ]
             }}
           />
@@ -303,11 +310,11 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
                 [
                   'match',
                   ['get', 'Quintile Category'],
-                  1, `${themeColors.quintile1}`,
-                  2, `${themeColors.quintile2}`,
-                  3, `${themeColors.quintile3}`,
-                  4, `${themeColors.quintile4}`,
-                  5, `${themeColors.quintile5}`,
+                  [1, `${themeColors.quintile1}`],
+                  [2, `${themeColors.quintile2}`],
+                  [3, `${themeColors.quintile3}`],
+                  [4, `${themeColors.quintile4}`],
+                  [5, `${themeColors.quintile5}`],
                   'gray'
                 ],
                 'gray' // fill for anything outside selectedMuni
@@ -324,10 +331,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             source-layer="Sites_mp_clean_2021_12_31"
             paint={{
               'circle-color': [
-                'match',
-                ['get', 'municipal'],
-                [selectedMuni || ''],
-                [
+                // 'match',
+                // ['get', 'municipal'],
+                // [selectedMuni || ''],
+                // [
                   'match',
                   ['get', 'Quintile Category'],
                   '1', `${themeColors.quintile1}`,
@@ -336,9 +343,9 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
                   '4', `${themeColors.quintile4}`,
                   '5', `${themeColors.quintile5}`,
                   'hsla(0, 0%, 0%, 0)' //no color
-                ],
+                // ],
                 // 'hsla(0, 0%, 0%, 0)' //no color
-                `${themeColors.fontLightGray}`
+                // `${themeColors.fontLightGray}`
               ], 
               'circle-radius': [
                 'interpolate',
