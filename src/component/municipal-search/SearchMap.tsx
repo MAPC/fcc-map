@@ -287,13 +287,21 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             source="Municipalities"
             source-layer="MAPC_borders-0im3ea"
             paint={{
-              'fill-color': [
+              'fill-color': selectedMuni ? [
                 'match',
                 ['get', 'municipal'],
                 [`${selectedMuni}`],
                 'hsla(0, 0%, 0%, 0)', // if selectedMuni, no overlay
-                'hsla(0, 0%, 0%, 0)'
+                'hsla(0, 0%, 0%, 0.2)'
               ]
+              : 'hsla(0, 0%, 0%, 0)'
+              // 'fill-color': [
+              //   'match',
+              //   ['get', 'municipal'],
+              //   [`${selectedMuni}`],
+              //   'hsla(0, 0%, 0%, 0)', // if selectedMuni, no overlay
+              //   'hsla(0, 0%, 0%, 0.2)'
+              // ]
             }}
           />
         </Source>
