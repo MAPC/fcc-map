@@ -147,26 +147,36 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
         mapStyle="mapbox://styles/ihill/cknj7cvb513e317rxm4a8i9ah"
         scrollZoom={true}
         onLoad={() => {
-          let randomMuni = () => {
-              let index = Math.floor(Math.random() * municipalities.length);
-              if (municipalities[index] !== 'Carlisle' || municipalities[index] !== 'Manchester-by-the-Sea') {
-                setSite(false);
-                return municipalities[index];
-              } else {
-                return municipalities[0]; 
-              }
-            };            
-            setMuni(randomMuni);
+          // let randomMuni = () => {
+          //     let index = Math.floor(Math.random() * municipalities.length);
+          //     if (municipalities[index] !== 'Carlisle' || municipalities[index] !== 'Manchester-by-the-Sea') {
+          //       setSite(false);
+          //       return municipalities[index];
+          //     } else {
+          //       return municipalities[0]; 
+          //     }
+          //   };            
+          //   setMuni(randomMuni);
+          //   setViewport({
+          //     ...viewport,
+          //     longitude: -71.211580, latitude: 42.338030, transitionDuration: 1000
+          //   })
+            setMuni(undefined);
             setViewport({
               ...viewport,
               longitude: -71.211580, latitude: 42.338030, transitionDuration: 1000
             })
         }}
         onClick={(e) => {
-          if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31")) {
-            setSite(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31").properties);  
+          if (selectedMuni === undefined) {
+            setSite(false);
             setMuni(handleClick(e.features));
-            // console.log("selectedSite point", selectedSite);
+            console.log("onclick when selectedMuni is undefined, selectedMuni: ", selectedMuni);
+          }
+          else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31")) {
+            setSite(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31").properties);  
+            setMuni(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31").properties.municipal);
+            console.log("onclick site point, selectedMuni: ", selectedMuni);
             setViewport({
               ...viewport,
               longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
@@ -180,20 +190,29 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
           //     longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 16, transitionDuration: 1000
           //   })
           // }
-          else if (e.features.find((row) => row.sourceLayer === 'MAPC_borders-0im3ea')) {
-            setMuni(handleClick(e.features));
-            setSite(false);
-            setViewport({
-              ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1500
-            })
-          } else {
-            setMuni(handleClick(e.features));
+          // else if (e.features.find((row) => row.sourceLayer === 'MAPC_borders-0im3ea')) {
+          //   setMuni(handleClick(e.features));
+          //   setSite(false);
+          //   setViewport({
+          //     ...viewport,
+          //     longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1500
+          //   })
+          // } 
+          else if (e.features && e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea")) {
+            setMuni(e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea").properties.municipal);
+            console.log("onclick off site point, selectedMuni: ", selectedMuni);
             setSite(false);
             setViewport({
               ...viewport,
               longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
-            })
+            });
+          } else {
+            setSite(false);
+            setMuni(undefined);
+            setViewport({
+              ...viewport,
+              longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
+            });
           }
         }}
         onHover={(e) => {          
@@ -268,13 +287,21 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             source="Municipalities"
             source-layer="MAPC_borders-0im3ea"
             paint={{
-              'fill-color': [
+              'fill-color': selectedMuni ? [
                 'match',
                 ['get', 'municipal'],
                 [`${selectedMuni}`],
                 'hsla(0, 0%, 0%, 0)', // if selectedMuni, no overlay
                 'hsla(0, 0%, 0%, 0.2)'
               ]
+              : 'hsla(0, 0%, 0%, 0)'
+              // 'fill-color': [
+              //   'match',
+              //   ['get', 'municipal'],
+              //   [`${selectedMuni}`],
+              //   'hsla(0, 0%, 0%, 0)', // if selectedMuni, no overlay
+              //   'hsla(0, 0%, 0%, 0.2)'
+              // ]
             }}
           />
         </Source>
@@ -323,10 +350,27 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             source="Sites"
             source-layer="Sites_mp_clean_2021_12_31"
             paint={{
-              'circle-color': [
+              // 'circle-color': [
+              //   'match',
+              //   ['get', 'municipal'],
+              //   [selectedMuni || ''],
+              //   [
+              //     'match',
+              //     ['get', 'Quintile Category'],
+              //     '1', `${themeColors.quintile1}`,
+              //     '2', `${themeColors.quintile2}`,
+              //     '3', `${themeColors.quintile3}`,
+              //     '4', `${themeColors.quintile4}`,
+              //     '5', `${themeColors.quintile5}`,
+              //     'hsla(0, 0%, 0%, 0)' //no color
+              //   ],
+              //   // 'hsla(0, 0%, 0%, 0)' //no color
+              //   `${themeColors.fontLightGray}`
+              // ], 
+              'circle-color': selectedMuni ? [
                 'match',
                 ['get', 'municipal'],
-                [selectedMuni || ''],
+                [`${selectedMuni}`],
                 [
                   'match',
                   ['get', 'Quintile Category'],
@@ -335,9 +379,19 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
                   '3', `${themeColors.quintile3}`,
                   '4', `${themeColors.quintile4}`,
                   '5', `${themeColors.quintile5}`,
-                  'hsla(0, 0%, 0%, 0)' //no color
+                  `${themeColors.fontLightGray}`
                 ],
-                // 'hsla(0, 0%, 0%, 0)' //no color
+                `${themeColors.fontLightGray}`
+              ]
+              : 
+              [
+                'match',
+                ['get', 'Quintile Category'],
+                '1', `${themeColors.quintile1}`,
+                '2', `${themeColors.quintile2}`,
+                '3', `${themeColors.quintile3}`,
+                '4', `${themeColors.quintile4}`,
+                '5', `${themeColors.quintile5}`,
                 `${themeColors.fontLightGray}`
               ], 
               'circle-radius': [
