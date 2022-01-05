@@ -350,10 +350,27 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             source="Sites"
             source-layer="Sites_mp_clean_2021_12_31"
             paint={{
-              'circle-color': [
+              // 'circle-color': [
+              //   'match',
+              //   ['get', 'municipal'],
+              //   [selectedMuni || ''],
+              //   [
+              //     'match',
+              //     ['get', 'Quintile Category'],
+              //     '1', `${themeColors.quintile1}`,
+              //     '2', `${themeColors.quintile2}`,
+              //     '3', `${themeColors.quintile3}`,
+              //     '4', `${themeColors.quintile4}`,
+              //     '5', `${themeColors.quintile5}`,
+              //     'hsla(0, 0%, 0%, 0)' //no color
+              //   ],
+              //   // 'hsla(0, 0%, 0%, 0)' //no color
+              //   `${themeColors.fontLightGray}`
+              // ], 
+              'circle-color': selectedMuni ? [
                 'match',
                 ['get', 'municipal'],
-                [selectedMuni || ''],
+                [`${selectedMuni}`],
                 [
                   'match',
                   ['get', 'Quintile Category'],
@@ -362,9 +379,19 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
                   '3', `${themeColors.quintile3}`,
                   '4', `${themeColors.quintile4}`,
                   '5', `${themeColors.quintile5}`,
-                  'hsla(0, 0%, 0%, 0)' //no color
+                  `${themeColors.fontLightGray}`
                 ],
-                // 'hsla(0, 0%, 0%, 0)' //no color
+                `${themeColors.fontLightGray}`
+              ]
+              : 
+              [
+                'match',
+                ['get', 'Quintile Category'],
+                '1', `${themeColors.quintile1}`,
+                '2', `${themeColors.quintile2}`,
+                '3', `${themeColors.quintile3}`,
+                '4', `${themeColors.quintile4}`,
+                '5', `${themeColors.quintile5}`,
                 `${themeColors.fontLightGray}`
               ], 
               'circle-radius': [
