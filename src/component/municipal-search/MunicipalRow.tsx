@@ -86,13 +86,13 @@ const MunicipalRow: React.FC<MunicipalRowProps> = ({ data, node, selectedMuni, h
         onClick={() => {toggleShow(!shown);}} 
         className="title-container"
       >
-        <h2>Potential Retrofit Sites in</h2>
+        <h2>Potential Retail Retrofit Sites in</h2>
         <h1>{selectedMuni}</h1>
       </div>
       {shown ? <ExpandedMuniRow  data={data} node={node} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={sitesCount} /> : ""}
-      <div className="legend">
+      {/* <div className="legend">
         <Legend />
-      </div>
+      </div> */}
     </div>
   )
 };
