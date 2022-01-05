@@ -21,11 +21,11 @@ const themeColors = {
   // warmGrayTransparent: '#f7f7f7f5',
   warmGrayTransparent: '#fbfdff',
   gold: '#ffc800',
-  quintile1: '#e39374',
-  quintile2: '#c98bc9',
-  quintile3: '#3ec9b7',
-  quintile4: '#5445ff',
-  quintile5: '#00006e'
+  quintile1: '#CAF0F8',
+  quintile2: '#82DDED',
+  quintile3: '#0088A3',
+  quintile4: '#05078A',
+  quintile5: '#00072D'
 };
 
 const marginStyle = css`
