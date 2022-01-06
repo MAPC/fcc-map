@@ -76,7 +76,8 @@ function executeScroll(
     // console.log("window.postMessage inside executeScroll");
     const siteIntoView:any = document.getElementById(selectedSite.site_oid);
     console.log("inside executeScroll, offsetTop: ", siteIntoView.offsetTop);
-    siteIntoView.scrollIntoView({behavior: "smooth"}, true);
+    siteIntoView.scrollIntoView({behavior: "smooth"});
+    siteIntoView.scrollTop = 0 - siteIntoView.offsetTop;
   } else {
     return null;
   }
