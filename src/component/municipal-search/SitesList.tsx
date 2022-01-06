@@ -73,6 +73,8 @@ function executeScroll(
 {
   if (selectedMuni && selectedSite.municipal === selectedMuni) {
       const siteIntoView:any = document.getElementById(selectedSite.site_oid);
+      window.parent.scrollTo(0,0);
+      console.log("window.parent.scrollTo(0,0)");
       siteIntoView.scrollIntoView({behavior: "smooth", AlignTop});
   } else {
       return null;
@@ -82,6 +84,8 @@ function executeScroll(
 function scrollToTop(selectedMuni: string|undefined) {
   if (selectedMuni) {
   const sitesList:any = document.getElementById("sites-list");
+  window.parent.scrollTo(0,0);
+  console.log("window.parent.scrollTo(0,0)");
   sitesList.scrollTop = 0;
   } else {
     return undefined;
