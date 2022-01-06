@@ -72,10 +72,10 @@ function executeScroll(
   ): any|undefined 
 {
   if (selectedMuni && selectedSite.municipal === selectedMuni) {
+    // window.postMessage("scrollTo", "https://mapc.github.io/retrofitting-search-map-embed/");
+    // window.parent.scrollTo(0,0);
+    // console.log("window.parent.scrollTo(0,0)");
     const siteIntoView:any = document.getElementById(selectedSite.site_oid);
-    window.postMessage("scrollTo", "https://mapc.github.io/retrofitting-search-map-embed/");
-    window.parent.scrollTo(0,0);
-    console.log("window.parent.scrollTo(0,0)");
     siteIntoView.scrollIntoView({behavior: "smooth", AlignTop});
   } else {
     return null;
@@ -84,9 +84,9 @@ function executeScroll(
 
 function scrollToTop(selectedMuni: string|undefined) {
   if (selectedMuni) {
-    window.postMessage("scrollTo", "https://mapc.github.io/retrofitting-search-map-embed/");
-    window.parent.scrollTo(0,0);
-    console.log("window.parent.scrollTo(0,0)");
+    // window.postMessage("scrollTo", "https://mapc.github.io/retrofitting-search-map-embed/");
+    // window.parent.scrollTo(0,0);
+    // console.log("window.parent.scrollTo(0,0)");
     const sitesList:any = document.getElementById("sites-list");
     sitesList.scrollTop = 0;
   } else {
