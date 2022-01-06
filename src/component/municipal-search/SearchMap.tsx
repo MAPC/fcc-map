@@ -171,12 +171,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
           if (selectedMuni === undefined) {
             setSite(false);
             setMuni(handleClick(e.features));
-            console.log("onclick when selectedMuni is undefined, selectedMuni: ", selectedMuni);
           }
           else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31")) {
             setSite(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31").properties);  
             setMuni(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31").properties.municipal);
-            console.log("onclick site point, selectedMuni: ", selectedMuni);
             setViewport({
               ...viewport,
               longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
