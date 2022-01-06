@@ -11,14 +11,16 @@ import { CsvData } from './MunicipalData';
 import municipalities from '../../utils/municipalities';
 
 interface MunicipalMapProps {
+  containerRef: React.RefObject<HTMLInputElement>,
   data: Array<CsvData>,
   dispatch: React.Dispatch<unknown>,
-  selectedMuni: string|undefined,
-  setMuni: React.Dispatch<React.SetStateAction<string|undefined>>,
-  selectedSite: any,
-  setSite: React.Dispatch<React.SetStateAction<any>>,
-  containerRef: React.RefObject<HTMLInputElement>,
   highlightedSites: Array<number|number>
+  region: boolean,
+  selectedMuni: string|undefined,
+  selectedSite: any,
+  setMuni: React.Dispatch<React.SetStateAction<string|undefined>>,
+  setSite: React.Dispatch<React.SetStateAction<any>>,
+  toggleRegion: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const navigationStyle = css`
@@ -59,7 +61,7 @@ function handleClick(e: Array<mapboxgl.EventData>): string {
   return '';
 }
 
-const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, setMuni, selectedSite, setSite, containerRef, highlightedSites }) => {
+const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, setMuni, selectedSite, setSite, containerRef, highlightedSites, region, toggleRegion }) => {
   const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
   useEffect(() => {
@@ -147,20 +149,8 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
         mapStyle="mapbox://styles/ihill/cknj7cvb513e317rxm4a8i9ah"
         scrollZoom={true}
         onLoad={() => {
-          // let randomMuni = () => {
-          //     let index = Math.floor(Math.random() * municipalities.length);
-          //     if (municipalities[index] !== 'Carlisle' || municipalities[index] !== 'Manchester-by-the-Sea') {
-          //       setSite(false);
-          //       return municipalities[index];
-          //     } else {
-          //       return municipalities[0]; 
-          //     }
-          //   };            
-          //   setMuni(randomMuni);
-          //   setViewport({
-          //     ...viewport,
-          //     longitude: -71.211580, latitude: 42.338030, transitionDuration: 1000
-          //   })
+            toggleRegion(true);
+            console.log("region: ", region);
             setMuni(undefined);
             setViewport({
               ...viewport,
@@ -169,10 +159,12 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
         }}
         onClick={(e) => {
           if (selectedMuni === undefined) {
+            toggleRegion(false);
             setSite(false);
             setMuni(handleClick(e.features));
           }
           else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31")) {
+            toggleRegion(false);
             setSite(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31").properties);  
             setMuni(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31").properties.municipal);
             setViewport({
@@ -197,6 +189,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
           //   })
           // } 
           else if (e.features && e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea")) {
+            toggleRegion(false);
             setMuni(e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea").properties.municipal);
             console.log("onclick off site point, selectedMuni: ", selectedMuni);
             setSite(false);
@@ -205,6 +198,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
               longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
             });
           } else {
+            toggleRegion(true);
             setSite(false);
             setMuni(undefined);
             setViewport({
@@ -215,11 +209,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
         }}
         onHover={(e) => {          
           if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31")) {
-            // dispatch({ 
-            //   type: 'addSite', 
-            //   toggledSite: +e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties.site_oid 
-            // });
-            // console.log("onHover", e.features.find((row) => row.sourceLayer === 'Sites_mp_clean_2021_09_02').properties.site_oid);
             setLngLat(e.lngLat);
             togglePopup(true);
             setPopupSite(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31").properties);
