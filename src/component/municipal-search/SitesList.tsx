@@ -72,11 +72,10 @@ function executeScroll(
   ): any|undefined 
 {
   if (selectedMuni && selectedSite.municipal === selectedMuni) {
-    window.postMessage("scrollTop", "https://storymaps.arcgis.com/stories/cb9bec551f9d48599f267f4ff6282906");
-    console.log("window.postMessage inside executeScroll");
+    // window.postMessage("scrollTop", "https://storymaps.arcgis.com/stories/cb9bec551f9d48599f267f4ff6282906");
+    // console.log("window.postMessage inside executeScroll");
     const siteIntoView:any = document.getElementById(selectedSite.site_oid);
-    // siteIntoView.scrollIntoView({behavior: "smooth", AlignTop});
-    siteIntoView.scrollIntoView({behavior: "smooth"});
+    siteIntoView.scrollIntoView({behavior: "smooth", AlignTop});
   } else {
     return null;
   }
@@ -84,11 +83,11 @@ function executeScroll(
 
 function scrollToTop(selectedMuni: string|undefined) {
   if (selectedMuni) {
-    window.postMessage("scrollTop", "https://storymaps.arcgis.com/stories/cb9bec551f9d48599f267f4ff6282906");
-    console.log("window.postMessage inside scrollToTop");
-    const yOffset = window.pageYOffset;
+    // window.postMessage("scrollTop", "https://storymaps.arcgis.com/stories/cb9bec551f9d48599f267f4ff6282906");
+    // console.log("window.postMessage inside scrollToTop");
+    // const yOffset = window.pageYOffset;
     const sitesList:any = document.getElementById("sites-list");
-    sitesList.scrollTop = yOffset;
+    sitesList.scrollTop = sitesList.offsetTop;
   } else {
     return undefined;
   }
