@@ -92,10 +92,8 @@ function getCapacityRange(units: number) {
 
 function getStation(node: CsvData) {
   if (node.station !== "") {
-    console.log("station avail", node.station);
     return node.station;
   } else {
-    console.log("station not avail", node.station);
     return "-"
   }
 }
@@ -156,8 +154,9 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
       <p className="field">in the Region</p> */}
       <h3
         onClick={() => {
-          const siteIntoView:any = document.getElementById(selectedSite.site_oid);
-          siteIntoView.scrollIntoView(AlignBottom);
+          const sitesList:any = document.getElementById("sites-list");
+          const siteListItem:any = document.getElementById(selectedSite.site_oid);
+          sitesList.scrollTop = (siteListItem.offsetTop - sitesList.offsetTop);
           setSite(false);
         }}  
         css={collapseLink}
