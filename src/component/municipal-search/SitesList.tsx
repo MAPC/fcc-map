@@ -86,8 +86,9 @@ function scrollToTop(selectedMuni: string|undefined) {
   if (selectedMuni) {
     window.postMessage("scrollTop", "https://storymaps.arcgis.com/stories/cb9bec551f9d48599f267f4ff6282906");
     console.log("window.postMessage inside scrollToTop");
+    const yOffset = window.pageYOffset;
     const sitesList:any = document.getElementById("sites-list");
-    sitesList.scrollTop = 0;
+    sitesList.scrollTop = yOffset;
   } else {
     return undefined;
   }
