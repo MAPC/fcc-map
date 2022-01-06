@@ -6,6 +6,7 @@ import SitesList from './SitesList';
 import SiteRow from './SiteRow';
 import ExpandedSiteRow from './ExpandedSiteRow';
 import MunicipalRow from './MunicipalRow';
+import RegionalRow from './RegionalRow';
 import Legend from './Legend'
 import { themeColors, fonts } from '../../utils/theme';
 import { List } from 'phosphor-react';
@@ -76,16 +77,18 @@ export type CsvData = {
 }
 
 interface MunicipalDataProps {
-  data: Array<CsvData>,
-  selectedMuni: string|undefined,
-  node: Array<CsvData>,
   containerRef: React.RefObject<HTMLInputElement>,
-  highlightedSites: Array<number|undefined>, //passing to SiteRow
+  data: Array<CsvData>,
+  dispatch: React.Dispatch<unknown>,
+  highlightedSites: Array<number|number>
+  node: Array<CsvData>,
+  region: boolean,
+  selectedMuni: string|undefined,
+  selectedSite: any,
+  setSite: React.Dispatch<React.SetStateAction<any>>,
   sitesCount: number|undefined,
   setSitesCount: React.SetStateAction<any>,
-  dispatch: React.Dispatch<unknown>,
-  selectedSite: any, //lifted from SearchMap to Wrapper, passed down to MuniData
-  setSite: React.SetStateAction<any>
+  toggleRegion: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const SearchBarStyle = css`
@@ -160,11 +163,11 @@ function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMu
   return undefined;
 }
 
-const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, highlightedSites, sitesCount, setSitesCount, selectedSite, setSite, dispatch }) => (
+const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, highlightedSites, sitesCount, setSitesCount, selectedSite, setSite, dispatch, region }) => (
   <div css={dataWrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
+    {region ? <RegionalRow data={data} node={node} selectedMuni={selectedMuni} highlightedSites={highlightedSites} /> : ''}
     {selectedMuni ? showMunicipalRow(data, node, selectedMuni, highlightedSites ) : ''} 
-    {/* <Legend /> */}
     <SitesList data={data} selectedMuni={selectedMuni} dispatch={dispatch} highlightedSites={highlightedSites} sitesCount={sitesCount} selectedSite={selectedSite} setSite={setSite} setSitesCount={setSitesCount} />
   </div>
 );

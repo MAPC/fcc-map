@@ -41,6 +41,7 @@ const Wrapper: React.FC = () => {
   const [sitesCount, setSitesCount] = useState<number|undefined>(0);
   const [selectedSite, setSite] = useState<any>();
   const containerRef = useRef<HTMLInputElement>(null);
+  const [region, toggleRegion] = useState<boolean>(true);
   return (
     <StaticQuery
       query={graphql`
@@ -127,6 +128,8 @@ const Wrapper: React.FC = () => {
             containerRef={containerRef}
             highlightedSites={state.highlightedSites} //passing to SiteRow
             dispatch={dispatch}
+            region={region}
+            toggleRegion={toggleRegion}
           />
           <SearchMap
             data={data.allSitesMpClean20211231Csv.nodes}
@@ -137,6 +140,8 @@ const Wrapper: React.FC = () => {
             containerRef={containerRef}
             highlightedSites={state.highlightedSites}
             dispatch={dispatch}
+            region={region}
+            toggleRegion={toggleRegion}
           />
         </div>
       )}
