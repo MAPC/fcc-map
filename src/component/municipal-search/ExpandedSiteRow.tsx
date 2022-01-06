@@ -92,10 +92,8 @@ function getCapacityRange(units: number) {
 
 function getStation(node: CsvData) {
   if (node.station !== "") {
-    // console.log("station avail", node.station);
     return node.station;
   } else {
-    // console.log("station not avail", node.station);
     return "-"
   }
 }

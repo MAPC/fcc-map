@@ -73,7 +73,7 @@ function executeScroll(
 {
   if (selectedMuni && selectedSite.municipal === selectedMuni) {
     const siteIntoView:any = document.getElementById(selectedSite.site_oid);
-    window.postMessage("scrollTo", "https://storymaps.arcgis.com/stories/cb9bec551f9d48599f267f4ff6282906");
+    window.postMessage("scrollTo", "https://mapc.github.io/retrofitting-search-map-embed/");
     window.parent.scrollTo(0,0);
     console.log("window.parent.scrollTo(0,0)");
     siteIntoView.scrollIntoView({behavior: "smooth", AlignTop});
@@ -84,7 +84,7 @@ function executeScroll(
 
 function scrollToTop(selectedMuni: string|undefined) {
   if (selectedMuni) {
-    window.postMessage("scrollTo", "https://storymaps.arcgis.com/stories/cb9bec551f9d48599f267f4ff6282906");
+    window.postMessage("scrollTo", "https://mapc.github.io/retrofitting-search-map-embed/");
     window.parent.scrollTo(0,0);
     console.log("window.parent.scrollTo(0,0)");
     const sitesList:any = document.getElementById("sites-list");
