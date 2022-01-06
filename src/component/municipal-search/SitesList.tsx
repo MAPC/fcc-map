@@ -75,7 +75,7 @@ function executeScroll(
     // window.postMessage("scrollTop", "https://storymaps.arcgis.com/stories/cb9bec551f9d48599f267f4ff6282906");
     // console.log("window.postMessage inside executeScroll");
     const siteIntoView:any = document.getElementById(selectedSite.site_oid);
-    siteIntoView.scrollIntoView({behavior: "smooth", AlignTop});
+    siteIntoView.scrollIntoView({behavior: "smooth"}, true);
   } else {
     return null;
   }
@@ -87,7 +87,7 @@ function scrollToTop(selectedMuni: string|undefined) {
     // console.log("window.postMessage inside scrollToTop");
     // const yOffset = window.pageYOffset;
     const sitesList:any = document.getElementById("sites-list");
-    sitesList.scrollTop = sitesList.offsetTop;
+    sitesList.scrollTop = 0 - sitesList.offsetTop;
   } else {
     return undefined;
   }
