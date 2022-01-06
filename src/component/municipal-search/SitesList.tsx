@@ -72,9 +72,8 @@ function executeScroll(
   ): any|undefined 
 {
   if (selectedMuni && selectedSite.municipal === selectedMuni) {
-    // window.postMessage("scrollTo", "https://mapc.github.io/retrofitting-search-map-embed/");
-    // window.parent.scrollTo(0,0);
-    // console.log("window.parent.scrollTo(0,0)");
+    window.postMessage("scrollTop", "https://storymaps.arcgis.com/stories/cb9bec551f9d48599f267f4ff6282906");
+    console.log("window.parent.scrollTop");
     const siteIntoView:any = document.getElementById(selectedSite.site_oid);
     siteIntoView.scrollIntoView({behavior: "smooth", AlignTop});
   } else {
@@ -84,9 +83,8 @@ function executeScroll(
 
 function scrollToTop(selectedMuni: string|undefined) {
   if (selectedMuni) {
-    // window.postMessage("scrollTo", "https://mapc.github.io/retrofitting-search-map-embed/");
-    // window.parent.scrollTo(0,0);
-    // console.log("window.parent.scrollTo(0,0)");
+    window.postMessage("scrollTop", "https://storymaps.arcgis.com/stories/cb9bec551f9d48599f267f4ff6282906");
+    console.log("window.parent.scrollTop");
     const sitesList:any = document.getElementById("sites-list");
     sitesList.scrollTop = 0;
   } else {
