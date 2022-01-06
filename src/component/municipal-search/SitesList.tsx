@@ -75,7 +75,7 @@ function executeScroll(
 
     const sitesList:any = document.getElementById("sites-list");
     const siteListItem:any = document.getElementById(selectedSite.site_oid);
-    sitesList.scrollTop = (siteListItem.offsetTop - 50);
+    sitesList.scrollTop = (siteListItem.offsetTop - sitesList.offsetTop);
     // sitesList.scrollTop
 
     // const offset = siteIntoView.offsetTop; //query the offset before executing scrollIntoView
