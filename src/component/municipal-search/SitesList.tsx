@@ -77,12 +77,9 @@ function executeScroll(
     console.log("inside executeScroll, offsetTop: ", offset);
     siteIntoView.scrollIntoView({behavior: "smooth"});
     console.log("siteIntoView.scrollIntoView ran");
-    // siteIntoView.scrollTop = 0 - offset;
-    // console.log("after scrollTop, offsetTop: ", siteIntoView.offsetTop);
     const sitesList:any = document.getElementById("sites-list");
-    sitesList.scrollTop = 0 - sitesList.offsetTop;
+    sitesList.scrollTop = 0 - offset; 
     console.log("sitesList.scrollTop ran");
-    
   } else {
     return null;
   }
