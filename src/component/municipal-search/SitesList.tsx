@@ -75,9 +75,14 @@ function executeScroll(
     const siteIntoView:any = document.getElementById(selectedSite.site_oid);
     const offset = siteIntoView.offsetTop; //query the offset before executing scrollIntoView
     console.log("inside executeScroll, offsetTop: ", offset);
-    // siteIntoView.scrollIntoView({behavior: "smooth"});
-    siteIntoView.scrollTop = 0 - offset;
-    console.log("after scrollTop, offsetTop: ", siteIntoView.offsetTop);
+    siteIntoView.scrollIntoView({behavior: "smooth"});
+    console.log("siteIntoView.scrollIntoView ran");
+    // siteIntoView.scrollTop = 0 - offset;
+    // console.log("after scrollTop, offsetTop: ", siteIntoView.offsetTop);
+    const sitesList:any = document.getElementById("sites-list");
+    sitesList.scrollTop = 0 - sitesList.offsetTop;
+    console.log("sitesList.scrollTop ran");
+    
   } else {
     return null;
   }
