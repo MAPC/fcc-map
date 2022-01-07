@@ -76,9 +76,9 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
   }, []);
 
   const [viewport, setViewport] = useState({
-    latitude: 42.338030,
+    latitude: 42.368020,
     longitude: -71.211580,
-    zoom: 8,
+    zoom: 8.85,
     transitionDuration: 1000
   });
 
@@ -154,7 +154,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             setMuni(undefined);
             setViewport({
               ...viewport,
-              longitude: -71.211580, latitude: 42.338030, transitionDuration: 1000
+              longitude: -71.211580, latitude: 42.368020, transitionDuration: 1000
             })
         }}
         onClick={(e) => {
@@ -163,10 +163,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             setSite(false);
             setMuni(handleClick(e.features));
           }
-          else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31")) {
+          else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_2022_01_04")) {
             toggleRegion(false);
-            setSite(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31").properties);  
-            setMuni(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31").properties.municipal);
+            setSite(e.features.find((row) => row.sourceLayer === "Sites_2022_01_04").properties);  
+            setMuni(e.features.find((row) => row.sourceLayer === "Sites_2022_01_04").properties.municipal);
             setViewport({
               ...viewport,
               longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
@@ -208,10 +208,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
           }
         }}
         onHover={(e) => {          
-          if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31")) {
+          if (e.features && e.features.find((row) => row.sourceLayer === "Sites_2022_01_04")) {
             setLngLat(e.lngLat);
             togglePopup(true);
-            setPopupSite(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31").properties);
+            setPopupSite(e.features.find((row) => row.sourceLayer === "Sites_2022_01_04").properties);
           } else {
             togglePopup(false);
           }
@@ -282,23 +282,16 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
                 'hsla(0, 0%, 0%, 0.2)'
               ]
               : 'hsla(0, 0%, 0%, 0)'
-              // 'fill-color': [
-              //   'match',
-              //   ['get', 'municipal'],
-              //   [`${selectedMuni}`],
-              //   'hsla(0, 0%, 0%, 0)', // if selectedMuni, no overlay
-              //   'hsla(0, 0%, 0%, 0.2)'
-              // ]
             }}
           />
         </Source>
         {/* source layer targeting the FILL of sites, filtering based on Top Category */}
-        <Source id="Sites_polygons" type="vector" url="mapbox://ihill.dx4l57vy">
+        <Source id="Sites_polygons" type="vector" url="mapbox://ihill.ampdixil">
           <Layer
             type="fill"
             id="Sites (fill)"
             source="Sites_polygons"
-            source-layer="Sites_mp_clean_2021_12_31_tri-8ey9oh"
+            source-layer="Sites_2022_01_04_EPSG_4326_WG-3315f5"
             paint={{
               'fill-opacity':
               [
@@ -330,30 +323,13 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
           /> 
         </Source>
         {/* new sites point data after removed sites */}
-        <Source id="Sites" type="vector" url="mapbox://ihill.ckxysuzge7jc028qzs83q7564-90h90">
+        <Source id="Sites" type="vector" url="mapbox://ihill.cky4mfnezaaty20tg9js4cwy2-8fvl5">
           <Layer
             type="circle"
             id="Sites (circles)"
             source="Sites"
-            source-layer="Sites_mp_clean_2021_12_31"
+            source-layer="Sites_2022_01_04"
             paint={{
-              // 'circle-color': [
-              //   'match',
-              //   ['get', 'municipal'],
-              //   [selectedMuni || ''],
-              //   [
-              //     'match',
-              //     ['get', 'Quintile Category'],
-              //     '1', `${themeColors.quintile1}`,
-              //     '2', `${themeColors.quintile2}`,
-              //     '3', `${themeColors.quintile3}`,
-              //     '4', `${themeColors.quintile4}`,
-              //     '5', `${themeColors.quintile5}`,
-              //     'hsla(0, 0%, 0%, 0)' //no color
-              //   ],
-              //   // 'hsla(0, 0%, 0%, 0)' //no color
-              //   `${themeColors.fontLightGray}`
-              // ], 
               'circle-color': selectedMuni ? [
                 'match',
                 ['get', 'municipal'],
@@ -394,22 +370,22 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
           />
         </Source>
         {/* source layer targeting the OUTLINES of sites on hover */}
-        <Source id="Sites_highlight" type="vector" url="mapbox://ihill.dx4l57vy">
+        <Source id="Sites_highlight" type="vector" url="mapbox://ihill.ampdixil">
           <Layer
             type="line"
             id="Sites (highlight)"
             source="Sites_highlight"
-            source-layer="Sites_mp_clean_2021_12_31_tri-8ey9oh"
+            source-layer="Sites_2022_01_04_EPSG_4326_WG-3315f5"
             paint={{
               'line-width':
               [
                 'interpolate',
                 ['linear'],
                 ['zoom'],
-                8, //zoom
-                15, //width
-                16, //zoom
-                5, //width
+                8, 
+                15, 
+                16, 
+                5,
               ],
               'line-color': `${themeColors.gold}`,
               'line-opacity': highlightedSites.length > 0 ? [

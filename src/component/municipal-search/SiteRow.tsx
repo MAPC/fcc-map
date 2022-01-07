@@ -21,12 +21,13 @@ interface SiteRowProps {
 const liStyle = css`
   background: ${themeColors.warmGrayTransparent};
   margin: .5rem 0;
-  padding: .5rem 2rem;
+  padding: 1.5rem 2rem;
   .title-container:hover {
     cursor: pointer;
     h1, h2 {color: ${themeColors.clearWater};}
   }
   h2 {
+    margin: 0.4rem;
     text-transform: lowercase;
   }
   h2:first-letter,
@@ -96,10 +97,6 @@ const SiteRow: React.FC<SiteRowProps> = ({
   const [starred, toggleStarred] = useState<boolean>(false);
   
   useEffect(() => {
-    // if on render highlightedSites array includes this SiteRow card's site_oid,
-    // then initialize highlighted and starred to true
-    // else, useState(false)
-    // need to call it only once, on ComponentDidMount
     const checkHighlightedSites = () => {
       if (highlightedSites.includes(+node.site_oid)) {
         toggleHightlight(true)
@@ -135,7 +132,7 @@ const SiteRow: React.FC<SiteRowProps> = ({
         sitesCount={sitesCount} 
       />
     } 
-    return (null); // does not render component if site evaluates false
+    return (null); 
   }
 
   return (

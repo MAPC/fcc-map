@@ -46,20 +46,17 @@ const Wrapper: React.FC = () => {
     <StaticQuery
       query={graphql`
         {
-          allSitesMpClean20211231Csv {
+          allSitesDigital20220104Csv {
             nodes {
-              Buildable_Area__sf_
-              Condo_Assessed_Value_per_Square_Foot
               ECDF
               Estimated_Capacity__all_residential_
               Estimated_Capacity__some_commercial_
+              FAR_after_retrofit
               Growth_Potential_Score
               Healthy_Communities_Score
               Healthy_Watersheds_Score
               Latitude
               Longitude
-              Municipal_Avg_Tax_Increase
-              Municipal_Total_Tax_Increase
               Number_of_Parcels_on_Site
               Overall_Score
               Parcel_IDs
@@ -68,7 +65,6 @@ const Wrapper: React.FC = () => {
               Submarket
               Tax_Revenue__after_retrofit_
               Tax_Revenue__before_retrofit_
-              Top_Category
               Travel_Choices_Score
               aulsite_p
               bldg_value
@@ -80,11 +76,13 @@ const Wrapper: React.FC = () => {
               county
               disttosewerft
               excluded_p
+              far_pre
               field1
               fz100_p
               fz500_p
               highway
               id
+              imppreac
               jobs30mincar
               jobs45mintr
               land_value
@@ -92,15 +90,19 @@ const Wrapper: React.FC = () => {
               muni_id
               municipal
               municipal_rank
+              munpctile
+              munqntile
               openspace_p
               othr_value
               parcel_addr
               pctnonautocmt
               pub_ind
               regional_rank
+              regipctile
               site_oid
-              sitearea_sf
-              station
+              sitearea_ac
+              statname
+              stattyp
               subregion
               subtype_id
               total_valu
@@ -109,6 +111,7 @@ const Wrapper: React.FC = () => {
               type_id
               walkscore
               wetland100_p
+              yr_built
               z2wpa_p
             }
           }
@@ -118,13 +121,13 @@ const Wrapper: React.FC = () => {
       render={(data) => (
         <div css={wrapperStyle}>
           <MunicipalData
-            data={data.allSitesMpClean20211231Csv.nodes}
+            data={data.allSitesDigital20220104Csv.nodes}
             selectedMuni={selectedMuni}
             sitesCount={sitesCount}
             setSitesCount={setSitesCount}
             selectedSite={selectedSite}
             setSite={setSite}
-            node={data.allSitesMpClean20211231Csv.nodes}
+            node={data.allSitesDigital20220104Csv.nodes}
             containerRef={containerRef}
             highlightedSites={state.highlightedSites} //passing to SiteRow
             dispatch={dispatch}
@@ -132,7 +135,7 @@ const Wrapper: React.FC = () => {
             toggleRegion={toggleRegion}
           />
           <SearchMap
-            data={data.allSitesMpClean20211231Csv.nodes}
+            data={data.allSitesDigital20220104Csv.nodes}
             selectedMuni={selectedMuni}
             setMuni={setMuni}
             selectedSite={selectedSite}
