@@ -122,9 +122,9 @@ function getPotentialUnits(data: Array<CsvData>): number {
   let unitsArray: Array<number> = [];
   let unitsSum: number = 0;
   data.forEach((e) => {
-    // if (e.municipal === selectedMuni && +e.munpctile >= 90) {
+    if (+e.regipctile >= 90) {
       unitsArray.push(+e.Estimated_Capacity__all_residential_)
-    // }
+    }
     return unitsArray;
   })
   if (unitsArray.length > 0) {
