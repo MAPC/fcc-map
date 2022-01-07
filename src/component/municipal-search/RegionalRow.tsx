@@ -23,7 +23,7 @@ const containerStyle = css`
   flex-flow: row wrap;
   margin: .5rem 0;
   max-width: 45rem;
-  padding: 1.5rem 2rem .5rem;
+  padding: 1.5rem 2rem;
   z-index: 1;
   h1 {
     width: 100%;
@@ -88,7 +88,7 @@ function getRegionalTransit(data: Array<CsvData>): number {
   let stationSum: number = 0;
 
   data.forEach((elem) => {
-    if (elem.station !== "") {
+    if (elem.statname !== "") {
       stationSum++;
     }
     return stationSum;
@@ -96,6 +96,26 @@ function getRegionalTransit(data: Array<CsvData>): number {
   console.log("stations", stationSum);
   
   return stationSum;
+}
+
+
+function getAverageRegionalTax(data: Array<CsvData>): number {
+  let taxDifferentialsArr: Array<number> = [];
+  let sum: number = 0;
+  let average: number = 0;
+  data.forEach((site) => {
+    taxDifferentialsArr.push(parseFloat(site.Site_Tax_Revenue_Change));
+    return taxDifferentialsArr;
+  });  
+  if (taxDifferentialsArr.length > 0) {
+    sum = 0;
+    average = 0;
+    taxDifferentialsArr.forEach(function(e) {
+      sum = sum + e;
+    });
+    average = sum / taxDifferentialsArr.length;
+  }
+  return average;
 }
 
 // no decimal places
@@ -122,15 +142,15 @@ const RegionalRow: React.FC<RegionalRowProps> = ({ data, node, selectedMuni, hig
       <p className="value"><span css={bold}>{data.length}</span></p>
       <p className="field">Sites</p>
       <p className="value"><span css={bold}>{parseCommas(parseDouble(getRegionalSiteArea(data)))}</span></p>
-      <p className="field">Sites Area (acres)</p>
+      <p className="field">Acres Sites Area</p>
       <p className="value"><span css={bold}>{getRegionalTransit(data)}</span></p>
       <p className="field">Sites Near MBTA Transit</p>
-      <p className="value"><span css={bold}>{}</span></p>
+      <p className="value"><span css={bold}>${parseCommas(parseToString(getAverageRegionalTax(data)))}</span></p>
       <p className="field">Average New Tax Revenue Per Site</p>
-      <p className="value"><span css={bold}>{}</span></p>
+      {/* <p className="value"><span css={bold}>{}</span></p>
       <p className="field">Potential Units, top 10% of sites</p>
       <p className="value"><span css={bold}>{}</span></p>
-      <p className="field">Potential New Tax Revenue, top 10% of sites</p>
+      <p className="field">Potential New Tax Revenue, top 10% of sites</p> */}
     </div>
   )
 };
