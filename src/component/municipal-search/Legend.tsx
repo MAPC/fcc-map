@@ -8,7 +8,7 @@ import { Circle, PushPinSimple } from 'phosphor-react';
 
 const legendStyle = css`
   background: ${themeColors.white};
-  height: auto;
+  height: 33.5rem;
   left: 47.5rem;
   margin: .5rem 0 0;
   padding: .5rem 2rem;
