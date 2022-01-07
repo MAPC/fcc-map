@@ -169,6 +169,7 @@ function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMu
 const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, highlightedSites, sitesCount, setSitesCount, selectedSite, setSite, dispatch, region }) => (
   <div css={dataWrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
+    <Legend />
     {region ? <RegionalRow data={data} node={node} selectedMuni={selectedMuni} highlightedSites={highlightedSites} /> : ''}
     {selectedMuni ? showMunicipalRow(data, node, selectedMuni, highlightedSites ) : ''} 
     <SitesList data={data} selectedMuni={selectedMuni} dispatch={dispatch} highlightedSites={highlightedSites} sitesCount={sitesCount} selectedSite={selectedSite} setSite={setSite} setSitesCount={setSitesCount} />

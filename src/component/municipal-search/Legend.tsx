@@ -4,19 +4,33 @@ import React from 'react';
 import { jsx, css } from '@emotion/react';
 import { themeColors, fonts } from '../../utils/theme';
 import { Link } from 'gatsby';
-import { Circle } from 'phosphor-react';
+import { Circle, PushPinSimple } from 'phosphor-react';
 
 const legendStyle = css`
+  background: ${themeColors.white};
   height: auto;
+  left: 47.5rem;
+  margin: .5rem 0 0;
+  padding: .5rem 2rem;
+  position: absolute;
+  z-index: 1;
   p {
     line-height: 2rem;
   }
 `;
 
+const highlightStyle = css`
+  color: ${themeColors.fontGray};
+  font-size: 1.5rem;
+  margin: 1.5rem 0;
+`;
+
 const linkStyle = css`
   align-items: center;
+  color: ${themeColors.fontGray};
   display: flex;
-  margin: 2.5rem 0 1rem;
+  font-size: 1.5rem;
+  margin: 1.5rem 0;
   text-decoration: none;
   transition: 0.2s ease-in-out;
   width: auto;
@@ -27,22 +41,20 @@ const linkStyle = css`
 
 const Legend: React.FC = () => {
     return (
-        <div css={legendStyle}>
+      <div css={legendStyle}>
         <h2>Legend</h2>
         <h3>Site Score</h3>
-          {/* <span css={circleStyle1}>&#183;</span><p>3.25 - 3.96</p>
-          <span css={circleStyle2}>&#183;</span><p>3.05 - 3.25</p>
-          <span css={circleStyle3}>&#183;</span><p>2.88 - 3.05</p>
-          <span css={circleStyle4}>&#183;</span><p>2.67 - 2.88</p>
-          <span css={circleStyle5}>&#183;</span><p>1.84 - 2.67</p> */}
           <p><Circle size={14} weight="fill" color={themeColors.quintile5} /> Most Favorable</p>
           <p><Circle size={14} weight="fill" color={themeColors.quintile4} /> Very Favorable</p>
           <p><Circle size={14} weight="fill" color={themeColors.quintile3} /> Favorable</p>
           <p><Circle size={14} weight="fill" color={themeColors.quintile2} /> Less Favorable</p>
           <p><Circle size={14} weight="fill" color={themeColors.quintile1} /> Least Favorable</p>
-        <Link css={linkStyle} to="/about">
-          <p>Read the Report</p>
-        </Link>
+        <div css={highlightStyle}>
+          <p><PushPinSimple size={14} weight="fill" color={themeColors.fontGray} /> Highlighted Site</p>
+        </div>
+        <a css={linkStyle} href="http://http://rethinking-the-suburban-strip.mapc.org/">
+          Read the Report
+        </a>
       </div>
     );
 };
