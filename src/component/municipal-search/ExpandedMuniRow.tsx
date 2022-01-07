@@ -121,9 +121,6 @@ const ExpandedMuniRow: React.FC<ExpandedMuniRowProps> = ({ data, node, selectedM
       <p className="field">Potential Units, top 10% of sites</p>
       <p className="value"><span css={bold}>{}</span></p>
       <p className="field">Potential New Tax Revenue, top 10% of sites</p> */}
-      <div className="legend">
-        <Legend />
-      </div>
     </div>
   )
 };

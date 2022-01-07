@@ -46,8 +46,8 @@ const containerStyle = css`
     width: 100%;
     h1, h2 {color: ${themeColors.clearWater};}
   }
-  .legend {
-    width: 100%;
+  .margin-bottom {
+    margin-bottom: 1.5rem;
   }
 `;
 
@@ -139,6 +139,7 @@ const RegionalRow: React.FC<RegionalRowProps> = ({ data, node, selectedMuni, hig
     <div css={containerStyle}>
       <h2>Potential Retail Retrofit Sites in</h2>
       <h1>MAPC Region</h1>
+      <h2 className="margin-bottom">Summary Statistics</h2>
       <p className="value"><span css={bold}>{data.length}</span></p>
       <p className="field">Sites</p>
       <p className="value"><span css={bold}>{parseCommas(parseDouble(getRegionalSiteArea(data)))}</span></p>
