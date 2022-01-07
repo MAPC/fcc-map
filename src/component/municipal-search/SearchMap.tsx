@@ -82,20 +82,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
     transitionDuration: 1000
   });
 
-  // setSite on site card click then zoom to site point
-  // useEffect(() => {
-  //   if (selectedSite) {
-
-  //     console.log("selectedSite", selectedSite);
-  //     console.log("selectedSite.Longitude", selectedSite.Longitude, "selectedSite.Latitude", selectedSite.Latitude);
-  
-  //     setViewport({
-  //       ...viewport,
-  //       longitude: selectedSite.Longitude, latitude: selectedSite.Latitude, zoom: 16, transitionDuration: 1000
-  //     })
-  //   }
-  // }, [selectedSite]);
-
   const [showPopup, togglePopup] = useState<boolean>(false);
   const [lngLat, setLngLat] = useState<any>();
   const [popupSite, setPopupSite] = useState<any>();
@@ -172,22 +158,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
               longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
             })
           }
-          // else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31_tri-8ey9oh")) {            
-          //   setSite(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2021_12_31_tri-8ey9oh").properties);
-          //   console.log("selectedSite polygon", selectedSite);
-          //   setViewport({
-          //     ...viewport,
-          //     longitude: e.lngLat[0], latitude: e.lngLat[1], zoom: 16, transitionDuration: 1000
-          //   })
-          // }
-          // else if (e.features.find((row) => row.sourceLayer === 'MAPC_borders-0im3ea')) {
-          //   setMuni(handleClick(e.features));
-          //   setSite(false);
-          //   setViewport({
-          //     ...viewport,
-          //     longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1500
-          //   })
-          // } 
+          else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_2022_01_04_EPSG_4326_WG-3315f5")) {
+            console.log("polygon layer: ", e.features.find((row) => row.sourceLayer === "Sites_2022_01_04_EPSG_4326_WG-3315f5"));
+            
+          }
           else if (e.features && e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea")) {
             toggleRegion(false);
             setMuni(e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea").properties.municipal);
@@ -216,7 +190,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             togglePopup(false);
           }
         }}
-
       >
         <Geocoder
           css={inputStyle}
@@ -309,15 +282,15 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
                 [selectedMuni || ''],
                 [
                   'match',
-                  ['get', 'Quintile Category'],
-                  1, `${themeColors.quintile1}`,
-                  2, `${themeColors.quintile2}`,
-                  3, `${themeColors.quintile3}`,
-                  4, `${themeColors.quintile4}`,
-                  5, `${themeColors.quintile5}`,
-                  'gray'
+                  ['get', 'munqntile'],
+                  '1', `${themeColors.quintile1}`,
+                  '2', `${themeColors.quintile2}`,
+                  '3', `${themeColors.quintile3}`,
+                  '4', `${themeColors.quintile4}`,
+                  '5', `${themeColors.quintile5}`,
+                  `${themeColors.fontLightGray}`
                 ],
-                'gray' // fill for anything outside selectedMuni
+                `${themeColors.fontLightGray}` // fill for anything outside selectedMuni
               ]
             }}
           /> 
@@ -336,7 +309,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
                 [`${selectedMuni}`],
                 [
                   'match',
-                  ['get', 'Quintile Category'],
+                  ['get', 'munqntile'],
                   '1', `${themeColors.quintile1}`,
                   '2', `${themeColors.quintile2}`,
                   '3', `${themeColors.quintile3}`,
@@ -349,7 +322,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
               : 
               [
                 'match',
-                ['get', 'Quintile Category'],
+                ['get', 'munqntile'],
                 '1', `${themeColors.quintile1}`,
                 '2', `${themeColors.quintile2}`,
                 '3', `${themeColors.quintile3}`,

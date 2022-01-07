@@ -91,6 +91,42 @@ function getMuniTransit(data: Array<CsvData>, selectedMuni: string|undefined): n
   return stationSum;
 }
 
+function getPotentialUnits(data: Array<CsvData>, selectedMuni: string|undefined): number {
+  let unitsArray: Array<number> = [];
+  let unitsSum: number = 0;
+  data.filter((e) => {
+    if (e.municipal === selectedMuni && +e.munpctile >= 90) {
+      unitsArray.push(+e.Estimated_Capacity__all_residential_)
+    }
+    return unitsArray;
+  })
+  if (unitsArray.length > 0) {
+    unitsArray.forEach((e) => {
+      unitsSum = unitsSum + e;
+    })
+    return unitsSum;
+  }
+  return unitsSum;
+}
+
+function getTaxTopTen(data: Array<CsvData>, selectedMuni: string|undefined): number {
+  let taxesArray: Array<number> = [];
+  let taxesSum: number = 0;
+  data.filter((e) => {
+    if (e.municipal === selectedMuni && +e.munpctile >= 90) {
+      taxesArray.push(+e.Tax_Revenue__after_retrofit_)
+    }
+    return taxesArray;
+  })
+  if (taxesArray.length > 0) {
+    taxesArray.forEach((e) => {
+      taxesSum = taxesSum + e;
+    })
+    return taxesSum;
+  }
+  return taxesSum;
+}
+
 // no decimal places
 function parseToString(input: number): string {
   return input.toFixed(0);
@@ -117,10 +153,10 @@ const ExpandedMuniRow: React.FC<ExpandedMuniRowProps> = ({ data, node, selectedM
       <p className="field">Sites Near MBTA Transit</p>
       <p className="value"><span css={bold}>${parseCommas(parseToString(averageDiff))}</span></p>
       <p className="field">Average New Tax Revenue Per Site</p>
-      {/* <p className="value"><span css={bold}>{}</span></p>
+      <p className="value"><span css={bold}>{parseCommas(parseToString(getPotentialUnits(data, selectedMuni)))}</span></p>
       <p className="field">Potential Units, top 10% of sites</p>
-      <p className="value"><span css={bold}>{}</span></p>
-      <p className="field">Potential New Tax Revenue, top 10% of sites</p> */}
+      <p className="value"><span css={bold}>${parseCommas(parseToString(getTaxTopTen(data, selectedMuni)))}</span></p>
+      <p className="field">Potential New Tax Revenue, top 10% of sites</p>
     </div>
   )
 };
