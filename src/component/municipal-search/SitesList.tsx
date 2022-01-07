@@ -72,19 +72,9 @@ function executeScroll(
   ): any|undefined 
 {
   if (selectedMuni && selectedSite.municipal === selectedMuni) {
-
     const sitesList:any = document.getElementById("sites-list");
     const siteListItem:any = document.getElementById(selectedSite.site_oid);
     sitesList.scrollTop = (siteListItem.offsetTop - sitesList.offsetTop);
-    // sitesList.scrollTop
-
-    // const offset = siteIntoView.offsetTop; //query the offset before executing scrollIntoView
-    // console.log("inside executeScroll, offsetTop: ", offset);
-    // siteIntoView.scrollIntoView({behavior: "smooth"});
-    // console.log("siteIntoView.scrollIntoView ran");
-
-    // sitesList.scrollTop = 0 - sitesList.offsetTop; 
-    // console.log("sitesList.scrollTop ran");
   } else {
     return null;
   }
@@ -93,9 +83,7 @@ function executeScroll(
 function scrollToTop(selectedMuni: string|undefined) {
   if (selectedMuni) {
     const sitesList:any = document.getElementById("sites-list");
-    sitesList.scrollTop = 0 - sitesList.offsetTop;
-    console.log("inside scrollToTop, offsetTop: ", sitesList.offsetTop);
-    
+    sitesList.scrollTop = 0 - sitesList.offsetTop;    
   } else {
     return undefined;
   }

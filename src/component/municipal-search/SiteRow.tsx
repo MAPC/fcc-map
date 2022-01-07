@@ -159,6 +159,7 @@ const SiteRow: React.FC<SiteRowProps> = ({
           if (highlighted && !starred) {
             toggleHightlight(!highlighted);
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
+            console.log("highlightedSites: ", highlightedSites);
           }
         }}
     > 

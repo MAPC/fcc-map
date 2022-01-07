@@ -122,30 +122,10 @@ const ulStyle = css`
   z-index: 1;
 `;
 
-// original filterData
-// function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined>, sitesCount: number|undefined, setSitesCount: React.Dispatch<React.SetStateAction<any>>, site: any): Array<JSX.Element>|undefined {
-//   if (selectedMuni) {
-//     data.sort((a: any, b: any) => 
-//       // choose sort-by attribute here
-//       b.Quintile_Category - a.Quintile_Category
-//     );
-//     let count = data.filter(d => d.municipal == selectedMuni).length;
-//     setSitesCount(count);
-//     return data.reduce((list: Array<JSX.Element>, node: CsvData) => {
-//       if (node.municipal === selectedMuni) {
-//         list.push(<SiteRow data={data} node={node} key={node.site_oid} dispatch={dispatch} selectedMuni={selectedMuni} highlightedSites={highlightedSites} sitesCount={sitesCount} site={site} />);
-//       }
-//       return list;
-//     }, []);
-//   }
-//   return undefined;
-// }
-
 function filterData(data: Array<CsvData>, selectedMuni: string|undefined, dispatch: React.Dispatch<unknown>, highlightedSites: Array<number|undefined>, sitesCount: number|undefined, setSitesCount: React.SetStateAction<any>, selectedSite: any, setSite: React.SetStateAction<any> ): Array<JSX.Element>|undefined {
   if (selectedMuni) {
     data.sort((a: any, b: any) => 
-      // choose sort-by attribute here
-      b.Quintile_Category - a.Quintile_Category
+      b.munqntile - a.munqntile
     );
     let count = data.filter(d => d.municipal == selectedMuni).length;
     setSitesCount(count);
