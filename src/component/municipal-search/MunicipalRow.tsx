@@ -24,7 +24,7 @@ const containerStyle = css`
   flex-flow: row wrap;
   margin: .5rem 0;
   max-width: 45rem;
-  padding: 1.5rem 2rem .5rem;
+  padding: 1.5rem 2rem;
   z-index: 1;
   h1 {
     width: 100%;

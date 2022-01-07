@@ -90,9 +90,21 @@ function getCapacityRange(units: number) {
   }
 }
 
+function getNewTaxRange(tax: number) {
+  if (tax >= 1000000) {
+    return "Over $1 million";
+  } else if (tax >= 500000 && tax < 1000000) {
+    return "$500,000 - $1 million"; 
+  } else if (tax >= 100000 && tax < 500000) {
+    return "$100,000 - $500,000"; 
+  } else {
+    return "0 - $100,000";
+  }
+}
+
 function getStation(node: CsvData) {
-  if (node.station !== "") {
-    return node.station;
+  if (node.statname !== "") {
+    return node.statname;
   } else {
     return "-"
   }
@@ -114,18 +126,16 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
       <h3>Current Conditions</h3>
       <p className="value"><span css={bold}>{parseToString(+node.Number_of_Parcels_on_Site)}</span></p>
       <p className="field">{+node.Number_of_Parcels_on_Site > 1 ? "Parcels" : "Parcel"}</p>
-      <p className="value"><span css={bold}>{parseCommas(parseDouble(+node.Buildable_Area__sf_))}</span></p>
-      <p className="field">Potentially Buildable Area (sq. ft.)</p>
+      <p className="value"><span css={bold}>{parseCommas(parseDouble(+node.buildarea_ac))}</span></p>
+      <p className="field">Potentially Buildable Area (acres)</p>
       <p className="value"><span css={bold}>${parseCommas(parseDouble(+node.land_value))}</span></p>
       <p className="field">Assessed Land Value</p>
       <p className="value"><span css={bold}>${parseCommas(parseDouble(+node.bldg_value))}</span></p>
       <p className="field">Assessed Building Value</p>
-      {/* <p className="value"><span css={bold}>{parseDouble(+node.bldlnd_rat)}</span></p>
-      <p className="field">Building to land value ratio</p> */}
       <p className="value"><span css={bold}>${parseCommas(parseDouble(+node.Tax_Revenue__before_retrofit_))}</span></p>
       <p className="field">Estimated Current Tax Revenue</p>
-      <p className="value"><span css={bold}>{}</span></p>
-      <p className="field">Estimated Paved Area</p>
+      {/* <p className="value"><span css={bold}>{}</span></p>
+      <p className="field">Estimated Paved Area</p> */}
       <p className="value"><span css={bold}>{getStation(node)}</span></p>
       <p className="field">Transit Station Area</p>
       <p className="value"><span css={bold}>{+node.disttosewerft > 0 ? "Yes" : "No"}</span></p>
@@ -134,24 +144,20 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
       <h3>Redevelopment Suitability and Potential</h3>
       <p className="value"><span css={bold}>{getCapacityRange(+node.Estimated_Capacity__all_residential_)}</span></p>
       <p className="field">Potential Housing Capacity (units)</p>
-      <p className="value"><span css={bold}>{parseDouble(+node.Growth_Potential_Score)}</span>/1</p>
+      <p className="value"><span css={bold}>{getNewTaxRange(+node.Site_Tax_Revenue_Change)}</span></p>
+      <p className="field">Estimated New Tax Revenue</p>
+      <p className="value"><span css={bold}>{parseDouble(+node.Growth_Potential_Score)}/1</span></p>
       <p className="field">Growth Potential Score</p>
-      <p className="value"><span css={bold}>{parseDouble(+node.Healthy_Communities_Score)}</span>/1</p>
+      <p className="value"><span css={bold}>{parseDouble(+node.Healthy_Communities_Score)}/1</span></p>
       <p className="field">Healthy Communities Score</p>
-      <p className="value"><span css={bold}>{parseDouble(+node.Healthy_Watersheds_Score)}</span>/1</p>
+      <p className="value"><span css={bold}>{parseDouble(+node.Healthy_Watersheds_Score)}/1</span></p>
       <p className="field">Healthy Watersheds Score</p>
-      <p className="value"><span css={bold}>{parseDouble(+node.Travel_Choices_Score)}</span>/1</p>
+      <p className="value"><span css={bold}>{parseDouble(+node.Travel_Choices_Score)}/1</span></p>
       <p className="field">Travel Choices Score</p>
-      <p className="value"><span css={bold}>{parseDouble(+node.Overall_Score)}</span>/4</p>
+      <p className="value"><span css={bold}>{parseDouble(+node.Overall_Score)}/4</span></p>
       <p className="field">Overall Score</p>
-      {/* <p className="value"><span css={bold}>{getCapacityRange(+node.Estimated_Capacity__some_commercial_)}</span> units</p>
-      <p className="field">of Estimated Capacity (some commercial)</p> */}
-      {/* <p className="value"><span css={bold}>${parseCommas(parseDouble(+node.Site_Tax_Revenue_Change))}</span></p>
-      <p className="field">in New Taxes</p> */}
-      <p className="value"><span css={bold}>{ordinalSuffix(+node.municipal_rank)}</span>/{sitesCount}</p>
+      <p className="value"><span css={bold}>{ordinalSuffix(+node.municipal_rank)}/{sitesCount}</span></p>
       <p className="field">Rank within Municipality</p>
-      {/* <p className="value"><span css={bold}>{ordinalSuffix(+node.regional_rank)}</span>/3036</p>
-      <p className="field">in the Region</p> */}
       <h3
         onClick={() => {
           const sitesList:any = document.getElementById("sites-list");

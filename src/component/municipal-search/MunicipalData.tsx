@@ -12,18 +12,15 @@ import { themeColors, fonts } from '../../utils/theme';
 import { List } from 'phosphor-react';
 
 export type CsvData = {
-  Buildable_Area__sf_: string,
-  Condo_Assessed_Value_per_Square_Foot: string,
   ECDF: string,
   Estimated_Capacity__all_residential_: string,
   Estimated_Capacity__some_commercial_: string,
+  FAR_after_retrofit: string,
   Growth_Potential_Score: string,
   Healthy_Communities_Score: string,
   Healthy_Watersheds_Score: string,
   Latitude: string,
   Longitude: string,
-  Municipal_Avg_Tax_Increase: string,
-  Municipal_Total_Tax_Increase: string,
   Number_of_Parcels_on_Site: string,
   Overall_Score: string,
   Parcel_IDs: string,
@@ -32,7 +29,6 @@ export type CsvData = {
   Submarket: string,
   Tax_Revenue__after_retrofit_: string,
   Tax_Revenue__before_retrofit_: string,
-  Top_Category: string,
   Travel_Choices_Score: string,
   aulsite_p: string,
   bldg_value: string,
@@ -44,11 +40,13 @@ export type CsvData = {
   county: string,
   disttosewerft: string,
   excluded_p: string,
+  far_pre: string,
   field1: string,
   fz100_p: string,
   fz500_p: string,
   highway: string,
   id: string,
+  imppreac: string,
   jobs30mincar: string,
   jobs45mintr: string,
   land_value: string,
@@ -56,15 +54,19 @@ export type CsvData = {
   muni_id: string,
   municipal: string,
   municipal_rank: string,
+  munpctile: string,
+  munqntile: string,
   openspace_p: string,
   othr_value: string,
   parcel_addr: string,
   pctnonautocmt: string,
   pub_ind: string,
   regional_rank: string,
+  regipctile: string,
   site_oid: string,
-  sitearea_sf: string,
-  station: string,
+  sitearea_ac: string,
+  statname: string,
+  stattyp: string,
   subregion: string,
   subtype_id: string,
   total_valu: string,
@@ -73,6 +75,7 @@ export type CsvData = {
   type_id: string,
   walkscore: string,
   wetland100_p: string,
+  yr_built: string,
   z2wpa_p: string
 }
 
@@ -166,6 +169,7 @@ function showMunicipalRow(data: Array<CsvData>, node: Array<CsvData>, selectedMu
 const MunicipalData: React.FC<MunicipalDataProps> = ({ data, selectedMuni, node, containerRef, highlightedSites, sitesCount, setSitesCount, selectedSite, setSite, dispatch, region }) => (
   <div css={dataWrapperStyle}>
     <div ref={containerRef} css={SearchBarStyle} />
+    <Legend />
     {region ? <RegionalRow data={data} node={node} selectedMuni={selectedMuni} highlightedSites={highlightedSites} /> : ''}
     {selectedMuni ? showMunicipalRow(data, node, selectedMuni, highlightedSites ) : ''} 
     <SitesList data={data} selectedMuni={selectedMuni} dispatch={dispatch} highlightedSites={highlightedSites} sitesCount={sitesCount} selectedSite={selectedSite} setSite={setSite} setSitesCount={setSitesCount} />
