@@ -141,11 +141,11 @@ const SiteRow: React.FC<SiteRowProps> = ({
         css={
           [
             liStyle,
-            node.Quintile_Category ===  '5' ? quintile5 : 
-            node.Quintile_Category ===  '4' ? quintile4 : 
-            node.Quintile_Category ===  '3' ? quintile3 : 
-            node.Quintile_Category === '2' ? quintile2 : 
-            node.Quintile_Category === '1' ? quintile1 :
+            node.munqntile ===  '5' ? quintile5 : 
+            node.munqntile ===  '4' ? quintile4 : 
+            node.munqntile ===  '3' ? quintile3 : 
+            node.munqntile === '2' ? quintile2 : 
+            node.munqntile === '1' ? quintile1 :
             ''
           ]
         }
@@ -159,7 +159,6 @@ const SiteRow: React.FC<SiteRowProps> = ({
           if (highlighted && !starred) {
             toggleHightlight(!highlighted);
             dispatch({ type: 'addSite', toggledSite: +node.site_oid });
-            console.log("highlightedSites: ", highlightedSites);
           }
         }}
     > 

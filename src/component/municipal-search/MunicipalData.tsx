@@ -12,10 +12,10 @@ import { themeColors, fonts } from '../../utils/theme';
 import { List } from 'phosphor-react';
 
 export type CsvData = {
-  ECDF: string,
   Estimated_Capacity__all_residential_: string,
   Estimated_Capacity__some_commercial_: string,
   FAR_after_retrofit: string,
+  FAR_mixed_after_retrofit: string,
   Growth_Potential_Score: string,
   Healthy_Communities_Score: string,
   Healthy_Watersheds_Score: string,
@@ -28,7 +28,6 @@ export type CsvData = {
   Site_Tax_Revenue_Change: string,
   Submarket: string,
   Tax_Revenue__after_retrofit_: string,
-  Tax_Revenue__before_retrofit_: string,
   Travel_Choices_Score: string,
   aulsite_p: string,
   bldg_value: string,
@@ -59,6 +58,7 @@ export type CsvData = {
   openspace_p: string,
   othr_value: string,
   parcel_addr: string,
+  pavear_ac: string,
   pctnonautocmt: string,
   pub_ind: string,
   regional_rank: string,
@@ -69,6 +69,7 @@ export type CsvData = {
   stattyp: string,
   subregion: string,
   subtype_id: string,
+  top10muni: string,
   total_valu: string,
   totvalpacre: string,
   transit_typ: string,
