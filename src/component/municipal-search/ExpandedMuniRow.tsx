@@ -145,16 +145,17 @@ function parseCommas(string: any) {
 const ExpandedMuniRow: React.FC<ExpandedMuniRowProps> = ({ data, node, selectedMuni, highlightedSites, sitesCount }) => {
   const quantitySites : number = getMuniTax(data, selectedMuni)[0];
   const averageDiff : number = getMuniTax(data, selectedMuni)[2];
+  const transitSites : number = getMuniTransit(data, selectedMuni);
 
   return (
     <div css={containerStyle}>
       <h2>Summary Statistics</h2>
-      <p className="value"><span css={bold}>{parseCommas(parseSingle(quantitySites))}</span></p>
+      <p className="value"><span css={bold}>{parseCommas(parseToString(quantitySites))}</span></p>
       <p className="field">Sites</p>
       <p className="value"><span css={bold}>{parseCommas(parseSingle(getMuniSiteArea(data, selectedMuni)))}</span></p>
       <p className="field">Acres Sites Area</p>
-      <p className="value"><span css={bold}>{getMuniTransit(data, selectedMuni)}</span></p>
-      <p className="field">Sites Near MBTA Transit</p>
+      <p className="value"><span css={bold}>{transitSites}</span></p>
+      <p className="field">{transitSites === 1 ? "Site Near MBTA Transit" : "Sites Near MBTA Transit"}</p>
       <p className="value"><span css={bold}>${parseCommas(parseToString(averageDiff))}</span></p>
       <p className="field">Average New Tax Revenue Per Site</p>
       <p className="value"><span css={bold}>{parseCommas(parseToString(getPotentialUnits(data, selectedMuni)))}</span></p>

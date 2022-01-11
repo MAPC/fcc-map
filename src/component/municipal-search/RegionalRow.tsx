@@ -71,7 +71,7 @@ function getRegionalSiteArea(data: Array<CsvData>): number {
   let siteAreaArray: Array<number> = [];
   let siteAreaSum: number = 0;
   data.forEach((elem) => {
-    siteAreaArray.push(+elem.buildarea_ac)
+    siteAreaArray.push(+elem.sitearea_ac)
     return siteAreaArray;
   })
   if (siteAreaArray.length > 0) {
