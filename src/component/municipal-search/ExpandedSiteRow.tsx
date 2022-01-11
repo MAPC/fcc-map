@@ -106,7 +106,7 @@ function getStation(node: CsvData) {
   if (node.statname !== "") {
     return node.statname;
   } else {
-    return "-"
+    return "None within 0.5 miles"
   }
 }
 
@@ -127,15 +127,15 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
       <p className="value"><span css={bold}>{parseToString(+node.Number_of_Parcels_on_Site)}</span></p>
       <p className="field">{+node.Number_of_Parcels_on_Site > 1 ? "Parcels" : "Parcel"}</p>
       <p className="value"><span css={bold}>{parseCommas(parseDouble(+node.buildarea_ac))}</span></p>
-      <p className="field">Potentially Buildable Area (acres)</p>
+      <p className="field">Acres of Potentially Buildable Area</p>
       <p className="value"><span css={bold}>${parseCommas(parseDouble(+node.land_value))}</span></p>
       <p className="field">Assessed Land Value</p>
       <p className="value"><span css={bold}>${parseCommas(parseDouble(+node.bldg_value))}</span></p>
       <p className="field">Assessed Building Value</p>
-      <p className="value"><span css={bold}>${parseCommas(parseDouble(+node.Tax_Revenue__before_retrofit_))}</span></p>
-      <p className="field">Estimated Current Tax Revenue</p>
-      <p className="value"><span css={bold}>{}</span></p>
-      <p className="field">Estimated Paved Area</p>
+      {/* <p className="value"><span css={bold}>${parseCommas(parseDouble(node.Tax_Revenue__before_retrofit_))}</span></p>
+      <p className="field">Estimated Current Tax Revenue</p> */}
+      <p className="value"><span css={bold}>{parseCommas(parseDouble(+node.pavear_ac))}</span></p>
+      <p className="field">Acres of Estimated Paved Area</p>
       <p className="value"><span css={bold}>{getStation(node)}</span></p>
       <p className="field">Transit Station Area</p>
       <p className="value"><span css={bold}>{+node.disttosewerft > 0 ? "Yes" : "No"}</span></p>
@@ -143,7 +143,7 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
 
       <h3>Redevelopment Suitability and Potential</h3>
       <p className="value"><span css={bold}>{getCapacityRange(+node.Estimated_Capacity__all_residential_)}</span></p>
-      <p className="field">Potential Housing Capacity (units)</p>
+      <p className="field">Units of Potential Housing Capacity</p>
       <p className="value"><span css={bold}>{getNewTaxRange(+node.Site_Tax_Revenue_Change)}</span></p>
       <p className="field">Estimated New Tax Revenue</p>
       <p className="value"><span css={bold}>{parseDouble(+node.Growth_Potential_Score)}/1</span></p>

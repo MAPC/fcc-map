@@ -122,7 +122,7 @@ function getPotentialUnits(data: Array<CsvData>): number {
   let unitsArray: Array<number> = [];
   let unitsSum: number = 0;
   data.forEach((e) => {
-    if (+e.regipctile >= 90) {
+    if (e.top10muni === "1") {
       unitsArray.push(+e.Estimated_Capacity__all_residential_)
     }
     return unitsArray;
@@ -140,9 +140,9 @@ function getTaxTopTen(data: Array<CsvData>): number {
   let taxesArray: Array<number> = [];
   let taxesSum: number = 0;
   data.forEach((e) => {
-    // if (e.municipal === selectedMuni && +e.munpctile >= 90) {
+    if (e.top10muni === "1") {
       taxesArray.push(+e.Tax_Revenue__after_retrofit_)
-    // }
+    }
     return taxesArray;
   })
   if (taxesArray.length > 0) {
