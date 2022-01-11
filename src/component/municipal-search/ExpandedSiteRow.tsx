@@ -51,6 +51,11 @@ function parseToString(input: number): string {
   return input.toFixed(0);
 }
 
+// one decimal places
+function parseSingle(input: number): string {
+  return input.toFixed(1);
+}
+
 // two decimal places
 function parseDouble(input: number): string {
   return input.toFixed(2);
@@ -128,12 +133,10 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
       <p className="field">{+node.Number_of_Parcels_on_Site > 1 ? "Parcels" : "Parcel"}</p>
       <p className="value"><span css={bold}>{parseCommas(parseDouble(+node.buildarea_ac))}</span></p>
       <p className="field">Acres of Potentially Buildable Area</p>
-      <p className="value"><span css={bold}>${parseCommas(parseDouble(+node.land_value))}</span></p>
+      <p className="value"><span css={bold}>${parseCommas(parseToString(+node.land_value))}</span></p>
       <p className="field">Assessed Land Value</p>
-      <p className="value"><span css={bold}>${parseCommas(parseDouble(+node.bldg_value))}</span></p>
+      <p className="value"><span css={bold}>${parseCommas(parseToString(+node.bldg_value))}</span></p>
       <p className="field">Assessed Building Value</p>
-      {/* <p className="value"><span css={bold}>${parseCommas(parseDouble(node.Tax_Revenue__before_retrofit_))}</span></p>
-      <p className="field">Estimated Current Tax Revenue</p> */}
       <p className="value"><span css={bold}>{parseCommas(parseDouble(+node.pavear_ac))}</span></p>
       <p className="field">Acres of Estimated Paved Area</p>
       <p className="value"><span css={bold}>{getStation(node)}</span></p>
