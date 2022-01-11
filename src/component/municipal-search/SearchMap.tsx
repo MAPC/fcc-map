@@ -149,17 +149,9 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             setMuni(handleClick(e.features));
           }
           else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try")) {
-            // console.log(e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try").properties);  
             toggleRegion(false);
             setSite(e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try").properties);  
             setMuni(e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try").properties.municipal);
-            setViewport({
-              ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
-            })
-          }
-          else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2022_01_10_try-2nfblc")) {
-            // console.log(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2022_01_10_try-2nfblc").properties);  
           }
           else if (e.features && e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea")) {
             toggleRegion(false);
@@ -167,7 +159,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             setSite(false);
             setViewport({
               ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
+              longitude: (e.lngLat[0] - 0.04), latitude: e.lngLat[1], transitionDuration: 1000
             });
           } else {
             toggleRegion(true);
@@ -282,35 +274,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             }}
           /> 
         </Source>
-        <Source id="Sites_highlight" type="vector" url="mapbox://ihill.3peuohxm">
-          <Layer
-            type="line"
-            id="Sites (highlight)"
-            source="Sites_highlight"
-            source-layer="Sites_mp_clean_2022_01_10_try-2nfblc"
-            paint={{
-              'line-width':
-              [
-                'interpolate',
-                ['linear'],
-                ['zoom'],
-                8, 
-                15, 
-                16, 
-                5,
-              ],
-              'line-color': `${themeColors.gold}`,
-              'line-opacity': highlightedSites.length > 0 ? [
-                'match',
-                ['get', 'site_oid'],
-                highlightedSites,
-                1,
-                0
-              ]
-              : 0
-            }}
-          /> 
-        </Source>
         <Source id="Sites" type="vector" url="mapbox://ihill.cky9mrr961z0l22o0mt0om0ft-0qnzr">
           <Layer
             type="circle"
@@ -356,6 +319,35 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
               ]
             }}
           />
+        </Source>
+        <Source id="Sites_highlight" type="vector" url="mapbox://ihill.3peuohxm">
+          <Layer
+            type="line"
+            id="Sites (highlight)"
+            source="Sites_highlight"
+            source-layer="Sites_mp_clean_2022_01_10_try-2nfblc"
+            paint={{
+              'line-width':
+              [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                8, 
+                15, 
+                16, 
+                5,
+              ],
+              'line-color': `${themeColors.gold}`,
+              'line-opacity': highlightedSites.length > 0 ? [
+                'match',
+                ['get', 'site_oid'],
+                highlightedSites,
+                1,
+                0
+              ]
+              : 0
+            }}
+          /> 
         </Source>
         <div css={navigationStyle}>
           <NavigationControl />
