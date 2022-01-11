@@ -212,6 +212,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
           }, [])}
           marker={false}
           placeholder="Search for a municipality"
+          // value={selectedMuni}
         />
         {popupSite?.municipal === selectedMuni ? 
           showPopup && (
