@@ -137,7 +137,7 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
       <p className="field">Assessed Land Value</p>
       <p className="value"><span css={bold}>${parseCommas(parseToString(+node.bldg_value))}</span></p>
       <p className="field">Assessed Building Value</p>
-      <p className="value"><span css={bold}>{parseCommas(parseDouble(+node.pavear_ac))}</span></p>
+      <p className="value"><span css={bold}>{parseCommas(parseSingle(+node.pavear_ac))}</span></p>
       <p className="field">Acres of Estimated Paved Area</p>
       <p className="value"><span css={bold}>{getStation(node)}</span></p>
       <p className="field">Transit Station Area</p>

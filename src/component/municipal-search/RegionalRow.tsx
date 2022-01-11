@@ -155,6 +155,11 @@ function parseToString(input: number): string {
   return input.toFixed(0);
 }
 
+// one decimal places
+function parseSingle(input: number): string {
+  return input.toFixed(1);
+}
+
 // two decimal places
 function parseDouble(input: number): string {
   return input.toFixed(2);
@@ -174,7 +179,7 @@ const RegionalRow: React.FC<RegionalRowProps> = ({ data, node, selectedMuni, hig
       <h2 className="margin-bottom">Summary Statistics</h2>
       <p className="value"><span css={bold}>{data.length}</span></p>
       <p className="field">Sites</p>
-      <p className="value"><span css={bold}>{parseCommas(parseDouble(getRegionalSiteArea(data)))}</span></p>
+      <p className="value"><span css={bold}>{parseCommas(parseSingle(getRegionalSiteArea(data)))}</span></p>
       <p className="field">Acres Sites Area</p>
       <p className="value"><span css={bold}>{getRegionalTransit(data)}</span></p>
       <p className="field">Sites Near MBTA Transit</p>

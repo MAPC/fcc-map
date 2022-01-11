@@ -132,6 +132,11 @@ function parseToString(input: number): string {
   return input.toFixed(0);
 }
 
+// one decimal places
+function parseSingle(input: number): string {
+  return input.toFixed(1);
+}
+
 // commas
 function parseCommas(string: any) {
   return string.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -146,7 +151,7 @@ const ExpandedMuniRow: React.FC<ExpandedMuniRowProps> = ({ data, node, selectedM
       <h2>Summary Statistics</h2>
       <p className="value"><span css={bold}>{quantitySites}</span></p>
       <p className="field">Sites</p>
-      <p className="value"><span css={bold}>{parseCommas(parseToString(getMuniSiteArea(data, selectedMuni)))}</span></p>
+      <p className="value"><span css={bold}>{parseCommas(parseSingle(getMuniSiteArea(data, selectedMuni)))}</span></p>
       <p className="field">Acres Sites Area</p>
       <p className="value"><span css={bold}>{getMuniTransit(data, selectedMuni)}</span></p>
       <p className="field">Sites Near MBTA Transit</p>
