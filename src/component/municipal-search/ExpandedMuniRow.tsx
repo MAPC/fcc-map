@@ -95,7 +95,7 @@ function getPotentialUnits(data: Array<CsvData>, selectedMuni: string|undefined)
   let unitsArray: Array<number> = [];
   let unitsSum: number = 0;
   data.filter((e) => {
-    if (e.municipal === selectedMuni && +e.munpctile >= 90) {
+    if (e.municipal === selectedMuni && e.top10muni === "1") {
       unitsArray.push(+e.Estimated_Capacity__all_residential_)
     }
     return unitsArray;
@@ -113,7 +113,7 @@ function getTaxTopTen(data: Array<CsvData>, selectedMuni: string|undefined): num
   let taxesArray: Array<number> = [];
   let taxesSum: number = 0;
   data.filter((e) => {
-    if (e.municipal === selectedMuni && +e.munpctile >= 90) {
+    if (e.municipal === selectedMuni && e.top10muni === "1") {
       taxesArray.push(+e.Tax_Revenue__after_retrofit_)
     }
     return taxesArray;
@@ -139,7 +139,6 @@ function parseCommas(string: any) {
 
 const ExpandedMuniRow: React.FC<ExpandedMuniRowProps> = ({ data, node, selectedMuni, highlightedSites, sitesCount }) => {
   const quantitySites : number = getMuniTax(data, selectedMuni)[0];
-  const differential : number = getMuniTax(data, selectedMuni)[1]; 
   const averageDiff : number = getMuniTax(data, selectedMuni)[2];
 
   return (
@@ -153,7 +152,7 @@ const ExpandedMuniRow: React.FC<ExpandedMuniRowProps> = ({ data, node, selectedM
       <p className="field">Sites Near MBTA Transit</p>
       <p className="value"><span css={bold}>${parseCommas(parseToString(averageDiff))}</span></p>
       <p className="field">Average New Tax Revenue Per Site</p>
-      <p className="value"><span css={bold}>{parseCommas(parseToString(getPotentialUnits(data, selectedMuni)))}</span></p>
+      <p className="value"><span css={bold}>{getPotentialUnits(data, selectedMuni)}</span></p>
       <p className="field">Potential Units, top 10% of sites</p>
       <p className="value"><span css={bold}>${parseCommas(parseToString(getTaxTopTen(data, selectedMuni)))}</span></p>
       <p className="field">Potential New Tax Revenue, top 10% of sites</p>

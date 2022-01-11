@@ -46,12 +46,12 @@ const Wrapper: React.FC = () => {
     <StaticQuery
       query={graphql`
         {
-          allSitesDigital20220104Csv {
+          allSitesDigital20220110Csv {
             nodes {
-              ECDF
               Estimated_Capacity__all_residential_
               Estimated_Capacity__some_commercial_
               FAR_after_retrofit
+              FAR_mixed_after_retrofit
               Growth_Potential_Score
               Healthy_Communities_Score
               Healthy_Watersheds_Score
@@ -64,7 +64,6 @@ const Wrapper: React.FC = () => {
               Site_Tax_Revenue_Change
               Submarket
               Tax_Revenue__after_retrofit_
-              Tax_Revenue__before_retrofit_
               Travel_Choices_Score
               aulsite_p
               bldg_value
@@ -95,6 +94,7 @@ const Wrapper: React.FC = () => {
               openspace_p
               othr_value
               parcel_addr
+              pavear_ac
               pctnonautocmt
               pub_ind
               regional_rank
@@ -105,6 +105,7 @@ const Wrapper: React.FC = () => {
               stattyp
               subregion
               subtype_id
+              top10muni
               total_valu
               totvalpacre
               transit_typ
@@ -121,13 +122,13 @@ const Wrapper: React.FC = () => {
       render={(data) => (
         <div css={wrapperStyle}>
           <MunicipalData
-            data={data.allSitesDigital20220104Csv.nodes}
+            data={data.allSitesDigital20220110Csv.nodes}
             selectedMuni={selectedMuni}
             sitesCount={sitesCount}
             setSitesCount={setSitesCount}
             selectedSite={selectedSite}
             setSite={setSite}
-            node={data.allSitesDigital20220104Csv.nodes}
+            node={data.allSitesDigital20220110Csv.nodes}
             containerRef={containerRef}
             highlightedSites={state.highlightedSites} //passing to SiteRow
             dispatch={dispatch}
@@ -135,7 +136,7 @@ const Wrapper: React.FC = () => {
             toggleRegion={toggleRegion}
           />
           <SearchMap
-            data={data.allSitesDigital20220104Csv.nodes}
+            data={data.allSitesDigital20220110Csv.nodes}
             selectedMuni={selectedMuni}
             setMuni={setMuni}
             selectedSite={selectedSite}
