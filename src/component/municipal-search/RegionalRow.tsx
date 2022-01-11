@@ -119,7 +119,7 @@ function getPotentialUnits(data: Array<CsvData>): number {
   let unitsSum: number = 0;
   data.forEach((e) => {
     if (e.top10muni === "1") {
-      unitsArray.push(+e.Estimated_Capacity__all_residential_)
+      unitsArray.push(+e.Estimated_Capacity__some_commercial_)
     }
     return unitsArray;
   })

@@ -96,7 +96,7 @@ function getPotentialUnits(data: Array<CsvData>, selectedMuni: string|undefined)
   let unitsSum: number = 0;
   data.filter((e) => {
     if (e.municipal === selectedMuni && e.top10muni === "1") {
-      unitsArray.push(+e.Estimated_Capacity__all_residential_)
+      unitsArray.push(+e.Estimated_Capacity__some_commercial_)
     }
     return unitsArray;
   })
