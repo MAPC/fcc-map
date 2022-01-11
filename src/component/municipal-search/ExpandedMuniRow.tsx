@@ -149,7 +149,7 @@ const ExpandedMuniRow: React.FC<ExpandedMuniRowProps> = ({ data, node, selectedM
   return (
     <div css={containerStyle}>
       <h2>Summary Statistics</h2>
-      <p className="value"><span css={bold}>{quantitySites}</span></p>
+      <p className="value"><span css={bold}>{parseCommas(parseSingle(quantitySites))}</span></p>
       <p className="field">Sites</p>
       <p className="value"><span css={bold}>{parseCommas(parseSingle(getMuniSiteArea(data, selectedMuni)))}</span></p>
       <p className="field">Acres Sites Area</p>
@@ -157,7 +157,7 @@ const ExpandedMuniRow: React.FC<ExpandedMuniRowProps> = ({ data, node, selectedM
       <p className="field">Sites Near MBTA Transit</p>
       <p className="value"><span css={bold}>${parseCommas(parseToString(averageDiff))}</span></p>
       <p className="field">Average New Tax Revenue Per Site</p>
-      <p className="value"><span css={bold}>{getPotentialUnits(data, selectedMuni)}</span></p>
+      <p className="value"><span css={bold}>{parseCommas(parseToString(getPotentialUnits(data, selectedMuni)))}</span></p>
       <p className="field">Potential Units, top 10% of sites</p>
       <p className="value"><span css={bold}>${parseCommas(parseToString(getTaxTopTen(data, selectedMuni)))}</span></p>
       <p className="field">Potential New Tax Revenue, top 10% of sites</p>

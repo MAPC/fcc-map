@@ -177,7 +177,7 @@ const RegionalRow: React.FC<RegionalRowProps> = ({ data, node, selectedMuni, hig
       <h2>Potential Retail Retrofit Sites in</h2>
       <h1>MAPC Region</h1>
       <h2 className="margin-bottom">Summary Statistics</h2>
-      <p className="value"><span css={bold}>{data.length}</span></p>
+      <p className="value"><span css={bold}>{parseCommas(parseToString(data.length))}</span></p>
       <p className="field">Sites</p>
       <p className="value"><span css={bold}>{parseCommas(parseSingle(getRegionalSiteArea(data)))}</span></p>
       <p className="field">Acres Sites Area</p>
