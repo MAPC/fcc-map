@@ -42,7 +42,7 @@ function filterData(
   if (selectedMuni) {
     data.sort((a: any, b: any) => 
       // choose sort-by attribute here
-      b.Quintile_Category - a.Quintile_Category
+      b.munqntile - a.munqntile
     );
     let count = data.filter(d => d.municipal == selectedMuni).length;
     setSitesCount(count);
