@@ -70,7 +70,6 @@ const buttonStyle = css`
 function getRegionalSiteArea(data: Array<CsvData>): number {
   let siteAreaArray: Array<number> = [];
   let siteAreaSum: number = 0;
-
   data.forEach((elem) => {
     siteAreaArray.push(+elem.buildarea_ac)
     return siteAreaArray;
@@ -86,15 +85,12 @@ function getRegionalSiteArea(data: Array<CsvData>): number {
 
 function getRegionalTransit(data: Array<CsvData>): number {
   let stationSum: number = 0;
-
   data.forEach((elem) => {
     if (elem.statname !== "") {
       stationSum++;
     }
     return stationSum;
-  })
-  console.log("stations", stationSum);
-  
+  })  
   return stationSum;
 }
 
