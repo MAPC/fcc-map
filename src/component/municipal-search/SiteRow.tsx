@@ -194,7 +194,7 @@ const SiteRow: React.FC<SiteRowProps> = ({
         <h2>{node.parcel_addr}</h2>
         <h2>Site {node.site_oid}</h2>
       </div>
-      {selectedSite.site_oid === node.site_oid ? showExpanded(data, dispatch, highlightedSites, node, selectedMuni, selectedSite, setSite, sitesCount) : ''}
+      {selectedSite && selectedSite.site_oid === node.site_oid ? showExpanded(data, dispatch, highlightedSites, node, selectedMuni, selectedSite, setSite, sitesCount) : ''}
     </li>
   )
 };
