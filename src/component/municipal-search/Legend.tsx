@@ -8,7 +8,7 @@ import { Circle, PushPinSimple } from 'phosphor-react';
 
 const legendStyle = css`
   background: ${themeColors.white};
-  height: 33.5rem;
+  height: auto;
   left: 47.5rem;
   margin: .5rem 0 0;
   padding: .5rem 2rem;
@@ -52,7 +52,7 @@ const Legend: React.FC = () => {
         <div css={highlightStyle}>
           <p><PushPinSimple size={14} weight="fill" color={themeColors.fontGray} /> Highlighted Site</p>
         </div>
-        <a css={linkStyle} href="http://http://rethinking-the-suburban-strip.mapc.org/">
+        <a css={linkStyle} href="http://rethinking-the-suburban-strip.mapc.org/">
           Read the Report
         </a>
       </div>
