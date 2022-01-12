@@ -6,9 +6,9 @@ This [site](https://mapc.github.io/retrofitting-search-map-embed/) is an interac
 
 ## Development
 
-This site was built with [Gatsby](https://www.gatsbyjs.com/) and uses yarn for package management. Install the Gatsby CLI with `npm install -g gatsby-cli`, then install local dependencies with `yarn install`. Run the site with `gatsby develop` and clear the cache with `gatsby clean`. Create working branches off of the `develop` branch, then merge commits from `develop` into `main` when ready to deploy to production. 
+This site was built with [Gatsby](https://www.gatsbyjs.com/) and uses yarn for package management. Install the Gatsby CLI with `yarn global add gatsby-cli`, then install local dependencies with `yarn install`. Run the site with `gatsby develop` and clear the cache with `gatsby clean`. Create working branches off of the `develop` branch, then merge commits from `develop` into `main` when ready to deploy to production. 
 
-To edit base layers or update data pulled for point and polygon features, use the credentials for [Mapbox](https://studio.mapbox.com/) in Dashlane.
+To edit base layers or update tabular and spatial data pulled for point and polygon features, the credentials for [Mapbox](https://studio.mapbox.com/) can be found in Dashlane.
 
 ## Testing
 
