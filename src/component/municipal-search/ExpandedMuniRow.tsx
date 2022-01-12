@@ -96,7 +96,7 @@ function getPotentialUnits(data: Array<CsvData>, selectedMuni: string|undefined)
   let unitsSum: number = 0;
   data.filter((e) => {
     if (e.municipal === selectedMuni && e.top10muni === "1") {
-      unitsArray.push(+e.Estimated_Capacity__all_residential_)
+      unitsArray.push(+e.Estimated_Capacity__some_commercial_)
     }
     return unitsArray;
   })
@@ -132,6 +132,11 @@ function parseToString(input: number): string {
   return input.toFixed(0);
 }
 
+// one decimal places
+function parseSingle(input: number): string {
+  return input.toFixed(1);
+}
+
 // commas
 function parseCommas(string: any) {
   return string.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -140,19 +145,20 @@ function parseCommas(string: any) {
 const ExpandedMuniRow: React.FC<ExpandedMuniRowProps> = ({ data, node, selectedMuni, highlightedSites, sitesCount }) => {
   const quantitySites : number = getMuniTax(data, selectedMuni)[0];
   const averageDiff : number = getMuniTax(data, selectedMuni)[2];
+  const transitSites : number = getMuniTransit(data, selectedMuni);
 
   return (
     <div css={containerStyle}>
       <h2>Summary Statistics</h2>
-      <p className="value"><span css={bold}>{quantitySites}</span></p>
+      <p className="value"><span css={bold}>{parseCommas(parseToString(quantitySites))}</span></p>
       <p className="field">Sites</p>
-      <p className="value"><span css={bold}>{parseCommas(parseToString(getMuniSiteArea(data, selectedMuni)))}</span></p>
+      <p className="value"><span css={bold}>{parseCommas(parseSingle(getMuniSiteArea(data, selectedMuni)))}</span></p>
       <p className="field">Acres Sites Area</p>
-      <p className="value"><span css={bold}>{getMuniTransit(data, selectedMuni)}</span></p>
-      <p className="field">Sites Near MBTA Transit</p>
+      <p className="value"><span css={bold}>{transitSites}</span></p>
+      <p className="field">{transitSites === 1 ? "Site Near MBTA Transit" : "Sites Near MBTA Transit"}</p>
       <p className="value"><span css={bold}>${parseCommas(parseToString(averageDiff))}</span></p>
       <p className="field">Average New Tax Revenue Per Site</p>
-      <p className="value"><span css={bold}>{getPotentialUnits(data, selectedMuni)}</span></p>
+      <p className="value"><span css={bold}>{parseCommas(parseToString(getPotentialUnits(data, selectedMuni)))}</span></p>
       <p className="field">Potential Units, top 10% of sites</p>
       <p className="value"><span css={bold}>${parseCommas(parseToString(getTaxTopTen(data, selectedMuni)))}</span></p>
       <p className="field">Potential New Tax Revenue, top 10% of sites</p>

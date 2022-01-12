@@ -71,7 +71,7 @@ function getRegionalSiteArea(data: Array<CsvData>): number {
   let siteAreaArray: Array<number> = [];
   let siteAreaSum: number = 0;
   data.forEach((elem) => {
-    siteAreaArray.push(+elem.buildarea_ac)
+    siteAreaArray.push(+elem.sitearea_ac)
     return siteAreaArray;
   })
   if (siteAreaArray.length > 0) {
@@ -119,7 +119,7 @@ function getPotentialUnits(data: Array<CsvData>): number {
   let unitsSum: number = 0;
   data.forEach((e) => {
     if (e.top10muni === "1") {
-      unitsArray.push(+e.Estimated_Capacity__all_residential_)
+      unitsArray.push(+e.Estimated_Capacity__some_commercial_)
     }
     return unitsArray;
   })
@@ -155,6 +155,11 @@ function parseToString(input: number): string {
   return input.toFixed(0);
 }
 
+// one decimal places
+function parseSingle(input: number): string {
+  return input.toFixed(1);
+}
+
 // two decimal places
 function parseDouble(input: number): string {
   return input.toFixed(2);
@@ -172,9 +177,9 @@ const RegionalRow: React.FC<RegionalRowProps> = ({ data, node, selectedMuni, hig
       <h2>Potential Retail Retrofit Sites in</h2>
       <h1>MAPC Region</h1>
       <h2 className="margin-bottom">Summary Statistics</h2>
-      <p className="value"><span css={bold}>{data.length}</span></p>
+      <p className="value"><span css={bold}>{parseCommas(parseToString(data.length))}</span></p>
       <p className="field">Sites</p>
-      <p className="value"><span css={bold}>{parseCommas(parseDouble(getRegionalSiteArea(data)))}</span></p>
+      <p className="value"><span css={bold}>{parseCommas(parseSingle(getRegionalSiteArea(data)))}</span></p>
       <p className="field">Acres Sites Area</p>
       <p className="value"><span css={bold}>{getRegionalTransit(data)}</span></p>
       <p className="field">Sites Near MBTA Transit</p>
