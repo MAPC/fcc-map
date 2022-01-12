@@ -10,7 +10,7 @@ This site was built with [Gatsby](https://www.gatsbyjs.com/) and uses yarn for p
 
 ## Mapbox
 
-To edit base or source layers for the map, the credentials for [Mapbox](https://studio.mapbox.com/) can be found in Dashlane.
+To edit base or source layers for the map, the credentials for [Mapbox](https://studio.mapbox.com/) can be found in [Dashlane](https://app.dashlane.com/login).
 
 Tabular datasets must be uploaded first on the Datasets page, then exported to Tilesets in order to use and style. For spatial datasets containing polygon features, upload them directly up to Tilesets, making sure that they do not exceed 10MB and are projected using the EPSG:4326 coordinate system. 
 
