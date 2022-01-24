@@ -147,20 +147,16 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             toggleRegion(false);
             setSite(false);
             setMuni(handleClick(e.features));
-          }
-          else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try")) {
+          } else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try")) {
             toggleRegion(false);
             setSite(e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try").properties);  
             setMuni(e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try").properties.municipal);
-          }
-          else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2022_01_10_try-2nfblc")) {
+            console.log("point properties", e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try").properties);
+          } else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2022_01_10_try-3wjmzw")) {
             toggleRegion(false);
-            // setViewport({
-            //   ...viewport,
-            //   longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
-            // });
-          }
-          else if (e.features && e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea")) {
+            console.log("polygon properties", e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2022_01_10_try-3wjmzw").properties);
+            setSite(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2022_01_10_try-3wjmzw").properties);  
+          } else if (e.features && e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea")) {
             toggleRegion(false);
             if ((e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea").properties.municipal) !== selectedMuni) {
               setViewport({
@@ -253,12 +249,12 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             }}
           />
         </Source>
-        <Source id="Sites_polygons" type="vector" url="mapbox://ihill.3peuohxm">
+        <Source id="Sites_polygons" type="vector" url="mapbox://ihill.8x938bsn">
           <Layer
             type="fill"
             id="Sites (fill)"
             source="Sites_polygons"
-            source-layer="Sites_mp_clean_2022_01_10_try-2nfblc"
+            source-layer="Sites_mp_clean_2022_01_10_try-3wjmzw"
             paint={{
               'fill-opacity':
               [
@@ -270,17 +266,24 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
                 14,
                 0.6,
               ],
-              'fill-color': 
+              'fill-color': selectedMuni ? [
+                'match',
+                ['get', 'municipal'],
+                [`${selectedMuni}`],
                 [
                   'match',
                   ['get', 'munqntile'],
-                  1, `${themeColors.quintile1}`,
-                  2, `${themeColors.quintile2}`,
-                  3, `${themeColors.quintile3}`,
-                  4, `${themeColors.quintile4}`,
-                  5, `${themeColors.quintile5}`,
+                  "1", `${themeColors.quintile1}`,
+                  "2", `${themeColors.quintile2}`,
+                  "3", `${themeColors.quintile3}`,
+                  "4", `${themeColors.quintile4}`,
+                  "5", `${themeColors.quintile5}`,
                   `${themeColors.fontLightGray}`
-                ]
+                ],
+                `${themeColors.fontLightGray}`
+              ]
+              :
+              `${themeColors.fontLightGray}`
             }}
           /> 
         </Source>
@@ -330,12 +333,12 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             }}
           />
         </Source>
-        <Source id="Sites_highlight" type="vector" url="mapbox://ihill.3peuohxm">
+        <Source id="Sites_highlight" type="vector" url="mapbox://ihill.8x938bsn">
           <Layer
             type="line"
             id="Sites (highlight)"
             source="Sites_highlight"
-            source-layer="Sites_mp_clean_2022_01_10_try-2nfblc"
+            source-layer="Sites_mp_clean_2022_01_10_try-3wjmzw"
             paint={{
               'line-width':
               [
