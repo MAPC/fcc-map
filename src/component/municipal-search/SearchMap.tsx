@@ -153,14 +153,23 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             setSite(e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try").properties);  
             setMuni(e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try").properties.municipal);
           }
+          else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2022_01_10_try-2nfblc")) {
+            toggleRegion(false);
+            // setViewport({
+            //   ...viewport,
+            //   longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
+            // });
+          }
           else if (e.features && e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea")) {
             toggleRegion(false);
+            if ((e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea").properties.municipal) !== selectedMuni) {
+              setViewport({
+                ...viewport,
+                longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
+              });
+            }
             setMuni(e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea").properties.municipal);
             setSite(false);
-            setViewport({
-              ...viewport,
-              longitude: (e.lngLat[0] - 0.04), latitude: e.lngLat[1], transitionDuration: 1000
-            });
           } else {
             toggleRegion(true);
             setSite(false);
