@@ -354,7 +354,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
               'line-opacity': highlightedSites.length > 0 ? [
                 'match',
                 ['get', 'site_oid'],
-                highlightedSites,
+                [`${highlightedSites}`],
                 1,
                 0
               ]
