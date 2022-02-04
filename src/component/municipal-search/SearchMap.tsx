@@ -92,6 +92,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
 
   const handleGeocoderViewportChange = useCallback((newViewport) => {
     const geocoderDefaultOverrides = { transitionDuration: 1000 };
+    toggleRegion(false);
     return handleViewportChange({
       ...newViewport,
       ...geocoderDefaultOverrides,

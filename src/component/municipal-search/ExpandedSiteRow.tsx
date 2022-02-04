@@ -141,7 +141,7 @@ const ExpandedSiteRow: React.FC<ExpandedSiteRowProps> = ({
       <p className="field">Acres of Estimated Paved Area</p>
       <p className="value"><span css={bold}>{getStation(node)}</span></p>
       <p className="field">Transit Station Area</p>
-      <p className="value"><span css={bold}>{+node.disttosewerft > 0 ? "Yes" : "No"}</span></p>
+      <p className="value"><span css={bold}>{+node.disttosewerft > 2640 ? "No" : "Yes"}</span></p>
       <p className="field">Municipal Sewer Nearby</p>
 
       <h3>Redevelopment Suitability and Potential</h3>
