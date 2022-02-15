@@ -1,8 +1,8 @@
 {
-  "name": "retrofitting-suburbia",
+  "name": "fcc-map",
   "version": "1.0.0",
   "private": true,
-  "description": "Website for MAPC's Retrofitting Suburbia research",
+  "description": "Website for MAPC's FCC Map for the Digital Equity Report",
   "author": "MAPC Digital Services <digitalservices@mapc.org>",
   "license": "CDDL-1.0",
   "scripts": {
@@ -50,10 +50,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/MAPC/retrofitting-suburbia"
+    "url": "https://github.com/MAPC/fcc-map"
   },
   "bugs": {
-    "url": "https://github.com/MAPC/retrofitting-suburbia/issues"
+    "url": "https://github.com/MAPC/fcc-map/issues"
   },
   "devDependencies": {
     "@types/d3": "^7.0.0",

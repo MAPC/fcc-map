@@ -5,7 +5,7 @@ require('dotenv').config({
 module.exports = {
   pathPrefix: "/fcc-map",
   siteMetadata: {
-    title: 'retrofitting-suburbia',
+    title: 'FCC Residential Broadband Map',
   },
   plugins: [
     'gatsby-plugin-emotion',

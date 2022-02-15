@@ -102,7 +102,7 @@ const SearchMap: React.FC<MunicipalMapProps> = () => {
   return (
     <div css={mapStyle}>
       <div className="radio-buttons">
-        <input type="radio" value="Home Fiber" name="Home Fiber" onClick={() => toggleHomeFiber(!homeFiber)} /> Home Fiber
+        <input type="radio" value="Fiber" name="Fiber" onClick={() => toggleHomeFiber(!homeFiber)} /> Fiber
         <input type="radio" value="Fiber, Wireless, and Cable" name="Fiber, Wireless, and Cable" onClick={() => toggleAllTech(!allTech)} /> Fiber, Wireless, and Cable
       </div>
       <ReactMapGL
