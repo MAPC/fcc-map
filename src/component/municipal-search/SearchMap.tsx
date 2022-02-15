@@ -7,7 +7,6 @@ import { jsx, css } from '@emotion/react';
 import { themeColors, fonts } from '../../utils/theme';
 import ReactMapGL, { Source, Layer, NavigationControl, Popup, GeolocateControl } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
-import { CsvData } from './MunicipalData';
 import municipalities from '../../utils/municipalities';
 
 interface MunicipalMapProps {

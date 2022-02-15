@@ -4,7 +4,6 @@ import React, { useState, useRef, useReducer } from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import { jsx, css } from '@emotion/react';
 import { themeColors } from '../../utils/theme';
-import MunicipalData from './MunicipalData';
 import SearchMap from './SearchMap';
 
 const wrapperStyle = css`
