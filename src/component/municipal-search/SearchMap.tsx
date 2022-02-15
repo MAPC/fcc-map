@@ -12,7 +12,6 @@ import municipalities from '../../utils/municipalities';
 
 interface MunicipalMapProps {
   containerRef: React.RefObject<HTMLInputElement>,
-  data: Array<CsvData>,
   dispatch: React.Dispatch<unknown>,
   highlightedSites: Array<number|number>
   region: boolean,
@@ -34,10 +33,6 @@ const mapStyle = css`
   top: 0;
 `;
 
-const inputStyle = css`
-  z-index: 2;
-`;
-
 const popupStyle = css`
   padding: 0 0.4rem;
   h1 {
@@ -53,15 +48,7 @@ const popupStyle = css`
   }
 `;
 
-function handleClick(e: Array<mapboxgl.EventData>): string {
-  const muniPolygon = e.find((feature) => feature.layer.id === 'Municipal highlight');
-  if (muniPolygon) {
-    return muniPolygon.properties.municipal;
-  }
-  return '';
-}
-
-const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, setMuni, selectedSite, setSite, containerRef, highlightedSites, region, toggleRegion }) => {
+const SearchMap: React.FC<MunicipalMapProps> = () => {
   const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
   useEffect(() => {
@@ -76,9 +63,9 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
   }, []);
 
   const [viewport, setViewport] = useState({
-    latitude: 42.368020,
-    longitude: -71.211580,
-    zoom: 8.85,
+    latitude: 42.41722,
+    longitude: -71.02446,
+    zoom: 12.4,
     transitionDuration: 1000
   });
 
@@ -86,46 +73,39 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
   const [lngLat, setLngLat] = useState<any>();
   const [popupSite, setPopupSite] = useState<any>();
 
+  const [homeFiber, toggleHomeFiber] = useState<boolean>(true);
+  const [allTech, toggleAllTech] = useState<boolean>(true);
+
   const handleViewportChange = useCallback(
     (viewport) => setViewport(viewport), [],
   );
 
-  const handleGeocoderViewportChange = useCallback((newViewport) => {
-    const geocoderDefaultOverrides = { transitionDuration: 1000 };
-    toggleRegion(false);
-    return handleViewportChange({
-      ...newViewport,
-      ...geocoderDefaultOverrides,
-    });
-  }, []);
-
-  const bold = css`
-    font-weight: 600;
-    padding-right: 2px;
-    color: black;
-  `;
-
-  function parseDouble(input: number): string {
-    return input.toFixed(2);
-  }
-
-  function ordinalSuffix(i: number): string {
-    var j = i % 10,
-        k = i % 100;
-    if (j == 1 && k != 11) {
-        return i + "st";
+  function parseTechCode (techCode: string) {
+    switch (techCode) {
+      case "42":
+      case "43":
+      console.log("Cable");
+      return "Cable";
+      break;
+      case "50":
+      console.log("Fiber");
+      return "Fiber";
+      break;
+      case "70":
+      console.log("Wireless");
+      return "Wireless";
+      break;
+      default:
+      console.log("other");  
     }
-    if (j == 2 && k != 12) {
-        return i + "nd";
-    }
-    if (j == 3 && k != 13) {
-        return i + "rd";
-    }
-    return i + "th";
   }
 
   return (
     <div css={mapStyle}>
+      <div className="radio-buttons">
+        <input type="radio" value="Home Fiber" name="Home Fiber" onClick={() => toggleHomeFiber(!homeFiber)} /> Home Fiber
+        <input type="radio" value="Fiber, Wireless, and Cable" name="Fiber, Wireless, and Cable" onClick={() => toggleAllTech(!allTech)} /> Fiber, Wireless, and Cable
+      </div>
       <ReactMapGL
         {...viewport}
         ref={mapRef}
@@ -133,86 +113,33 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
         height="100vh"
         onViewportChange={handleViewportChange}
         mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
-        mapStyle="mapbox://styles/ihill/cknj7cvb513e317rxm4a8i9ah"
+        // mapStyle="mapbox://styles/ihill/ckzmwlj7a000814p5udbl3din"
+        mapStyle="mapbox://styles/mapbox/streets-v11"
         scrollZoom={true}
-        onLoad={() => {
-            toggleRegion(true);
-            setMuni(undefined);
-            setViewport({
-              ...viewport,
-              longitude: -71.211580, latitude: 42.368020, transitionDuration: 1000
-            })
-        }}
-        onClick={(e) => {
-          if (selectedMuni === undefined) {
-            toggleRegion(false);
-            setSite(false);
-            setMuni(handleClick(e.features));
-          } else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try")) {
-            toggleRegion(false);
-            setSite(e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try").properties);  
-            setMuni(e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try").properties.municipal);
-            console.log("point properties", e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try").properties);
-          } else if (e.features && e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2022_01_10_try-3wjmzw")) {
-            toggleRegion(false);
-            console.log("polygon properties", e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2022_01_10_try-3wjmzw").properties);
-            setSite(e.features.find((row) => row.sourceLayer === "Sites_mp_clean_2022_01_10_try-3wjmzw").properties);  
-          } else if (e.features && e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea")) {
-            toggleRegion(false);
-            if ((e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea").properties.municipal) !== selectedMuni) {
-              setViewport({
-                ...viewport,
-                longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
-              });
-            }
-            setMuni(e.features.find((row) => row.sourceLayer === "MAPC_borders-0im3ea").properties.municipal);
-            setSite(false);
-          } else {
-            toggleRegion(true);
-            setSite(false);
-            setMuni(undefined);
-            setViewport({
-              ...viewport,
-              longitude: e.lngLat[0], latitude: e.lngLat[1], transitionDuration: 1000
-            });
-          }
-        }}
+        // onLoad={() => {
+        //     setViewport({
+        //       ...viewport,
+        //       longitude: -71.211580, latitude: 42.368020, transitionDuration: 1000
+        //     })
+        // }}
         onHover={(e) => {          
-          if (e.features && e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try")) {
+          if (e.features && e.features.find((row) => row.sourceLayer === "fcc_fiber_rcn_starry_wgs84-crdtpq")) {
             setLngLat(e.lngLat);
             togglePopup(true);
-            setPopupSite(e.features.find((row) => row.sourceLayer === "Sites_digital_2022_01_10_try").properties);
+            setPopupSite(e.features.find((row) => row.sourceLayer === "fcc_fiber_rcn_starry_wgs84-crdtpq").properties);
+            console.log(e.features.find((row) => row.sourceLayer === "fcc_fiber_rcn_starry_wgs84-crdtpq").properties);
+            
+          } else if (e.features && e.features.find((row) => row.sourceLayer === "broadband_providers_block10_w-8cfm1t")) {
+            setLngLat(e.lngLat);
+            togglePopup(true);
+            setPopupSite(e.features.find((row) => row.sourceLayer === "broadband_providers_block10_w-8cfm1t").properties);
+            console.log(e.features.find((row) => row.sourceLayer === "broadband_providers_block10_w-8cfm1t").properties);
           } else {
             togglePopup(false);
           }
         }}
       >
-        <Geocoder
-          css={inputStyle}
-          containerRef={containerRef}
-          mapRef={mapRef}
-          onViewportChange={handleGeocoderViewportChange}
-          mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
-          types="place"
-          bbox={useMemo(() => ([-71.66866501431952, 41.97523050594343, -70.53487628480008, 42.74357855916575]), [])}
-          filter={useCallback((item) => {
-            if (municipalities.find(row => item.place_name.includes(`${row}, Massachusetts`))) {
-              return true
-            }
-            return false;
-          }, [])}
-          onResult={useCallback((e) => {
-            if (e.result.text === 'Manchester-by-the-Sea') {
-              setMuni('Manchester')
-            } else {              
-              setMuni(e.result.text)
-            }
-          }, [])}
-          marker={false}
-          placeholder="Search for a municipality"
-          // value={selectedMuni}
-        />
-        {popupSite?.municipal === selectedMuni ? 
+        {popupSite ? 
           showPopup && (
             <Popup
               latitude={lngLat[1]}
@@ -222,11 +149,10 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
               anchor="top"
             >
               <div css={popupStyle}>
-                <h2>{popupSite?.parcel_addr}</h2>
-                <h1>{popupSite?.municipal} | Site {popupSite?.site_oid}</h1>
-                <p><span css={bold}>{parseDouble(+popupSite?.["Overall Score"])}/4</span> Overall Score</p> 
-                <p><span css={bold}>{ordinalSuffix(+popupSite?.municipal_rank)}</span> in {popupSite?.municipal}</p>
-                <p><span css={bold}>{ordinalSuffix(+popupSite?.regional_rank)}</span> in the Region</p>
+                <h2>{popupSite?.ProviderName}</h2>
+                <h2>{parseTechCode(popupSite?.TechCode)}</h2>
+                <h2>Provider Distinct Count: {popupSite?.Nmbr__P}</h2>
+                <h2>Providers: {popupSite?.Prvdr_1} <br/>{popupSite?.Prvdr_2} <br/>{popupSite?.Prvdr_3} <br/>{popupSite?.Prvdr_4} <br/>{popupSite?.Prvdr_5} <br/>{popupSite?.Prvdr_6}</h2>
               </div>
             </Popup>
           )
@@ -239,129 +165,71 @@ const SearchMap: React.FC<MunicipalMapProps> = ({ data, selectedMuni, dispatch, 
             source="Municipalities"
             source-layer="MAPC_borders-0im3ea"
             paint={{
-              'fill-color': selectedMuni ? [
+              'fill-color': [
                 'match',
                 ['get', 'municipal'],
-                [`${selectedMuni}`],
-                'hsla(0, 0%, 0%, 0)', // if selectedMuni, no overlay
-                'hsla(0, 0%, 0%, 0.2)'
+                'Chelsea',
+                'hsla(0, 0%, 0%, 0)',
+                'Everett',
+                'hsla(0, 0%, 0%, 0)',
+                'Revere',
+                'hsla(0, 0%, 0%, 0)',
+                'hsla(0, 0%, 0%, 0.4)' // if not one of our three munis, overlay
               ]
-              : 'hsla(0, 0%, 0%, 0)'
             }}
           />
         </Source>
-        <Source id="Sites_polygons" type="vector" url="mapbox://ihill.8x938bsn">
+        <Source id="Fiber, Wireless, Cable" type="vector" url="mapbox://ihill.arnam9d2">
           <Layer
             type="fill"
-            id="Sites (fill)"
-            source="Sites_polygons"
-            source-layer="Sites_mp_clean_2022_01_10_try-3wjmzw"
+            id="Fiber, Wireless, Cable (fill)"
+            source="Fiber, Wireless, Cable"
+            source-layer="broadband_providers_block10_w-8cfm1t"
             paint={{
-              'fill-opacity':
-              [
-                'interpolate',
-                ['linear'],
-                ['zoom'],
-                10,
-                0,
-                14,
-                0.6,
-              ],
-              'fill-color': selectedMuni ? [
+              'fill-color': 'blue',
+              'fill-opacity': allTech ? [
                 'match',
-                ['get', 'municipal'],
-                [`${selectedMuni}`],
-                [
-                  'match',
-                  ['get', 'munqntile'],
-                  "1", `${themeColors.quintile1}`,
-                  "2", `${themeColors.quintile2}`,
-                  "3", `${themeColors.quintile3}`,
-                  "4", `${themeColors.quintile4}`,
-                  "5", `${themeColors.quintile5}`,
-                  `${themeColors.fontLightGray}`
-                ],
-                `${themeColors.fontLightGray}`
-              ]
-              :
-              `${themeColors.fontLightGray}`
-            }}
-          /> 
-        </Source>
-        <Source id="Sites" type="vector" url="mapbox://ihill.cky9mrr961z0l22o0mt0om0ft-0qnzr">
-          <Layer
-            type="circle"
-            id="Sites (circles)"
-            source="Sites"
-            source-layer="Sites_digital_2022_01_10_try"
-            paint={{
-              'circle-color': selectedMuni ? [
-                'match',
-                ['get', 'municipal'],
-                [`${selectedMuni}`],
-                [
-                  'match',
-                  ['get', 'munqntile'],
-                  '1', `${themeColors.quintile1}`,
-                  '2', `${themeColors.quintile2}`,
-                  '3', `${themeColors.quintile3}`,
-                  '4', `${themeColors.quintile4}`,
-                  '5', `${themeColors.quintile5}`,
-                  `${themeColors.fontLightGray}`
-                ],
-                `${themeColors.fontLightGray}`
-              ]
-              : 
-              [
-                'match',
-                ['get', 'munqntile'],
-                '1', `${themeColors.quintile1}`,
-                '2', `${themeColors.quintile2}`,
-                '3', `${themeColors.quintile3}`,
-                '4', `${themeColors.quintile4}`,
-                '5', `${themeColors.quintile5}`,
-                `${themeColors.fontLightGray}`
-              ], 
-              'circle-radius': [
-                'interpolate',
-                ['linear'],
-                ['zoom'],
-                8,
+                ['get', 'Nmbr__P'],
+                1,
+                0.1,
+                2,
+                0.2,
                 3,
-                12,
-                6
-              ]
+                0.3,
+                4,
+                0.5,
+                5,
+                0.7,
+                6,
+                0.9,
+                0
+              ] : 0
             }}
           />
         </Source>
-        <Source id="Sites_highlight" type="vector" url="mapbox://ihill.8x938bsn">
+        <Source id="Home Fiber" type="vector" url="mapbox://ihill.4cew0qe1">
+          <Layer
+            type="fill"
+            id="Home Fiber (fill)"
+            source="Home Fiber"
+            source-layer="fcc_fiber_rcn_starry_wgs84-crdtpq"
+            paint={{
+              'fill-color': 'pink',
+              'fill-opacity': homeFiber ? 1 : 0,
+            }}
+          />
+        </Source>
+        <Source id="All Blocks" type="vector" url="mapbox://ihill.4rxyz9qn">
           <Layer
             type="line"
-            id="Sites (highlight)"
-            source="Sites_highlight"
-            source-layer="Sites_mp_clean_2022_01_10_try-3wjmzw"
+            id="Blocks (border)"
+            source="Blocks"
+            source-layer="blocks_chelsea_everett_revere-ak2dce"
             paint={{
-              'line-width':
-              [
-                'interpolate',
-                ['linear'],
-                ['zoom'],
-                8, 
-                15, 
-                16, 
-                5,
-              ],
-              'line-color': `${themeColors.gold}`,
-              'line-opacity': highlightedSites.length > 0 ? [
-                'match',
-                ['get', 'site_oid'],
-                [`${highlightedSites}`],
-                1,
-                0
-              ]
-              : 0
+              'line-color': 'slategray',
+              'line-width': 1
             }}
-          /> 
+          />
         </Source>
         <div css={navigationStyle}>
           <NavigationControl />

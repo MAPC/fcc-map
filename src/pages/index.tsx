@@ -16,7 +16,7 @@ const impactH3Style = css`
 const IndexPage: React.FC = () => (
   <React.Fragment>
     <Helmet>
-      <title>Rethinking the Suburban Strip</title>
+      <title>FCC Map</title>
       <link href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' rel='stylesheet' />
     </Helmet>
     <Layout>
