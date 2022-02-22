@@ -15,20 +15,20 @@ const wrapperStyle = css`
 `;
 
 type MunicipalSearch = {
-  highlightedSites: Array<number|undefined>,
+  providers: Array<string|string>,
 }
 
 const initialState: MunicipalSearch = {
-  highlightedSites: []
+  providers: ["Starry"]
 }
 
 function reducer(state: MunicipalSearch, action: any) {
   switch(action.type) {
-    case 'addSite':
-      if (state.highlightedSites.find(site => site === action.toggledSite)) {
-        return {...state, highlightedSites: state.highlightedSites.filter(item => item !== action.toggledSite)}
+    case 'addProvider':
+      if (state.providers.find(site => site === action.toggledSite)) {
+        return {...state, providers: state.providers.filter(item => item !== action.toggledSite)}
       }
-      return {...state, highlightedSites: [...state.highlightedSites, action.toggledSite]};
+      return {...state, providers: [...state.providers, action.toggledSite]};
     default:
       return {...state};
   }
@@ -42,34 +42,32 @@ const Wrapper: React.FC = () => {
   const containerRef = useRef<HTMLInputElement>(null);
   const [region, toggleRegion] = useState<boolean>(true);
   return (
-    <div css={wrapperStyle}>
-      {/* <MunicipalData
-        data={data.allSitesDigital20220110Csv.nodes}
-        selectedMuni={selectedMuni}
-        sitesCount={sitesCount}
-        setSitesCount={setSitesCount}
-        selectedSite={selectedSite}
-        setSite={setSite}
-        node={data.allSitesDigital20220110Csv.nodes}
-        containerRef={containerRef}
-        highlightedSites={state.highlightedSites} //passing to SiteRow
-        dispatch={dispatch}
-        region={region}
-        toggleRegion={toggleRegion}
-      /> */}
-      <SearchMap
-        // data={data.allSitesDigital20220110Csv.nodes}
-        selectedMuni={selectedMuni}
-        setMuni={setMuni}
-        selectedSite={selectedSite}
-        setSite={setSite}
-        containerRef={containerRef}
-        highlightedSites={state.highlightedSites}
-        dispatch={dispatch}
-        region={region}
-        toggleRegion={toggleRegion}
-      />
-    </div>
+    <StaticQuery
+      query={graphql`
+        {
+          allBroadbandProvidersBlock10V2Csv {
+            nodes {
+              GEOID
+              NumPrv
+              Comcast
+              netBlazr
+              RCN
+              Starry
+            }
+          }
+        }
+      `}
+      render={(data) => (
+        <div css={wrapperStyle}>
+          <SearchMap
+            data={data.allBroadbandProvidersBlock10V2Csv.nodes}
+            containerRef={containerRef}
+            providers={state.providers}
+            dispatch={dispatch}
+          />
+        </div>
+      )}
+    />
   );
 };
 

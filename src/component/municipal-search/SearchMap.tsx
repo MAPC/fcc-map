@@ -6,19 +6,22 @@ import React, {
 import { jsx, css } from '@emotion/react';
 import { themeColors, fonts } from '../../utils/theme';
 import ReactMapGL, { Source, Layer, NavigationControl, Popup, GeolocateControl } from 'react-map-gl';
-import Geocoder from 'react-map-gl-geocoder';
 import municipalities from '../../utils/municipalities';
+
+export type CsvData = {
+  GEOID: string,
+  NumPrv: string,
+  Comcast: string,
+  netBlazr: string,
+  RCN: string,
+  Starry: string
+}
 
 interface MunicipalMapProps {
   containerRef: React.RefObject<HTMLInputElement>,
+  data: Array<CsvData>,
   dispatch: React.Dispatch<unknown>,
-  highlightedSites: Array<number|number>
-  region: boolean,
-  selectedMuni: string|undefined,
-  selectedSite: any,
-  setMuni: React.Dispatch<React.SetStateAction<string|undefined>>,
-  setSite: React.Dispatch<React.SetStateAction<any>>,
-  toggleRegion: React.Dispatch<React.SetStateAction<boolean>>
+  providers: Array<string|string>
 }
 
 const navigationStyle = css`
@@ -47,17 +50,17 @@ const popupStyle = css`
   }
 `;
 
-const SearchMap: React.FC<MunicipalMapProps> = () => {
+const SearchMap: React.FC<MunicipalMapProps> = ({containerRef, data, dispatch, providers}) => {
   const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
   useEffect(() => {
     if (mapRef && mapRef.current) {
       const map = mapRef.current.getMap();
-      map?.on('load', () => {
-        map?.moveLayer('state-label');
-        map?.moveLayer('settlement-minor-label');
-        map?.moveLayer('settlement-major-label');
-      });
+      // map?.on('load', () => {
+      //   map?.moveLayer('state-label');
+      //   map?.moveLayer('settlement-minor-label');
+      //   map?.moveLayer('settlement-major-label');
+      // });
     }
   }, []);
 
@@ -72,8 +75,12 @@ const SearchMap: React.FC<MunicipalMapProps> = () => {
   const [lngLat, setLngLat] = useState<any>();
   const [popupSite, setPopupSite] = useState<any>();
 
-  const [homeFiber, toggleHomeFiber] = useState<boolean>(true);
-  const [allTech, toggleAllTech] = useState<boolean>(true);
+  const [fiberOnly, toggleFiberOnly] = useState<boolean>(false);
+  const [comcast, toggleComcast] = useState<boolean>(true);
+  const [netblazr, toggleNetblazr] = useState<boolean>(true);
+  const [rcn, toggleRcn] = useState<boolean>(true);
+  const [starry, toggleStarry] = useState<boolean>(true);
+  
 
   const handleViewportChange = useCallback(
     (viewport) => setViewport(viewport), [],
@@ -83,27 +90,67 @@ const SearchMap: React.FC<MunicipalMapProps> = () => {
     switch (techCode) {
       case "42":
       case "43":
-      console.log("Cable");
       return "Cable";
       break;
+      case "42,50":
+      return "Cable & Fiber";
+      break;
       case "50":
-      console.log("Fiber");
       return "Fiber";
       break;
       case "70":
-      console.log("Wireless");
       return "Wireless";
       break;
-      default:
-      console.log("other");  
+      default: return "";
     }
   }
 
   return (
     <div css={mapStyle}>
       <div className="radio-buttons">
-        <input type="radio" value="Fiber" name="Fiber" onClick={() => toggleHomeFiber(!homeFiber)} /> Fiber
-        <input type="radio" value="Fiber, Wireless, and Cable" name="Fiber, Wireless, and Cable" onClick={() => toggleAllTech(!allTech)} /> Fiber, Wireless, and Cable
+        <div>
+          <label>
+            <input type="checkbox" name="Fiber" checked={fiberOnly ? true : false} onChange={() => {
+              toggleFiberOnly(!fiberOnly);
+              if (fiberOnly) {
+                toggleComcast(true);
+                toggleNetblazr(true);
+                toggleRcn(true);
+                toggleStarry(true);
+              } else if (!fiberOnly) {
+                toggleComcast(false);
+                toggleNetblazr(false);
+                toggleRcn(true);
+                toggleStarry(true);
+              }
+            }} />
+            Fiber Only
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="checkbox" name="Comcast" checked={comcast ? true : false} onChange={() => toggleComcast(!comcast)} /> 
+            Comcast
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="checkbox" value="" name="netBlazr" checked={netblazr ? true : false} onChange={() => toggleNetblazr(!netblazr)} />
+            netBlazr
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="checkbox" value="" name="RCN" checked={rcn ? true : false} onChange={() => toggleRcn(!rcn)} /> 
+            RCN
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="checkbox" value="" name="Starry" checked={starry ? true : false} onChange={() => toggleStarry(!starry)} /> 
+            Starry
+          </label>
+        </div>
       </div>
       <ReactMapGL
         {...viewport}
@@ -112,27 +159,24 @@ const SearchMap: React.FC<MunicipalMapProps> = () => {
         height="100vh"
         onViewportChange={handleViewportChange}
         mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
-        // mapStyle="mapbox://styles/ihill/ckzmwlj7a000814p5udbl3din"
         mapStyle="mapbox://styles/mapbox/streets-v11"
         scrollZoom={true}
-        // onLoad={() => {
-        //     setViewport({
-        //       ...viewport,
-        //       longitude: -71.211580, latitude: 42.368020, transitionDuration: 1000
-        //     })
-        // }}
         onHover={(e) => {          
           if (e.features && e.features.find((row) => row.sourceLayer === "fcc_fiber_rcn_starry_wgs84-crdtpq")) {
             setLngLat(e.lngLat);
             togglePopup(true);
             setPopupSite(e.features.find((row) => row.sourceLayer === "fcc_fiber_rcn_starry_wgs84-crdtpq").properties);
             console.log(e.features.find((row) => row.sourceLayer === "fcc_fiber_rcn_starry_wgs84-crdtpq").properties);
-            
           } else if (e.features && e.features.find((row) => row.sourceLayer === "broadband_providers_block10_w-8cfm1t")) {
             setLngLat(e.lngLat);
             togglePopup(true);
             setPopupSite(e.features.find((row) => row.sourceLayer === "broadband_providers_block10_w-8cfm1t").properties);
             console.log(e.features.find((row) => row.sourceLayer === "broadband_providers_block10_w-8cfm1t").properties);
+          } else if (e.features && e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6")) {
+            setLngLat(e.lngLat);
+            togglePopup(true);
+            setPopupSite(e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6").properties);
+            console.log(e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6").properties);
           } else {
             togglePopup(false);
           }
@@ -147,12 +191,20 @@ const SearchMap: React.FC<MunicipalMapProps> = () => {
               onClose={() => togglePopup(false)}
               anchor="top"
             >
-              <div css={popupStyle}>
-                <h2>{popupSite?.ProviderName}</h2>
-                <h2>{parseTechCode(popupSite?.TechCode)}</h2>
-                <h2>Provider Distinct Count: {popupSite?.Nmbr__P}</h2>
-                <h2>Providers: {popupSite?.Prvdr_1} <br/>{popupSite?.Prvdr_2} <br/>{popupSite?.Prvdr_3} <br/>{popupSite?.Prvdr_4} <br/>{popupSite?.Prvdr_5} <br/>{popupSite?.Prvdr_6}</h2>
-              </div>
+              {
+                fiberOnly ? 
+                  <div css={popupStyle}>                
+                    <h2>{popupSite?.ProviderName}</h2>
+                    <h2>{parseTechCode(popupSite?.TechCode)}</h2>
+                  </div> 
+                : 
+                  <div css={popupStyle}>
+                    <h2>{comcast && popupSite?.Comcast !== undefined ? "Comcast " + parseTechCode(popupSite?.Comcast) : ""}</h2>
+                    <h2>{netblazr && popupSite?.netBlazr !== undefined ? "netBlazr " + parseTechCode(popupSite?.netBlazr) : ""}</h2>
+                    <h2>{rcn && popupSite?.RCN !== undefined ? "RCN " + parseTechCode(popupSite?.RCN) : ""}</h2>
+                    <h2>{starry && popupSite?.Starry !== undefined ? "Starry " + parseTechCode(popupSite?.Starry) : ""}</h2>
+                  </div>
+              }
             </Popup>
           )
           : !showPopup 
@@ -178,43 +230,109 @@ const SearchMap: React.FC<MunicipalMapProps> = () => {
             }}
           />
         </Source>
-        <Source id="Fiber, Wireless, Cable" type="vector" url="mapbox://ihill.arnam9d2">
+        <Source id="Fiber Only" type="vector" url="mapbox://ihill.4cew0qe1">
           <Layer
             type="fill"
-            id="Fiber, Wireless, Cable (fill)"
-            source="Fiber, Wireless, Cable"
-            source-layer="broadband_providers_block10_w-8cfm1t"
+            id="RCN Fiber (fill)"
+            source="Fiber Only"
+            source-layer="fcc_fiber_rcn_starry_wgs84-crdtpq"
             paint={{
               'fill-color': 'blue',
-              'fill-opacity': allTech ? [
+              'fill-opacity': fiberOnly && rcn ? [
                 'match',
-                ['get', 'Nmbr__P'],
-                1,
-                0.1,
-                2,
-                0.2,
-                3,
-                0.3,
-                4,
-                0.5,
-                5,
-                0.7,
-                6,
-                0.9,
+                ['get', 'ProviderName'],
+                'RCN BecoCom LLC',
+                0.25,
+                0
+              ] : 0
+            }}
+          />
+          <Layer
+            type="fill"
+            id="Starry Fiber (fill)"
+            source="Fiber Only"
+            source-layer="fcc_fiber_rcn_starry_wgs84-crdtpq"
+            paint={{
+              'fill-color': 'blue',
+              'fill-opacity': fiberOnly && starry ? [
+                'match',
+                ['get', 'ProviderName'],
+                'Starry, Inc',
+                0.25,
                 0
               ] : 0
             }}
           />
         </Source>
-        <Source id="Home Fiber" type="vector" url="mapbox://ihill.4cew0qe1">
+        <Source id="All Broadband" type="vector" url="mapbox://ihill.1qg5vf3o">
           <Layer
             type="fill"
-            id="Home Fiber (fill)"
-            source="Home Fiber"
-            source-layer="fcc_fiber_rcn_starry_wgs84-crdtpq"
+            id="Comcast"
+            source="All Broadband"
+            source-layer="broadband_providers_block10_v-djgyr6"
             paint={{
-              'fill-color': 'pink',
-              'fill-opacity': homeFiber ? 1 : 0,
+              'fill-color': comcast ? [
+                'match',
+                ['get', 'Comcast'],
+                '43',
+                'blue',
+                'hsla(0, 0%, 0%, 0)'
+              ] : 'hsla(0, 0%, 0%, 0)',
+              'fill-opacity': fiberOnly ? 0 : 0.25
+            }}
+          />
+          <Layer
+            type="fill"
+            id="netBlazr"
+            source="All Broadband"
+            source-layer="broadband_providers_block10_v-djgyr6"
+            paint={{
+              'fill-color': netblazr ? [
+                'match',
+                ['get', 'netBlazr'],
+                '70',
+                'blue',
+                'hsla(0, 0%, 0%, 0)'
+              ] : 'hsla(0, 0%, 0%, 0)',
+              'fill-opacity': fiberOnly ? 0 : 0.25
+            }}
+          />
+          <Layer
+            type="fill"
+            id="RCN"
+            source="All Broadband"
+            source-layer="broadband_providers_block10_v-djgyr6"
+            paint={{
+              'fill-color': rcn ? [
+                'match',
+                ['get', 'RCN'],
+                '42',
+                'blue',
+                '50',
+                'blue',
+                '42,50',
+                'blue',
+                'hsla(0, 0%, 0%, 0)'
+              ] : 'hsla(0, 0%, 0%, 0)',
+              'fill-opacity': fiberOnly ? 0 : 0.25
+            }}
+          />
+          <Layer
+            type="fill"
+            id="Starry"
+            source="All Broadband"
+            source-layer="broadband_providers_block10_v-djgyr6"
+            paint={{
+              'fill-color': starry ? [
+                'match',
+                ['get', 'Starry'],
+                '70',
+                'blue',
+                '70,50',
+                'blue',
+                'hsla(0, 0%, 0%, 0)'
+              ] : 'hsla(0, 0%, 0%, 0)',
+              'fill-opacity': fiberOnly ? 0 : 0.25
             }}
           />
         </Source>
