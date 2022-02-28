@@ -31,6 +31,7 @@ const navigationStyle = css`
 `;
 
 const mapStyle = css`
+  height: 100vh;
   position: absolute;
   top: 0;
 `;
@@ -156,11 +157,11 @@ const SearchMap: React.FC<MunicipalMapProps> = ({containerRef, data, dispatch, p
         {...viewport}
         ref={mapRef}
         width="100vw"
-        height="100vh"
+        height="100%"
         onViewportChange={handleViewportChange}
         mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
         mapStyle="mapbox://styles/mapbox/streets-v11"
-        scrollZoom={true}
+        scrollZoom={false}
         onHover={(e) => {          
           if (e.features && e.features.find((row) => row.sourceLayer === "fcc_fiber_rcn_starry_wgs84-crdtpq")) {
             setLngLat(e.lngLat);
