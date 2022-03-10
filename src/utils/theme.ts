@@ -3,6 +3,7 @@ import { css, jsx } from '@emotion/react';
 const fonts = {
   calibre: "'Calibre', sans-serif",
   swiftNeueLtPro: "'Swift Neue LT Pro', serif",
+  avenirNext: "Avenir Next"
 };
 
 const themeColors = {
@@ -18,7 +19,6 @@ const themeColors = {
   fontLightGray: '#757575',
   black: '#000000',
   warmGray: '#E9E9E9',
-  // warmGrayTransparent: '#f7f7f7f5',
   warmGrayTransparent: '#fbfdff',
   gold: '#ffc800',
   quintile1: '#CAF0F8',

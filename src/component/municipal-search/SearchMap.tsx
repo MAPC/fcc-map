@@ -4,25 +4,8 @@ import React, {
   useRef, useState, useCallback, useEffect, useMemo
 } from 'react';
 import { jsx, css } from '@emotion/react';
-import { themeColors, fonts } from '../../utils/theme';
 import ReactMapGL, { Source, Layer, NavigationControl, Popup, GeolocateControl } from 'react-map-gl';
-import municipalities from '../../utils/municipalities';
-
-export type CsvData = {
-  GEOID: string,
-  NumPrv: string,
-  Comcast: string,
-  netBlazr: string,
-  RCN: string,
-  Starry: string
-}
-
-interface MunicipalMapProps {
-  containerRef: React.RefObject<HTMLInputElement>,
-  data: Array<CsvData>,
-  dispatch: React.Dispatch<unknown>,
-  providers: Array<string|string>
-}
+import Legend from './Legend';
 
 const navigationStyle = css`
   bottom: 4.2rem;
@@ -36,32 +19,30 @@ const mapStyle = css`
   top: 0;
 `;
 
+const legendContainer = css`
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: end;
+  position: absolute;
+  width: 100%;
+`;
+
 const popupStyle = css`
   padding: 0 0.4rem;
-  h1 {
-    font-size: 1.8rem;
-  }
   h2 {
     font-size: 1.4rem;
-    text-transform: lowercase;
-  }
-  h2:first-letter,
-  h2:first-line {
-    text-transform: capitalize;
+    margin: 0.2rem;
   }
 `;
 
-const SearchMap: React.FC<MunicipalMapProps> = ({containerRef, data, dispatch, providers}) => {
+const SearchMap: React.FC = () => {
   const mapRef: any = useRef<mapboxgl.Map | null | undefined>();
 
   useEffect(() => {
     if (mapRef && mapRef.current) {
       const map = mapRef.current.getMap();
-      // map?.on('load', () => {
-      //   map?.moveLayer('state-label');
-      //   map?.moveLayer('settlement-minor-label');
-      //   map?.moveLayer('settlement-major-label');
-      // });
+
     }
   }, []);
 
@@ -76,7 +57,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({containerRef, data, dispatch, p
   const [lngLat, setLngLat] = useState<any>();
   const [popupSite, setPopupSite] = useState<any>();
 
-  const [fiberOnly, toggleFiberOnly] = useState<boolean>(false);
   const [comcast, toggleComcast] = useState<boolean>(true);
   const [netblazr, toggleNetblazr] = useState<boolean>(true);
   const [rcn, toggleRcn] = useState<boolean>(true);
@@ -108,50 +88,17 @@ const SearchMap: React.FC<MunicipalMapProps> = ({containerRef, data, dispatch, p
 
   return (
     <div css={mapStyle}>
-      <div className="radio-buttons">
-        <div>
-          <label>
-            <input type="checkbox" name="Fiber" checked={fiberOnly ? true : false} onChange={() => {
-              toggleFiberOnly(!fiberOnly);
-              if (fiberOnly) {
-                toggleComcast(true);
-                toggleNetblazr(true);
-                toggleRcn(true);
-                toggleStarry(true);
-              } else if (!fiberOnly) {
-                toggleComcast(false);
-                toggleNetblazr(false);
-                toggleRcn(true);
-                toggleStarry(true);
-              }
-            }} />
-            Fiber Only
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type="checkbox" name="Comcast" checked={comcast ? true : false} onChange={() => toggleComcast(!comcast)} /> 
-            Comcast
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type="checkbox" value="" name="netBlazr" checked={netblazr ? true : false} onChange={() => toggleNetblazr(!netblazr)} />
-            netBlazr
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type="checkbox" value="" name="RCN" checked={rcn ? true : false} onChange={() => toggleRcn(!rcn)} /> 
-            RCN
-          </label>
-        </div>
-        <div>
-          <label>
-            <input type="checkbox" value="" name="Starry" checked={starry ? true : false} onChange={() => toggleStarry(!starry)} /> 
-            Starry
-          </label>
-        </div>
+      <div css={legendContainer}>
+        <Legend 
+          comcast={comcast}
+          toggleComcast={toggleComcast}
+          netblazr={netblazr}
+          toggleNetblazr={toggleNetblazr}
+          rcn={rcn}
+          toggleRcn={toggleRcn}
+          starry={starry}
+          toggleStarry={toggleStarry}
+        />
       </div>
       <ReactMapGL
         {...viewport}
@@ -160,24 +107,29 @@ const SearchMap: React.FC<MunicipalMapProps> = ({containerRef, data, dispatch, p
         height="100%"
         onViewportChange={handleViewportChange}
         mapboxApiAccessToken="pk.eyJ1IjoiaWhpbGwiLCJhIjoiY2plZzUwMTRzMW45NjJxb2R2Z2thOWF1YiJ9.szIAeMS4c9YTgNsJeG36gg"
-        mapStyle="mapbox://styles/mapbox/streets-v11"
+        mapStyle="mapbox://styles/ihill/ckzn61agl000c14qjecumnu8o"
         scrollZoom={false}
         onHover={(e) => {          
-          if (e.features && e.features.find((row) => row.sourceLayer === "fcc_fiber_rcn_starry_wgs84-crdtpq")) {
-            setLngLat(e.lngLat);
-            togglePopup(true);
-            setPopupSite(e.features.find((row) => row.sourceLayer === "fcc_fiber_rcn_starry_wgs84-crdtpq").properties);
-            console.log(e.features.find((row) => row.sourceLayer === "fcc_fiber_rcn_starry_wgs84-crdtpq").properties);
-          } else if (e.features && e.features.find((row) => row.sourceLayer === "broadband_providers_block10_w-8cfm1t")) {
-            setLngLat(e.lngLat);
-            togglePopup(true);
-            setPopupSite(e.features.find((row) => row.sourceLayer === "broadband_providers_block10_w-8cfm1t").properties);
-            console.log(e.features.find((row) => row.sourceLayer === "broadband_providers_block10_w-8cfm1t").properties);
-          } else if (e.features && e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6")) {
-            setLngLat(e.lngLat);
-            togglePopup(true);
-            setPopupSite(e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6").properties);
-            console.log(e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6").properties);
+          if (e.features && e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6")) {
+            if (comcast && e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6").properties.Comcast !== undefined) {
+              setLngLat(e.lngLat);
+              togglePopup(true);
+              setPopupSite(e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6").properties);
+            } else if (netblazr && e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6").properties.netBlazr !== undefined) {
+              setLngLat(e.lngLat);
+              togglePopup(true);
+              setPopupSite(e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6").properties);
+            } else if (rcn && e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6").properties.RCN !== undefined) {
+              setLngLat(e.lngLat);
+              togglePopup(true);
+              setPopupSite(e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6").properties);
+            } else if (starry && e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6").properties.Starry !== undefined) {
+              setLngLat(e.lngLat);
+              togglePopup(true);
+              setPopupSite(e.features.find((row) => row.sourceLayer === "broadband_providers_block10_v-djgyr6").properties);
+            } else {
+              togglePopup(false);
+            }
           } else {
             togglePopup(false);
           }
@@ -192,20 +144,12 @@ const SearchMap: React.FC<MunicipalMapProps> = ({containerRef, data, dispatch, p
               onClose={() => togglePopup(false)}
               anchor="top"
             >
-              {
-                fiberOnly ? 
-                  <div css={popupStyle}>                
-                    <h2>{popupSite?.ProviderName}</h2>
-                    <h2>{parseTechCode(popupSite?.TechCode)}</h2>
-                  </div> 
-                : 
-                  <div css={popupStyle}>
-                    <h2>{comcast && popupSite?.Comcast !== undefined ? "Comcast " + parseTechCode(popupSite?.Comcast) : ""}</h2>
-                    <h2>{netblazr && popupSite?.netBlazr !== undefined ? "netBlazr " + parseTechCode(popupSite?.netBlazr) : ""}</h2>
-                    <h2>{rcn && popupSite?.RCN !== undefined ? "RCN " + parseTechCode(popupSite?.RCN) : ""}</h2>
-                    <h2>{starry && popupSite?.Starry !== undefined ? "Starry " + parseTechCode(popupSite?.Starry) : ""}</h2>
-                  </div>
-              }
+              <div css={popupStyle}>
+                <h2>{comcast && popupSite?.Comcast !== undefined ? "Comcast: " + parseTechCode(popupSite?.Comcast) : ""}</h2>
+                <h2>{netblazr && popupSite?.netBlazr !== undefined ? "netBlazr: " + parseTechCode(popupSite?.netBlazr) : ""}</h2>
+                <h2>{rcn && popupSite?.RCN !== undefined ? "RCN: " + parseTechCode(popupSite?.RCN) : ""}</h2>
+                <h2>{starry && popupSite?.Starry !== undefined ? "Starry: " + parseTechCode(popupSite?.Starry) : ""}</h2>
+              </div>
             </Popup>
           )
           : !showPopup 
@@ -231,40 +175,6 @@ const SearchMap: React.FC<MunicipalMapProps> = ({containerRef, data, dispatch, p
             }}
           />
         </Source>
-        <Source id="Fiber Only" type="vector" url="mapbox://ihill.4cew0qe1">
-          <Layer
-            type="fill"
-            id="RCN Fiber (fill)"
-            source="Fiber Only"
-            source-layer="fcc_fiber_rcn_starry_wgs84-crdtpq"
-            paint={{
-              'fill-color': 'blue',
-              'fill-opacity': fiberOnly && rcn ? [
-                'match',
-                ['get', 'ProviderName'],
-                'RCN BecoCom LLC',
-                0.25,
-                0
-              ] : 0
-            }}
-          />
-          <Layer
-            type="fill"
-            id="Starry Fiber (fill)"
-            source="Fiber Only"
-            source-layer="fcc_fiber_rcn_starry_wgs84-crdtpq"
-            paint={{
-              'fill-color': 'blue',
-              'fill-opacity': fiberOnly && starry ? [
-                'match',
-                ['get', 'ProviderName'],
-                'Starry, Inc',
-                0.25,
-                0
-              ] : 0
-            }}
-          />
-        </Source>
         <Source id="All Broadband" type="vector" url="mapbox://ihill.1qg5vf3o">
           <Layer
             type="fill"
@@ -279,7 +189,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({containerRef, data, dispatch, p
                 'blue',
                 'hsla(0, 0%, 0%, 0)'
               ] : 'hsla(0, 0%, 0%, 0)',
-              'fill-opacity': fiberOnly ? 0 : 0.25
+              'fill-opacity': 0.25
             }}
           />
           <Layer
@@ -295,7 +205,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({containerRef, data, dispatch, p
                 'blue',
                 'hsla(0, 0%, 0%, 0)'
               ] : 'hsla(0, 0%, 0%, 0)',
-              'fill-opacity': fiberOnly ? 0 : 0.25
+              'fill-opacity': 0.25
             }}
           />
           <Layer
@@ -315,7 +225,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({containerRef, data, dispatch, p
                 'blue',
                 'hsla(0, 0%, 0%, 0)'
               ] : 'hsla(0, 0%, 0%, 0)',
-              'fill-opacity': fiberOnly ? 0 : 0.25
+              'fill-opacity': 0.25
             }}
           />
           <Layer
@@ -333,7 +243,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({containerRef, data, dispatch, p
                 'blue',
                 'hsla(0, 0%, 0%, 0)'
               ] : 'hsla(0, 0%, 0%, 0)',
-              'fill-opacity': fiberOnly ? 0 : 0.25
+              'fill-opacity': 0.25
             }}
           />
         </Source>
@@ -345,7 +255,7 @@ const SearchMap: React.FC<MunicipalMapProps> = ({containerRef, data, dispatch, p
             source-layer="blocks_chelsea_everett_revere-ak2dce"
             paint={{
               'line-color': 'slategray',
-              'line-width': 1
+              'line-width': 0.5
             }}
           />
         </Source>

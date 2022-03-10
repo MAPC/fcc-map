@@ -12,6 +12,13 @@ const Layout: React.FC = ({ children }) => (
       @import url("//hello.myfonts.net/count/37908e");
 
       @font-face {
+        font-family: 'Avenir Next';
+        src: url('fonts/AvenirNextLTPro-Regular.otf') format('truetype');
+        font-style: normal;
+        font-weight: normal;
+      }
+
+      @font-face {
         font-family: 'Swift Neue LT Pro';
         src: url('fonts/SwiftNeueLTPro.eot') format('eot');
         src: local('Swift Neue LT Pro'),
@@ -43,7 +50,7 @@ const Layout: React.FC = ({ children }) => (
 
       body {
         color: ${themeColors.fontGray};
-        font-family: ${fonts.swiftNeueLtPro};
+        font-family: ${fonts.avenirNext};
         height: 100%;
         margin: 0;
         h1 {
