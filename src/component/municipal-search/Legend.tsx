@@ -23,16 +23,16 @@ const legendStyle = css`
   color: navy;
   font-family: ${fonts.avenirNext};
   height: auto;
-  margin: 4rem;
-  padding: 2rem;
-  width: 18rem;
+  margin-right: 1rem;
+  padding: 1.5rem;
+  width: 16rem;
   z-index: 1;
   h2 {
     margin-top: 0.5rem;
   }
-  p {
-    line-height: 2rem;
-  }
+  // p {
+  //   line-height: 2rem;
+  // }
 `;
 
 const Legend: React.FC<LegendProps> = ({

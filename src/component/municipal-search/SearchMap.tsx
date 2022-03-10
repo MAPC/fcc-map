@@ -49,7 +49,7 @@ const SearchMap: React.FC = () => {
   const [viewport, setViewport] = useState({
     latitude: 42.41722,
     longitude: -71.02446,
-    zoom: 12.4,
+    zoom: 12,
     transitionDuration: 1000
   });
 

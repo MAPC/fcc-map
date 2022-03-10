@@ -59,7 +59,7 @@ const Layout: React.FC = ({ children }) => (
         }
         h2 {
           color: ${themeColors.indigo};
-          font-size: 1.9rem;
+          font-size: 1.7rem;
         }
         h3 {
           font-size: 1.7rem;
