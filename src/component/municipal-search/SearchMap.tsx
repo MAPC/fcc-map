@@ -80,7 +80,7 @@ const SearchMap: React.FC = () => {
       return "Fiber";
       break;
       case "70":
-      return "Wireless";
+      return "Fixed Wireless";
       break;
       default: return "";
     }
