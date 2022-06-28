@@ -1,6 +1,6 @@
 # FCC Map
 
-This [site](https://mapc.github.io/fcc-map/) is an interactive Mapbox visualization created for the Digital Access Report.
+This [site](https://mapc.github.io/fcc-map/) is an interactive Mapbox visualization created for the [Digital Access Report](https://github.com/MAPC/digital-equity-report).
 
 ## Development
 
